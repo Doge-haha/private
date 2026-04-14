@@ -1,0 +1,19 @@
+{
+  "id": "compaction-plus",
+  "name": "Compaction Plus",
+  "description": "Enhanced compaction with 9-segment structured summaries, partial compaction, and circuit-breaker protection",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "circuitBreakerThreshold": {
+        "type": "number",
+        "description": "Consecutive failures before circuit opens (default: 3)"
+      },
+      "circuitBreakerResetMs": {
+        "type": "number",
+        "description": "Cooldown in ms before circuit half-opens (default: 60000)"
+      }
+    }
+  }
+}

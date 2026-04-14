@@ -1,0 +1,2916 @@
+{
+  "nodes": [
+    {
+      "id": "AGENTS_concept",
+      "label": "Concept: AGENTS",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "SOUL_concept",
+      "label": "Concept: SOUL",
+      "file_type": "document",
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "HEARTBEAT_concept",
+      "label": "Concept: HEARTBEAT",
+      "file_type": "document",
+      "source_file": "HEARTBEAT.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "GOALS_concept",
+      "label": "Concept: GOALS",
+      "file_type": "document",
+      "source_file": "GOALS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "DECISIONS_concept",
+      "label": "Concept: DECISIONS",
+      "file_type": "document",
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "USER_concept",
+      "label": "Concept: USER",
+      "file_type": "document",
+      "source_file": "USER.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "2026-04-13-council-status_concept",
+      "label": "Concept: 2026-04-13-council-status",
+      "file_type": "document",
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "claude-code-research-2026-04-13_concept",
+      "label": "Concept: claude-code-research-2026-04-13",
+      "file_type": "document",
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "TYPES_concept",
+      "label": "Concept: TYPES",
+      "file_type": "document",
+      "source_file": "memory/TYPES.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "worker",
+      "target": "cron",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "worker",
+      "target": "skill",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "worker",
+      "target": "council",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "worker",
+      "target": "task",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "worker",
+      "target": "dev",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "worker",
+      "target": "memory",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "worker",
+      "target": "sentinel",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "worker",
+      "target": "context",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "worker",
+      "target": "session",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "worker",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "worker",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "worker",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "worker",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "skill",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "council",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "task",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "dev",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "memory",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "sentinel",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "context",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "session",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "skill",
+      "target": "council",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "skill",
+      "target": "task",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "skill",
+      "target": "dev",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "skill",
+      "target": "memory",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "skill",
+      "target": "sentinel",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "skill",
+      "target": "context",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "skill",
+      "target": "session",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "skill",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "skill",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "skill",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "skill",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "council",
+      "target": "task",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "council",
+      "target": "dev",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "council",
+      "target": "memory",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "council",
+      "target": "sentinel",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "council",
+      "target": "context",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "council",
+      "target": "session",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "council",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "council",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "council",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "council",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "task",
+      "target": "dev",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "task",
+      "target": "memory",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "task",
+      "target": "sentinel",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "task",
+      "target": "context",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "task",
+      "target": "session",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "task",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "task",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "task",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "task",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "memory",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "sentinel",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "context",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "session",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "sentinel",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "context",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "session",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "sentinel",
+      "target": "context",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "sentinel",
+      "target": "session",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "sentinel",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "sentinel",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "sentinel",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "sentinel",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "context",
+      "target": "session",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "context",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "context",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "context",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "context",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "session",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "session",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "session",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "session",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "research",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "research",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "research",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "search",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "search",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "agent",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "compaction",
+      "target": "dev",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "compaction",
+      "target": "memory",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "compaction",
+      "target": "sentinel",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "compaction",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "compaction",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "compaction",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "compaction",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "memory",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "sentinel",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "sentinel",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "sentinel",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "sentinel",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "sentinel",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "sentinel",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "research",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "research",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "research",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "search",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "search",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "agent",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "SOUL.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "sentinel",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "HEARTBEAT.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "HEARTBEAT.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "sentinel",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "HEARTBEAT.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "skill",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "GOALS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "dev",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "memory",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "sentinel",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "session",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "memory",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "sentinel",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "session",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "sentinel",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "session",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "sentinel",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "sentinel",
+      "target": "session",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "sentinel",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "sentinel",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "research",
+      "target": "session",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "research",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "research",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "session",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "session",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "search",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "DECISIONS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "search",
+      "target": "memory",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "USER.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "search",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "USER.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "search",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "USER.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "USER.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "USER.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "research",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "USER.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "compaction",
+      "target": "embedding",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "compaction",
+      "target": "cron",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "compaction",
+      "target": "skill",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "compaction",
+      "target": "council",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "compaction",
+      "target": "dev",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "compaction",
+      "target": "memory",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "compaction",
+      "target": "sentinel",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "compaction",
+      "target": "context",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "compaction",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "compaction",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "compaction",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "compaction",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "embedding",
+      "target": "cron",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "embedding",
+      "target": "skill",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "embedding",
+      "target": "council",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "embedding",
+      "target": "dev",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "embedding",
+      "target": "memory",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "embedding",
+      "target": "sentinel",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "embedding",
+      "target": "context",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "embedding",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "embedding",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "embedding",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "embedding",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "skill",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "council",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "dev",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "memory",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "sentinel",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "context",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "skill",
+      "target": "council",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "skill",
+      "target": "dev",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "skill",
+      "target": "memory",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "skill",
+      "target": "sentinel",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "skill",
+      "target": "context",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "skill",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "skill",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "skill",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "skill",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "council",
+      "target": "dev",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "council",
+      "target": "memory",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "council",
+      "target": "sentinel",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "council",
+      "target": "context",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "council",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "council",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "council",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "council",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "memory",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "sentinel",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "context",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "dev",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "sentinel",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "context",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "sentinel",
+      "target": "context",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "sentinel",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "sentinel",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "sentinel",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "sentinel",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "context",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "context",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "context",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "context",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "research",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "research",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "research",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "search",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "search",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "agent",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/types/project/2026-04-13-council-status.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "worker",
+      "target": "cron",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "worker",
+      "target": "task",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "worker",
+      "target": "memory",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "worker",
+      "target": "context",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "worker",
+      "target": "session",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "worker",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "worker",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "worker",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "worker",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "task",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "memory",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "context",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "session",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cron",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "task",
+      "target": "memory",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "task",
+      "target": "context",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "task",
+      "target": "session",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "task",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "task",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "task",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "task",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "context",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "session",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "context",
+      "target": "session",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "context",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "context",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "context",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "context",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "session",
+      "target": "research",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "session",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "session",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "session",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "research",
+      "target": "search",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "research",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "research",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "search",
+      "target": "agent",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "search",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "agent",
+      "target": "coordinator",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "agents/research/claude-code-research-2026-04-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "memory",
+      "target": "session",
+      "relation": "co_mentioned_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "memory/TYPES.md",
+      "source_location": null,
+      "weight": 1.0
+    }
+  ],
+  "hyperedges": []
+}

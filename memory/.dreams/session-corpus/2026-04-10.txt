@@ -1,0 +1,10 @@
+[main/sessions/93ed4cd1-5331-4930-b013-c2ed6014ef2b.jsonl#L216] User: Read HEARTBEAT.md if it exists (workspace context). Follow it strictly. Do not infer or repeat old tasks from prior chats. If nothing needs attention, reply HEARTBEAT_OK. When reading HEARTBEAT.md, use workspace file /Users/huahaha/.openclaw/workspace/HEARTBEAT.md (exact ca
+[main/sessions/93ed4cd1-5331-4930-b013-c2ed6014ef2b.jsonl#L219] Assistant: HEARTBEAT_OK
+[main/sessions/93ed4cd1-5331-4930-b013-c2ed6014ef2b.jsonl#L221] User: Read HEARTBEAT.md if it exists (workspace context). Follow it strictly. Do not infer or repeat old tasks from prior chats. If nothing needs attention, reply HEARTBEAT_OK. When reading HEARTBEAT.md, use workspace file /Users/huahaha/.openclaw/workspace/HEARTBEAT.md (exact ca
+[main/sessions/93ed4cd1-5331-4930-b013-c2ed6014ef2b.jsonl#L222] Assistant: HEARTBEAT_OK
+[main/sessions/93ed4cd1-5331-4930-b013-c2ed6014ef2b.jsonl#L224] User: Read HEARTBEAT.md if it exists (workspace context). Follow it strictly. Do not infer or repeat old tasks from prior chats. If nothing needs attention, reply HEARTBEAT_OK. When reading HEARTBEAT.md, use workspace file /Users/huahaha/.openclaw/workspace/HEARTBEAT.md (exact ca
+[main/sessions/93ed4cd1-5331-4930-b013-c2ed6014ef2b.jsonl#L225] Assistant: HEARTBEAT_OK
+[main/sessions/93ed4cd1-5331-4930-b013-c2ed6014ef2b.jsonl#L227] User: Read HEARTBEAT.md if it exists (workspace context). Follow it strictly. Do not infer or repeat old tasks from prior chats. If nothing needs attention, reply HEARTBEAT_OK. When reading HEARTBEAT.md, use workspace file /Users/huahaha/.openclaw/workspace/HEARTBEAT.md (exact ca
+[main/sessions/93ed4cd1-5331-4930-b013-c2ed6014ef2b.jsonl#L228] Assistant: HEARTBEAT_OK
+[main/sessions/93ed4cd1-5331-4930-b013-c2ed6014ef2b.jsonl#L230] User: Read HEARTBEAT.md if it exists (workspace context). Follow it strictly. Do not infer or repeat old tasks from prior chats. If nothing needs attention, reply HEARTBEAT_OK. When reading HEARTBEAT.md, use workspace file /Users/huahaha/.openclaw/workspace/HEARTBEAT.md (exact ca
+[main/sessions/93ed4cd1-5331-4930-b013-c2ed6014ef2b.jsonl#L231] Assistant: HEARTBEAT_OK

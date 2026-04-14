@@ -1,0 +1,74 @@
+{
+  "schema": "acpx.session.v1",
+  "acpx_record_id": "agent:opencode:acp:7f580915-b1c6-41ec-9adc-3e60cd3bf9db:oneshot:9d0e1287-49a1-456d-99c7-a6f3435c3b5e",
+  "acp_session_id": "ses_27959ed8cffeLAMC333pD9UWXu",
+  "agent_command": "npx -y opencode-ai acp",
+  "cwd": "/Users/huahaha/.openclaw/workspace",
+  "name": "agent:opencode:acp:7f580915-b1c6-41ec-9adc-3e60cd3bf9db",
+  "created_at": "2026-04-13T11:42:09.758Z",
+  "last_used_at": "2026-04-13T11:42:31.172Z",
+  "last_seq": 0,
+  "last_request_id": "7f1c4727-ce17-4eed-aa46-ddd2d44d9fca",
+  "event_log": {
+    "active_path": "/Users/huahaha/.acpx/sessions/agent%3Aopencode%3Aacp%3A7f580915-b1c6-41ec-9adc-3e60cd3bf9db%3Aoneshot%3A9d0e1287-49a1-456d-99c7-a6f3435c3b5e.stream.ndjson",
+    "segment_count": 5,
+    "max_segment_bytes": 67108864,
+    "max_segments": 5,
+    "last_write_error": null
+  },
+  "closed": true,
+  "closed_at": "2026-04-13T11:42:31.203Z",
+  "pid": 33097,
+  "agent_started_at": "2026-04-13T11:42:10.093Z",
+  "last_prompt_at": "2026-04-13T11:42:24.782Z",
+  "protocol_version": 1,
+  "agent_capabilities": {
+    "loadSession": true,
+    "mcpCapabilities": {
+      "http": true,
+      "sse": true
+    },
+    "promptCapabilities": {
+      "embeddedContext": true,
+      "image": true
+    },
+    "sessionCapabilities": {
+      "fork": {},
+      "list": {},
+      "resume": {}
+    }
+  },
+  "title": null,
+  "messages": [
+    {
+      "User": {
+        "id": "09aba637-edb8-4a97-8cd8-acf8c20ff2c7",
+        "content": [
+          {
+            "Text": "[Mon 2026-04-13 19:42 GMT+8] Reply with just \"pong\""
+          }
+        ]
+      }
+    },
+    {
+      "Agent": {
+        "content": [
+          {
+            "Thinking": {
+              "text": "This is a trivial request - just respond with \"pong\".",
+              "signature": null
+            }
+          },
+          {
+            "Text": "pong"
+          }
+        ],
+        "tool_results": {}
+      }
+    }
+  ],
+  "updated_at": "2026-04-13T11:42:31.171Z",
+  "cumulative_token_usage": {},
+  "request_token_usage": {},
+  "acpx": {}
+}

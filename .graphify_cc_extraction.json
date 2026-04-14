@@ -1,0 +1,994 @@
+{
+  "nodes": [
+    {
+      "id": "cc_coordinator",
+      "label": "Coordinator (\u4e3b\u534f\u8c03\u8005)",
+      "file_type": "concept",
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "system prompt",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_worker",
+      "label": "Worker (\u5de5\u4f5c\u8282\u70b9)",
+      "file_type": "concept",
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 3",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_agent_tool",
+      "label": "AgentTool (spawn workers)",
+      "file_type": "concept",
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 2",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_send_message_tool",
+      "label": "SendMessageTool (continue worker)",
+      "file_type": "concept",
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 2",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_task_stop_tool",
+      "label": "TaskStopTool (stop worker)",
+      "file_type": "concept",
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 2",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_task_notification",
+      "label": "task-notification XML (worker result)",
+      "file_type": "concept",
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 2",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_continue_vs_spawn",
+      "label": "Continue vs Spawn Decision",
+      "file_type": "concept",
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 5",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_context_overlap",
+      "label": "Context Overlap\u5224\u65ad (high\u2192continue, low\u2192spawn)",
+      "file_type": "concept",
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 5",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_no_auto_retry",
+      "label": "No Auto-Retry (coordinator decides)",
+      "file_type": "concept",
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 4",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_synthesize",
+      "label": "Synthesize Before Delegation",
+      "file_type": "concept",
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 5",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_fan_out_research",
+      "label": "Fan-Out Research (parallel)",
+      "file_type": "concept",
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 4",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_two_layer_verify",
+      "label": "Two-Layer Verification",
+      "file_type": "concept",
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 4",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_task_types",
+      "label": "7 TaskTypes (b/a/r/t/w/m/d)",
+      "file_type": "concept",
+      "source_file": "tasks/types.ts",
+      "source_location": "L1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_local_bash",
+      "label": "local_bash Task (b)",
+      "file_type": "concept",
+      "source_file": "tasks/types.ts",
+      "source_location": "L1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_local_agent",
+      "label": "local_agent Task (a)",
+      "file_type": "concept",
+      "source_file": "tasks/types.ts",
+      "source_location": "L1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_remote_agent",
+      "label": "remote_agent Task (r)",
+      "file_type": "concept",
+      "source_file": "tasks/types.ts",
+      "source_location": "L1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_in_process",
+      "label": "in_process_teammate Task (t)",
+      "file_type": "concept",
+      "source_file": "tasks/types.ts",
+      "source_location": "L1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_workflow",
+      "label": "local_workflow Task (w)",
+      "file_type": "concept",
+      "source_file": "tasks/types.ts",
+      "source_location": "L1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_monitor_mcp",
+      "label": "monitor_mcp Task (m)",
+      "file_type": "concept",
+      "source_file": "tasks/types.ts",
+      "source_location": "L1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_dream_task",
+      "label": "dream Task (d)",
+      "file_type": "concept",
+      "source_file": "tasks/types.ts",
+      "source_location": "L1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_output_file",
+      "label": "outputFile Persistence",
+      "file_type": "concept",
+      "source_file": "tasks/LocalAgentTask/LocalAgentTask.tsx",
+      "source_location": "L1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_task_status",
+      "label": "5 TaskStatuses (pending/running/completed/failed/killed)",
+      "file_type": "concept",
+      "source_file": "tasks/types.ts",
+      "source_location": "L1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_progress_tracker",
+      "label": "ProgressTracker (token/tool use)",
+      "file_type": "concept",
+      "source_file": "tasks/LocalAgentTask/LocalAgentTask.tsx",
+      "source_location": "L1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_memory_4types",
+      "label": "4-Class Memory (user/feedback/project/reference)",
+      "file_type": "concept",
+      "source_file": "memdir/memoryTypes.ts",
+      "source_location": "L1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_memory_user",
+      "label": "user Memory Type",
+      "file_type": "concept",
+      "source_file": "memdir/memoryTypes.ts",
+      "source_location": "Section user",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_memory_feedback",
+      "label": "feedback Memory Type (+Why +How)",
+      "file_type": "concept",
+      "source_file": "memdir/memoryTypes.ts",
+      "source_location": "Section feedback",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_memory_project",
+      "label": "project Memory Type",
+      "file_type": "concept",
+      "source_file": "memdir/memoryTypes.ts",
+      "source_location": "Section project",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_memory_reference",
+      "label": "reference Memory Type",
+      "file_type": "concept",
+      "source_file": "memdir/memoryTypes.ts",
+      "source_location": "Section reference",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_memory_drift",
+      "label": "Memory Drift Caveat (verify before use)",
+      "file_type": "concept",
+      "source_file": "memdir/memoryTypes.ts",
+      "source_location": "MEMORY_DRIFT_CAVEAT",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_trusting_recall",
+      "label": "Trusting Recall Section",
+      "file_type": "concept",
+      "source_file": "memdir/memoryTypes.ts",
+      "source_location": "TRUSTING_RECALL_SECTION",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_memory_exclusions",
+      "label": "Memory Exclusions (no code patterns/git/fixes)",
+      "file_type": "concept",
+      "source_file": "memdir/memoryTypes.ts",
+      "source_location": "WHAT_NOT_TO_SAVE_SECTION",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_memdir_index",
+      "label": "MEMORY.md Index Pattern",
+      "file_type": "concept",
+      "source_file": "memdir/memdir.ts",
+      "source_location": "ENTRYPOINT_NAME",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_team_memory",
+      "label": "Team Memory (shared dir)",
+      "file_type": "concept",
+      "source_file": "memdir/memdir.ts",
+      "source_location": "TEAMMEM feature",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_daily_log",
+      "label": "Daily Log Mode (KAIROS)",
+      "file_type": "concept",
+      "source_file": "memdir/memdir.ts",
+      "source_location": "buildAssistantDailyLogPrompt",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_search_context",
+      "label": "Search Past Context (grep sessions)",
+      "file_type": "concept",
+      "source_file": "memdir/memdir.ts",
+      "source_location": "buildSearchingPastContextSection",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_permission_hooks",
+      "label": "Permission Hooks (automated)",
+      "file_type": "concept",
+      "source_file": "hooks/toolPermission/handlers/coordinatorHandler.ts",
+      "source_location": "L1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_permission_classifier",
+      "label": "Permission Classifier (BASH_CLASSIFIER)",
+      "file_type": "concept",
+      "source_file": "hooks/toolPermission/handlers/coordinatorHandler.ts",
+      "source_location": "L1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_permission_dialog",
+      "label": "Permission Dialog (fallback)",
+      "file_type": "concept",
+      "source_file": "hooks/toolPermission/handlers/coordinatorHandler.ts",
+      "source_location": "L1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_coordinator_permission",
+      "label": "Coordinator Permission Handler",
+      "file_type": "concept",
+      "source_file": "hooks/toolPermission/handlers/coordinatorHandler.ts",
+      "source_location": "L1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_swarm_permission",
+      "label": "Swarm Worker Permission Handler",
+      "file_type": "concept",
+      "source_file": "hooks/toolPermission/handlers/swarmWorkerHandler.ts",
+      "source_location": "L1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_rules_dir",
+      "label": ".claude/rules/ Directory Loading",
+      "file_type": "concept",
+      "source_file": "utils/claudemd.ts",
+      "source_location": "L1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_conditional_rules",
+      "label": "Conditional Rules (glob pattern)",
+      "file_type": "concept",
+      "source_file": "utils/claudemd.ts",
+      "source_location": "L1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cc_claudemd",
+      "label": "CLAUDE.md Loading",
+      "file_type": "concept",
+      "source_file": "utils/claudemd.ts",
+      "source_location": "L1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "cc_coordinator",
+      "target": "cc_agent_tool",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 2",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_coordinator",
+      "target": "cc_send_message_tool",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 2",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_coordinator",
+      "target": "cc_task_stop_tool",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 2",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_coordinator",
+      "target": "cc_worker",
+      "relation": "spawns",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 3",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_worker",
+      "target": "cc_task_notification",
+      "relation": "returns_results_via",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 2",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_task_notification",
+      "target": "cc_coordinator",
+      "relation": "delivered_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 2",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_coordinator",
+      "target": "cc_continue_vs_spawn",
+      "relation": "makes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 5",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_continue_vs_spawn",
+      "target": "cc_context_overlap",
+      "relation": "based_on",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 5",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_coordinator",
+      "target": "cc_no_auto_retry",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 4",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_coordinator",
+      "target": "cc_synthesize",
+      "relation": "must_do",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 5",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_coordinator",
+      "target": "cc_fan_out_research",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 4",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_coordinator",
+      "target": "cc_two_layer_verify",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 4",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_context_overlap",
+      "target": "cc_send_message_tool",
+      "relation": "high_overlap_\u2192",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 5 table",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_context_overlap",
+      "target": "cc_agent_tool",
+      "relation": "low_overlap_\u2192",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 5 table",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_send_message_tool",
+      "target": "cc_worker",
+      "relation": "continues",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 5",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_task_types",
+      "target": "cc_local_bash",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tasks/types.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_task_types",
+      "target": "cc_local_agent",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tasks/types.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_task_types",
+      "target": "cc_remote_agent",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tasks/types.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_task_types",
+      "target": "cc_in_process",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tasks/types.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_task_types",
+      "target": "cc_workflow",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tasks/types.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_task_types",
+      "target": "cc_monitor_mcp",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tasks/types.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_task_types",
+      "target": "cc_dream_task",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tasks/types.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_local_agent",
+      "target": "cc_output_file",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tasks/LocalAgentTask/LocalAgentTask.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_local_agent",
+      "target": "cc_progress_tracker",
+      "relation": "tracks",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tasks/LocalAgentTask/LocalAgentTask.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_memory_4types",
+      "target": "cc_memory_user",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "memdir/memoryTypes.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_memory_4types",
+      "target": "cc_memory_feedback",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "memdir/memoryTypes.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_memory_4types",
+      "target": "cc_memory_project",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "memdir/memoryTypes.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_memory_4types",
+      "target": "cc_memory_reference",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "memdir/memoryTypes.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_memory_4types",
+      "target": "cc_memory_exclusions",
+      "relation": "explicitly_excludes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "memdir/memoryTypes.ts",
+      "source_location": "WHAT_NOT_TO_SAVE_SECTION",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_memory_4types",
+      "target": "cc_memory_drift",
+      "relation": "warns_about",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "memdir/memoryTypes.ts",
+      "source_location": "MEMORY_DRIFT_CAVEAT",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_memory_4types",
+      "target": "cc_trusting_recall",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "memdir/memoryTypes.ts",
+      "source_location": "TRUSTING_RECALL_SECTION",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_memory_4types",
+      "target": "cc_memdir_index",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "memdir/memdir.ts",
+      "source_location": "ENTRYPOINT_NAME",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_memdir_index",
+      "target": "cc_team_memory",
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "memdir/memdir.ts",
+      "source_location": "TEAMMEM feature",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_memdir_index",
+      "target": "cc_daily_log",
+      "relation": "variant",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "memdir/memdir.ts",
+      "source_location": "KAIROS feature",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_memory_drift",
+      "target": "cc_trusting_recall",
+      "relation": "part_of",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "memdir/memoryTypes.ts",
+      "source_location": "TRUSTING_RECALL_SECTION",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_coordinator_permission",
+      "target": "cc_permission_hooks",
+      "relation": "runs_first",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "hooks/toolPermission/handlers/coordinatorHandler.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_coordinator_permission",
+      "target": "cc_permission_classifier",
+      "relation": "runs_second",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "hooks/toolPermission/handlers/coordinatorHandler.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_coordinator_permission",
+      "target": "cc_permission_dialog",
+      "relation": "fallback",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "hooks/toolPermission/handlers/coordinatorHandler.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_permission_hooks",
+      "target": "cc_permission_classifier",
+      "relation": "before",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "hooks/toolPermission/handlers/coordinatorHandler.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_permission_classifier",
+      "target": "cc_permission_dialog",
+      "relation": "before",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "hooks/toolPermission/handlers/coordinatorHandler.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_coordinator_permission",
+      "target": "cc_swarm_permission",
+      "relation": "differs_from",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "hooks/toolPermission/handlers/coordinatorHandler.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_rules_dir",
+      "target": "cc_conditional_rules",
+      "relation": "supports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "utils/claudemd.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_rules_dir",
+      "target": "cc_claudemd",
+      "relation": "alongside",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "utils/claudemd.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "cc_coordinator",
+      "target": "cc_memory_4types",
+      "relation": "informed_by",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "coordinator/coordinatorMode.ts",
+      "source_location": "Section 1",
+      "weight": 1.0
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "cc_coordinator_tools",
+      "label": "Coordinator Tool Set",
+      "nodes": [
+        "cc_agent_tool",
+        "cc_send_message_tool",
+        "cc_task_stop_tool"
+      ],
+      "relation": "composes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "coordinator/coordinatorMode.ts"
+    },
+    {
+      "id": "cc_memory_taxonomy",
+      "label": "4-Class Memory Taxonomy",
+      "nodes": [
+        "cc_memory_user",
+        "cc_memory_feedback",
+        "cc_memory_project",
+        "cc_memory_reference"
+      ],
+      "relation": "form",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "memdir/memoryTypes.ts"
+    },
+    {
+      "id": "cc_task_type_set",
+      "label": "7 Task Types",
+      "nodes": [
+        "cc_local_bash",
+        "cc_local_agent",
+        "cc_remote_agent",
+        "cc_in_process",
+        "cc_workflow",
+        "cc_monitor_mcp",
+        "cc_dream_task"
+      ],
+      "relation": "form",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tasks/types.ts"
+    },
+    {
+      "id": "cc_permission_cascade",
+      "label": "Permission Resolution Cascade",
+      "nodes": [
+        "cc_permission_hooks",
+        "cc_permission_classifier",
+        "cc_permission_dialog"
+      ],
+      "relation": "cascades",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "hooks/toolPermission/handlers/coordinatorHandler.ts"
+    },
+    {
+      "id": "cc_workflow_phases",
+      "label": "4-Phase Task Workflow",
+      "nodes": [
+        "cc_fan_out_research",
+        "cc_coordinator",
+        "cc_worker",
+        "cc_two_layer_verify"
+      ],
+      "relation": "composes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "coordinator/coordinatorMode.ts"
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

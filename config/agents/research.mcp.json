@@ -1,0 +1,11 @@
+{
+  "agentId": "research",
+  "servers": {
+    "web-search": {
+      "url": "https://open.bigmodel.cn/api/mcp/web_search_prime/sse",
+      "headers": {
+        "Authorization": "${GLM_API_KEY}"
+      }
+    }
+  }
+}

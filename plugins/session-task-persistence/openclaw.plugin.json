@@ -1,0 +1,15 @@
+{
+  "id": "session-task-persistence",
+  "name": "Session Task Persistence",
+  "description": "Polling-based subagent task auto-registration + CLI: openclaw tasks [list|show|output].",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "pollIntervalMs": {
+        "type": "number",
+        "description": "Polling interval in milliseconds (default: 30000)"
+      }
+    }
+  }
+}

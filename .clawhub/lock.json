@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "skills": {
+    "glm-web-search": {
+      "version": "1.0.6",
+      "installedAt": 1775652781772
+    },
+    "glm-image-gen": {
+      "version": "1.0.3",
+      "installedAt": 1775652845626
+    },
+    "glm-understand-image": {
+      "version": "1.0.4",
+      "installedAt": 1775652961813
+    },
+    "glm-v-model": {
+      "version": "1.0.1",
+      "installedAt": 1775653202185
+    },
+    "glmocr-table": {
+      "version": "1.0.2",
+      "installedAt": 1775654101834
+    },
+    "auto-model-router-glm": {
+      "version": "1.0.0",
+      "installedAt": 1775654284416
+    },
+    "multimodal": {
+      "version": "1.0.0",
+      "installedAt": 1775654342578
+    },
+    "image-understanding": {
+      "version": "0.0.4",
+      "installedAt": 1775654582597
+    }
+  }
+}

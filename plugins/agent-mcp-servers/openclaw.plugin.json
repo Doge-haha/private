@@ -1,0 +1,8 @@
+{
+  "id": "agent-mcp-servers",
+  "name": "Per-Agent MCP Servers",
+  "version": "0.1.0",
+  "description": "Allows subagents to declare and use independent MCP server configurations via mcporter daemon.",
+  "entry": "index.ts",
+  "hooks": ["subagent_spawned", "subagent_ended"]
+}

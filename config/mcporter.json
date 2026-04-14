@@ -2,6 +2,10 @@
   "mcpServers": {
     "glm-search": {
       "baseUrl": "https://open.bigmodel.cn/api/mcp/web_search_prime/sse?Authorization=6d54d7c60b104e40b5529d4e8fb4d3f8.TO6sbSyAetQ11XMQ"
+    },
+    "dev__filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/tmp/dev-workspace"]
     }
   },
   "imports": []

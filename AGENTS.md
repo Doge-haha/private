@@ -64,6 +64,12 @@
 - 核心目标：{从 GOALS.md 提取当前优先级}
 - 相关决策：{从 DECISIONS.md 提取最近3条相关决策}
 
+### MCP Servers（D013）
+你（{agent_name}）可使用以下 MCP servers：
+{根据 agentId 读取 config/agents/<agentId>.mcp.json 中的 servers 字段，格式化后填入}
+使用方式：`mcporter call <server>.<tool> key=value ...`
+列出可用工具：`mcporter list <server>`
+
 ### 你的任务
 {具体任务描述，包含：}
 1. 目标：一句话说明期望结果

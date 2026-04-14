@@ -3,7 +3,7 @@
   "servers": {
     "filesystem": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/tmp/dev-workspace"]
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/private/tmp/dev-workspace"]
     }
   }
 }

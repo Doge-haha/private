@@ -111,22 +111,19 @@ _仅追加写入，不删除历史记录。_
 ## 2026-04-14
 
 ### D013: Agent 专属 MCP servers 引入
-- **决策**：每个子 agent 可声明独立的 MCP server 配置，连接随 agent 生命周期管理
+- **决策**：每个子 agent 可声明独立的 MCP server 配置，通过 AGENTS.md 委派模板注入到 task 参数
 - **原因**：参考 Claude Code per-agent MCP frontmatter；OpenClaw 所有 agent 共享全局 MCP，无法隔离
-- **实现方案（plugin-based，非 core patch）**：
-  - **为什么不用 core patch**：`sessions_spawn` schema 拒绝未知 key（`UNSUPPORTED_SESSIONS_SPAWN_PARAM_KEYS`），修改 minified JS 不可维护
-  - **插件**：`plugins/agent-mcp-servers/` — hook `subagent_spawned`/`subagent_ended`
+- **为什么 hook 注入不行**：`before_agent_start` / `subagent_spawning` 的返回值无法跨子 agent 生效；`registerTool` 注册的工具仅对本 session 有效
+- **最终方案**：
   - **配置**：`config/agents/<agentId>.mcp.json` 声明每个 agent 的 MCP servers
-  - **运行时**：mcporter daemon 管理 MCP 连接（已有 auth/retry），插件在 spawn 时 `config add` + `daemon restart`，end 时 `config remove`
+  - **注入**：AGENTS.md 委派模板的 `### MCP Servers` 区块，主脑在委派时动态填充
+  - **使用**：子 agent 通过 `mcporter call <server>.<tool>` 直接调用
   - **命名隔离**：server 名加 `agentId__` 前缀避免碰撞（如 `dev__filesystem`）
-  - **发现机制**：`discover.ts <agentId>` 列出当前 agent 可用的 MCP tools
-  - **union 关系**：agent 专属 servers 与全局 servers 并存，通过前缀区分
 - **产出文件**：
-  - `plugins/agent-mcp-servers/index.ts` — 插件主体
-  - `plugins/agent-mcp-servers/discover.ts` — 工具发现辅助
   - `config/agents/dev.mcp.json` — dev agent 示例配置
   - `config/agents/research.mcp.json` — research agent 示例配置
-- **状态**：✅ 实现完成，待集成测试
+- **插件保留**：`agent-mcp-servers` 插件已简化，仅做配置加载和生命周期日志
+- **状态**：✅ 完成（依赖 AGENTS.md 委派模板，D014 共享同一注入机制）
 
 ### D014: Implicit Fork（完整上下文继承）
 - **决策**：sessions_spawn 时，子 agent 默认继承父级完整对话上下文（最近 N 条消息 + 系统提示词）

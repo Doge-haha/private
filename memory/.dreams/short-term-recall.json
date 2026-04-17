@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-13T05:19:16.077Z",
+  "updatedAt": "2026-04-15T06:12:00.729Z",
   "entries": {
     "memory:memory/2026-04-08.md:5:8": {
       "key": "memory:memory/2026-04-08.md:5:8",
@@ -24086,6 +24086,96 @@
         "glow-bas",
         "371-371",
         "candidate"
+      ]
+    },
+    "memory:memory/2026-04-10.md:197:217": {
+      "key": "memory:memory/2026-04-10.md:197:217",
+      "path": "memory/2026-04-10.md",
+      "startLine": 197,
+      "endLine": 217,
+      "source": "memory",
+      "snippet": "- status: staged - Candidate: User: Sender (untrusted metadata): ```json { \"label\": \"openclaw-control-ui\", \"id\": \"openclaw-control-ui\" } ``` [Thu 2026-04-09 12:43 GMT+8] 接下去做什么？ - confidence: 0.00 - evidence: memory/.dreams/session-corpus/2026-04-09.txt:281-281 - recalls: 0 - status: staged - Candidate: Assistant: 基于 GOALS.md 和 PROJECT_STATUS.md，当前待推进的事项： **1. 补全剩余 Skills（10分钟）** - `glmocr-handwriting`、`glm-master-skill`、`llm-models` 还没装上 - 限速应该已恢复，现在可以重试 **2. Agent 路由验证（10分钟）** - 测试 `@dev` / `@research` 的 session spawn 是否正常工作 - 确保主脑能正确委派任务给子 agent **3. 每2小时巡检 Cron（5分钟）** - AGEN - confidence: 0.00 - evidence: memory/.dreams/session-corpus/2026-04-09.txt:282-282 - recalls: 0",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "totalScore": 0.35536524442448714,
+      "maxScore": 0.35536524442448714,
+      "firstRecalledAt": "2026-04-15T05:07:19.971Z",
+      "lastRecalledAt": "2026-04-15T05:07:19.971Z",
+      "queryHashes": [
+        "5c4d1bfb9a42"
+      ],
+      "recallDays": [
+        "2026-04-15"
+      ],
+      "conceptTags": [
+        "openclaw-control-ui",
+        "0.00",
+        "281-281",
+        "goals.md",
+        "project-status.md",
+        "glmocr-handwriting",
+        "glm-master-skill",
+        "llm-models"
+      ]
+    },
+    "memory:memory/2026-04-14.md:1:36": {
+      "key": "memory:memory/2026-04-14.md:1:36",
+      "path": "memory/2026-04-14.md",
+      "startLine": 1,
+      "endLine": 36,
+      "source": "memory",
+      "snippet": "# 2026-04-14 Daily Memory ## Hermes Telegram 故障修复 - **问题**: `~/.hermes/config.yaml` 中 `telegram.enabled: false`，导致 Telegram 无法连接 - **修复**: 改为 `true` 后重启 - **后续**: Hermes 需要用 `gateway` 后台模式运行，否则交互模式会占 TTY 而无法保持 - **命令**: `hermes gateway` 启动（后台守护模式，PID 38468） ## Session-Task-Persistence 三项实用方向完成 插件路径: `~/.openclaw/workspace/plugins/session-task-persistence/` ### 1. 每日 Token 报表 - 脚本: `daily-report.ts` - 输出: `memory/reports/2026-04-13-token-report.md` - Cron: `0 23 * * *` - 今日实测: 11 tasks 完成, 0 失败, 185,994 input tokens, 766 output tokens ### 2. 任务复盘 - 脚本: `task-review.ts` - 输出: `memory/reports/2026-04-14-task-review.md` - Cron: `0 20 * * 0`（每周日 20:00） - 功能: 按日分组，复盘完成率/失败率/Token消耗/关键活动 ###",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "totalScore": 0.3520608004670321,
+      "maxScore": 0.3520608004670321,
+      "firstRecalledAt": "2026-04-15T06:12:00.729Z",
+      "lastRecalledAt": "2026-04-15T06:12:00.729Z",
+      "queryHashes": [
+        "d265af504d41"
+      ],
+      "recallDays": [
+        "2026-04-15"
+      ],
+      "conceptTags": [
+        "gateway",
+        "hermes/config.yaml",
+        "telegram.enabled",
+        "session-task-persistence",
+        "daily-report.ts",
+        "task-review.ts",
+        "复盘完成率/失败率/token消耗/关键活动",
+        "hermes"
+      ]
+    },
+    "memory:memory/2026-04-10.md:298:337": {
+      "key": "memory:memory/2026-04-10.md:298:337",
+      "path": "memory/2026-04-10.md",
+      "startLine": 298,
+      "endLine": 337,
+      "source": "memory",
+      "snippet": "- Candidate: Assistant: 找到了！有一个 Pending 的 pairing request（Request ID: `10162111-7891-4ea2-937f-8c1dfa9659b2`）。CLI 的 device 正在请求 `operator.admin` 权限，但还没被批准。需要 approve 这个请求。 - confidence: 0.00 - evidence: memory/.dreams/session-corpus/2026-04-09.txt:320-320 - recalls: 0 - status: staged - Candidate: Assistant: 批准成功！现在验证 CLI 能否正常连接： - confidence: 0.00 - evidence: memory/.dreams/session-corpus/2026-04-09.txt:321-321 - recalls: 0 - status: staged - Candidate: Assistant: Gateway pairing 修复了！现在验证 Agent 路由： - confidence: 0.00 - evidence: memory/.dreams/session-corpus/2026-04-09.txt:322-322 - recalls: 0 - status: staged - Candidate: Assistant: @dev 子 agent 已启动，等它完成后验证 @researc",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "totalScore": 0.35022473821670536,
+      "maxScore": 0.35022473821670536,
+      "firstRecalledAt": "2026-04-15T06:12:00.729Z",
+      "lastRecalledAt": "2026-04-15T06:12:00.729Z",
+      "queryHashes": [
+        "d265af504d41"
+      ],
+      "recallDays": [
+        "2026-04-15"
+      ],
+      "conceptTags": [
+        "gateway",
+        "operator.admin",
+        "0.00",
+        "320-320",
+        "321-321",
+        "322-322",
+        "candidate",
+        "assistant"
       ]
     }
   }

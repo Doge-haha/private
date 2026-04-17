@@ -32,6 +32,22 @@
     "image-understanding": {
       "version": "0.0.4",
       "installedAt": 1775654582597
+    },
+    "firecrawl-search": {
+      "version": "1.0.0",
+      "installedAt": 1776229741436
+    },
+    "pdf-extract": {
+      "version": "1.0.0",
+      "installedAt": 1776229741614
+    },
+    "security-audit-toolkit": {
+      "version": "1.0.0",
+      "installedAt": 1776229743488
+    },
+    "encoding-formats": {
+      "version": "1.0.0",
+      "installedAt": 1776229751500
     }
   }
 }

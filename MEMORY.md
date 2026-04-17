@@ -15,6 +15,7 @@
 - **prime-recommendation-trust**: 关于主脑推荐的信任策略（2026-04-10）
 
 ### Project 记忆
+- **xindian-saas-pricing**: 新点 SaaS 计价系统项目（KR3.1），2026-04-16 启动，设计文档：`~/WorkSpace/something/新点SaaS计价/设计文档_v1.0.md`
 - **memory-system-upgrade**: 记忆系统升级进行中，Phase 1/2 已完成（2026-04-10）
 - **context-engine-research**: OpenClaw 上下文压缩/装配技术研究（2026-04-10）
 - **task-persistence-plugin**: Task 持久化插件完成，Phase 1/2/3 全部验证通过（2026-04-13）

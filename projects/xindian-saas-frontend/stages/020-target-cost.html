@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>目标成本 - 新点 SaaS 造价系统</title>
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    body { overflow: hidden; }
+    .cost-breakdown { display: grid; grid-template-columns: 1fr 300px; flex: 1; overflow: hidden; }
+    .cost-breakdown-main { display: flex; flex-direction: column; overflow: hidden; }
+    .breakdown-tree { margin: 0 20px 16px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow: hidden; flex: 1; overflow-y: auto; }
+    .tree-node { border-bottom: 1px solid var(--color-border); }
+    .tree-node:last-child { border-bottom: none; }
+    .tree-row { display: flex; align-items: center; padding: 12px 16px; gap: 8px; cursor: pointer; transition: background var(--transition); }
+    .tree-row:hover { background: var(--color-bg); }
+    .tree-row.child { padding-left: 44px; background: #FAFBFC; }
+    .tree-toggle { width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); flex-shrink: 0; transition: transform var(--transition); }
+    .tree-toggle.expanded { transform: rotate(90deg); }
+    .tree-toggle.empty { visibility: hidden; }
+    .tree-name { flex: 1; font-size: 13px; font-weight: 500; }
+    .tree-amount { font-family: "JetBrains Mono", monospace; font-size: 13px; font-weight: 600; color: var(--color-primary); }
+    .tree-pct { font-size: 11px; color: var(--color-text-muted); width: 50px; text-align: right; }
+    .tree-bar { width: 80px; height: 6px; background: var(--color-bg); border-radius: 3px; overflow: hidden; }
+    .tree-bar-fill { height: 100%; border-radius: 3px; background: var(--color-primary); }
+    .limit-tag { font-size: 10px; padding: 2px 6px; border-radius: 3px; }
+    .limit-tag.over { background: #FEE2E2; color: #EF4444; }
+    .limit-tag.ok { background: #D1FAE5; color: #059669; }
+    .limit-tag.near { background: #FEF3C7; color: #B45309; }
+    .ai-toolbar { display: flex; align-items: center; gap: 8px; padding: 8px 20px; background: linear-gradient(135deg, #EEF2FF 0%%, #F8FAFC 100%%); border-bottom: 1px solid #E0E7FF; }
+    .ai-chip { display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; background: white; border: 1px solid #C7D2FE; border-radius: 20px; font-size: 12px; color: #4338CA; cursor: pointer; transition: all var(--transition); white-space: nowrap; }
+    .ai-chip:hover { background: #EEF2FF; }
+    .ai-chip svg { width: 14px; height: 14px; flex-shrink: 0; }
+    .control-panel { border-left: 1px solid var(--color-border); overflow-y: auto; padding: 20px; background: var(--color-bg); display: flex; flex-direction: column; gap: 16px; }
+    .control-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 16px; }
+    .control-card-title { font-size: 13px; font-weight: 600; margin-bottom: 12px; }
+    .control-stat { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+    .control-stat:last-child { margin-bottom: 0; }
+    .control-stat-label { font-size: 11px; color: var(--color-text-muted); }
+    .control-stat-value { font-size: 18px; font-weight: 700; font-family: "JetBrains Mono", monospace; }
+    .control-stat-value.danger { color: var(--color-danger); }
+    .control-stat-value.warning { color: var(--color-warning); }
+    .control-stat-value.success { color: var(--color-success); }
+    .control-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--color-border); font-size: 12px; }
+    .control-row:last-child { border-bottom: none; }
+    .control-row .label { color: var(--color-text-secondary); }
+    .control-row .value { font-weight: 600; font-family: "JetBrains Mono", monospace; }
+    .gauge-ring { width: 100px; height: 100px; border-radius: 50%; border: 8px solid var(--color-bg); display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-size: 22px; font-weight: 700; font-family: "JetBrains Mono", monospace; }
+  </style>
+</head>
+<body>
+<div class="app-layout">
+  <header class="topbar">
+    <div class="topbar-logo" onclick="location.href='../dashboard.html'">新点造价</div>
+    <div class="topbar-divider"></div>
+    <div class="project-selector"><span class="project-name">杭州未来社区一期项目</span></div>
+    <div class="stage-tabs">
+      <div class="stage-tab" onclick="location.href='010-estimate.html'">投资估算</div>
+      <div class="stage-tab active">目标成本</div>
+      <div class="stage-tab" onclick="location.href='030-tender-bill.html'">招标清单</div>
+      <div class="stage-tab" onclick="location.href='../stages.html'">…更多</div>
+    </div>
+    <div class="topbar-search" style="margin-left:auto"><input type="text" placeholder="搜索…" /><span class="kbd">⌘K</span></div>
+    <div class="topbar-actions"><div class="avatar">李</div></div>
+  </header>
+
+  <div class="app-body" style="flex-direction:column;">
+    <aside class="sidebar" style="width:100%;flex-shrink:0;flex-direction:row;border-right:none;border-bottom:1px solid var(--color-border);">
+      <div class="sidebar-section" style="display:flex;gap:4px;flex-direction:row;align-items:center;padding:8px 16px;">
+        <div class="sidebar-section-title" style="margin:0;white-space:nowrap;">阶段页面：</div>
+        <a class="sidebar-item" href="010-estimate.html">投资估算</a>
+        <a class="sidebar-item active" href="020-target-cost.html">目标成本</a>
+        <a class="sidebar-item" href="030-tender-bill.html">招标清单</a>
+        <a class="sidebar-item" href="040-tender-control.html">招标控制价</a>
+        <a class="sidebar-item" href="050-bidding.html">投标报价</a>
+        <a class="sidebar-item" href="060-contract-bill.html">合同清单</a>
+        <a class="sidebar-item" href="070-construction.html">施工过程</a>
+        <a class="sidebar-item" href="080-final-settlement.html">竣工结算</a>
+        <a class="sidebar-item" href="090-review.html">项目复盘</a>
+      </div>
+    </aside>
+
+    <div class="cost-breakdown">
+      <div class="cost-breakdown-main">
+        <!-- AI 嵌入工具条 -->
+        <div class="ai-toolbar">
+          <svg style="width:16px;height:16px;color:#6366F1;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 017 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 01-2 2H10a2 2 0 01-2-2v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 017-7z"/><path d="M9 22h6"/></svg>
+          <span style="font-size:12px;color:#4338CA;font-weight:500;white-space:nowrap;">AI 辅助</span>
+          <div style="width:1px;height:16px;background:#C7D2FE;margin:0 4px;"></div>
+          <div class="ai-chip" onclick="aiAction('decompose')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>智能限额分解</div>
+          <div class="ai-chip" onclick="aiAction('check')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>限额执行检查</div>
+          <div class="ai-chip" onclick="aiAction('suggest')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>调减建议</div>
+        </div>
+
+        <div class="page-header" style="padding:16px 20px 0;">
+          <h1 class="page-title">目标成本</h1>
+          <div class="page-actions">
+            <span class="badge" style="background:#FEF3C7;color:#92400E;">⚡ 限额设计阶段</span>
+            <span class="status-badge locked">🔒 v5 · 已锁定</span>
+            <button class="btn btn-ghost btn-sm">📊 限额指标设置</button>
+            <button class="btn btn-outline btn-sm">📐 导入限额指标</button>
+          </div>
+        </div>
+
+        <!-- Cost Breakdown Tree -->
+        <div style="font-size:12px;font-weight:600;color:var(--color-text-secondary);padding:16px 20px 8px;text-transform:uppercase;letter-spacing:.05em;">目标成本分解</div>
+        <div class="breakdown-tree">
+          <div class="tree-node">
+            <div class="tree-row" onclick="toggleNode(this)">
+              <div class="tree-toggle expanded"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></div>
+              <div class="tree-name">🏗️ 建筑工程</div>
+              <div class="tree-bar"><div class="tree-bar-fill" style="width:72%"></div></div>
+              <div class="tree-pct">72%</div>
+              <div class="tree-amount">¥ 8,064,000</div>
+            </div>
+            <div class="tree-node child">
+              <div class="tree-row child" onclick="toggleNode(this)">
+                <div class="tree-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></div>
+                <div class="tree-name">土建工程</div>
+                <div class="tree-pct">45%</div>
+                <div class="tree-amount">¥ 5,040,000</div>
+              </div>
+            </div>
+            <div class="tree-node child">
+              <div class="tree-row child" onclick="toggleNode(this)">
+                <div class="tree-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></div>
+                <div class="tree-name">钢结构工程</div>
+                <div class="tree-pct">15%</div>
+                <div class="tree-amount">¥ 1,680,000</div>
+              </div>
+            </div>
+            <div class="tree-node child">
+              <div class="tree-row child" onclick="toggleNode(this)">
+                <div class="tree-toggle empty"></div>
+                <div class="tree-name">幕墙工程</div>
+                <div class="tree-pct">12%</div>
+                <div class="tree-amount">¥ 1,344,000</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tree-node">
+            <div class="tree-row" onclick="toggleNode(this)">
+              <div class="tree-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></div>
+              <div class="tree-name">⚡ 安装工程</div>
+              <div class="tree-bar"><div class="tree-bar-fill" style="width:28%;background:#10B981"></div></div>
+              <div class="tree-pct">28%</div>
+              <div class="tree-amount">¥ 3,136,000</div>
+            </div>
+          </div>
+
+          <div class="tree-node">
+            <div class="tree-row" onclick="toggleNode(this)">
+              <div class="tree-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></div>
+              <div class="tree-name">🌉 市政工程</div>
+              <div class="tree-bar"><div class="tree-bar-fill" style="width:12%;background:#F59E0B"></div></div>
+              <div class="tree-pct">12%</div>
+              <div class="tree-amount">¥ 1,344,000</div>
+            </div>
+          </div>
+
+          <div class="tree-node">
+            <div class="tree-row" onclick="toggleNode(this)">
+              <div class="tree-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></div>
+              <div class="tree-name">🎨 装饰工程</div>
+              <div class="tree-bar"><div class="tree-bar-fill" style="width:8%;background:#8B5CF6"></div></div>
+              <div class="tree-pct">8%</div>
+              <div class="tree-amount">¥ 896,000</div>
+            </div>
+          </div>
+
+          <div class="tree-node" style="background:#F0FDF4;">
+            <div class="tree-row" style="background:#F0FDF4;">
+              <div class="tree-toggle empty"></div>
+              <div class="tree-name" style="font-weight:700;">🎯 目标成本合计</div>
+              <div class="tree-pct"></div>
+              <div class="tree-amount" style="font-size:15px">¥ 11,200,000</div>
+              <span class="limit-tag ok">✅ 在估算范围内</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Summary -->
+        <div style="display:flex;align-items:center;gap:24px;padding:12px 20px;background:var(--color-surface);border-top:1px solid var(--color-border);">
+          <div class="summary-bar-item"><div class="label">目标成本</div><div class="value primary" style="font-size:20px">¥ 11,200,000</div></div>
+          <div class="summary-bar-item"><div class="label">投资估算</div><div class="value">¥ 12,500,000</div></div>
+          <div class="summary-bar-item"><div class="label">节约目标</div><div class="value" style="color:var(--color-success)">¥ 1,300,000</div></div>
+          <div class="summary-bar-item"><div class="label">节约率</div><div class="value" style="color:var(--color-success)">-10.4%</div></div>
+          <div class="summary-bar-item"><div class="label">限额版本</div><div class="value">v5</div></div>
+        </div>
+      </div>
+
+      <!-- Control Panel -->
+      <div class="control-panel">
+        <div style="font-size:11px;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.08em;">📊 限额执行情况</div>
+
+        <div class="control-card">
+          <div class="control-card-title">整体执行</div>
+          <div class="gauge-ring" style="border-color:#10B981;color:#10B981">89%</div>
+          <div class="control-stat">
+            <div class="control-stat-label">已分配目标成本</div>
+            <div class="control-stat-value success">¥ 9,968,000</div>
+          </div>
+          <div class="control-stat">
+            <div class="control-stat-label">待分配</div>
+            <div class="control-stat-value warning">¥ 1,232,000</div>
+          </div>
+        </div>
+
+        <div class="control-card">
+          <div class="control-card-title">分项限额检查</div>
+          <div class="control-row"><span class="label">土建工程</span><span class="value">¥ 5,040,000 <span class="limit-tag ok" style="margin-left:4px">✅</span></span></div>
+          <div class="control-row"><span class="label">钢结构</span><span class="value">¥ 1,680,000 <span class="limit-tag ok" style="margin-left:4px">✅</span></span></div>
+          <div class="control-row"><span class="label">幕墙</span><span class="value">¥ 1,344,000 <span class="limit-tag near" style="margin-left:4px">⚠️</span></span></div>
+          <div class="control-row"><span class="label">安装工程</span><span class="value">¥ 3,136,000 <span class="limit-tag ok" style="margin-left:4px">✅</span></span></div>
+          <div class="control-row"><span class="label">市政工程</span><span class="value">¥ 1,344,000 <span class="limit-tag ok" style="margin-left:4px">✅</span></span></div>
+          <div class="control-row"><span class="label">装饰工程</span><span class="value">¥ 896,000 <span class="limit-tag over" style="margin-left:4px">❌</span></span></div>
+        </div>
+
+        <div class="control-card">
+          <div class="control-card-title">📐 限额指标</div>
+          <div class="control-row"><span class="label">单方限额</span><span class="value">¥ 6,222/m²</span></div>
+          <div class="control-row"><span class="label">目前单方</span><span class="value" style="color:var(--color-success)">¥ 5,856/m²</span></div>
+          <div class="control-row"><span class="label">安全余量</span><span class="value" style="color:var(--color-success)">¥ 366/m²</span></div>
+        </div>
+
+        <button class="btn btn-outline w-full" style="justify-content:center;">📥 导出限额表</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function toggleNode(el) { el.querySelector('.tree-toggle').classList.toggle('expanded'); }
+</script>
+
+function aiAction(a){
+  const msgs={decompose:'🤖 正在智能分解限额指标…',check:'🔍 正在检查限额执行情况…',suggest:'💡 正在生成调减建议…'};
+  const t=document.createElement('div');t.className='toast';t.textContent=msgs[a]||'AI 处理中…';document.body.appendChild(t);setTimeout(()=>t.remove(),3500);
+}
+
+</body>
+</html>

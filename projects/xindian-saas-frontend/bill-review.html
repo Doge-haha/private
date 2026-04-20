@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>清单审核 - 新点 SaaS 造价系统</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .review-filters { display:flex; gap:8px; margin-bottom:16px; }
+    .review-card { background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-lg); padding:20px; margin-bottom:12px; transition:all var(--transition); }
+    .review-card:hover { box-shadow:var(--shadow-sm); }
+    .review-header { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+    .review-title { font-weight:600; font-size:14px; flex:1; }
+    .review-meta { display:flex; gap:16px; font-size:12px; color:var(--color-text-muted); margin-bottom:12px; }
+    .review-meta span { display:flex; align-items:center; gap:4px; }
+    .review-diff { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .diff-col { background:var(--color-bg); border-radius:var(--radius); padding:12px; }
+    .diff-col-label { font-size:11px; color:var(--color-text-muted); text-transform:uppercase; margin-bottom:8px; }
+    .diff-item { display:flex; justify-content:space-between; padding:6px 0; font-size:13px; border-bottom:1px solid var(--color-border); }
+    .diff-item:last-child { border-bottom:none; }
+    .diff-item .label { color:var(--color-text-secondary); }
+    .diff-item .value { font-family:"JetBrains Mono",monospace; font-weight:500; }
+    .diff-item .change { color:var(--color-danger); font-size:12px; }
+    .review-actions { display:flex; gap:8px; margin-top:16px; justify-content:flex-end; }
+    .reject-reason { background:var(--color-danger-light); border:1px solid #FECACA; border-radius:var(--radius); padding:12px; margin-top:12px; font-size:13px; color:var(--color-danger); }
+  </style>
+</head>
+<body>
+<div class="app-layout">
+  <header class="topbar">
+    <div class="topbar-logo">新点造价</div><div class="topbar-divider"></div>
+    <div class="project-selector">
+      <span class="project-name">杭州未来社区一期项目</span>
+    </div>
+    <div class="topbar-search" style="margin-left:auto"><input type="text" placeholder="搜索…" /><span class="kbd">⌘K</span></div>
+    <div class="topbar-actions"><div class="avatar">李</div></div>
+  </header>
+  <div class="app-body">
+    <aside class="sidebar">
+      <div class="sidebar-section"><div class="sidebar-section-title">概览</div><a class="sidebar-item" href="dashboard.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>项目总览</a></div>
+      <div class="sidebar-section"><div class="sidebar-section-title">项目管理</div>
+        <a class="sidebar-item" href="project-list.html">项目列表</a>
+        <a class="sidebar-item" href="project-settings.html">项目设置</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-title">清单管理</div>
+        <a class="sidebar-item" href="bill-edit.html">清单编制 <span class="count">156</span></a>
+        <a class="sidebar-item active" href="bill-review.html">清单审核</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-title">定额管理</div>
+        <a class="sidebar-item" href="quota-apply.html">定额套用</a>
+        <a class="sidebar-item" href="quota-library.html">定额库</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-title">造价计算</div>
+        <a class="sidebar-item" href="pricing-summary.html">计价汇总</a>
+        <a class="sidebar-item" href="fee-settings.html">取费设置</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-title">数据</div>
+        <a class="sidebar-item" href="price-versions.html">价格版本</a>
+        <a class="sidebar-item" href="fee-templates.html">取费模板</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-title">AI 助手</div>
+        <a class="sidebar-item" href="ai-copilot-bill.html">AI 清单 Copilot</a>
+        <a class="sidebar-item" href="ai-copilot-quota.html">AI 定额 Copilot</a>
+      </div>
+    </aside>
+    <main class="main-content" style="overflow-y:auto; padding:20px;">
+      <div class="page-header" style="background:transparent; border:none; padding:0 0 16px 0;">
+        <h1 class="page-title">清单审核</h1>
+        <div class="page-actions">
+          <div class="tabs" style="border:none">
+            <div class="tab active">全部</div>
+            <div class="tab">待审核 <span class="badge badge-warning" style="margin-left:4px">2</span></div>
+            <div class="tab">已通过</div>
+            <div class="tab">已驳回</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-filters">
+        <div class="search-input" style="flex:1; max-width:280px; padding:6px 12px">
+          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--color-text-muted)"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="筛选审核记录…" style="border:none; outline:none; background:transparent; font-size:13px; width:100%;" />
+        </div>
+      </div>
+
+      <!-- Pending Review -->
+      <div class="review-card">
+        <div class="review-header">
+          <div class="review-title">v1 — 招标清单 2026.04.05</div>
+          <span class="status-badge submitted">📤 待审核</span>
+        </div>
+        <div class="review-meta">
+          <span><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>提交人：李明</span>
+          <span><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>提交时间：2026-04-05 14:23</span>
+          <span><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/></svg>143 项清单</span>
+        </div>
+        <div class="review-diff">
+          <div class="diff-col">
+            <div class="diff-col-label">上版本（v0）</div>
+            <div class="diff-item"><span class="label">清单项</span><span class="value">120</span></div>
+            <div class="diff-item"><span class="label">系统合价</span><span class="value">¥7,234,100.00</span></div>
+            <div class="diff-item"><span class="label">综合合价</span><span class="value">¥8,536,238.00</span></div>
+          </div>
+          <div class="diff-col">
+            <div class="diff-col-label">本版本（v1）</div>
+            <div class="diff-item"><span class="label">清单项</span><span class="value">143 <span class="change">(+23)</span></span></div>
+            <div class="diff-item"><span class="label">系统合价</span><span class="value">¥8,734,521.00 <span class="change">(+20.7%)</span></span></div>
+            <div class="diff-item"><span class="label">综合合价</span><span class="value">¥10,306,734.78 <span class="change">(+20.7%)</span></span></div>
+          </div>
+        </div>
+        <div class="review-actions">
+          <button class="btn btn-outline btn-sm" onclick="location.href='bill-edit.html'">查看详情</button>
+          <button class="btn btn-danger btn-sm">驳回</button>
+          <button class="btn btn-success btn-sm">✅ 通过</button>
+        </div>
+      </div>
+
+      <!-- Rejected -->
+      <div class="review-card">
+        <div class="review-header">
+          <div class="review-title">v0 — 招标清单 2026.03.28</div>
+          <span class="status-badge archived">❌ 已驳回</span>
+        </div>
+        <div class="review-meta">
+          <span>提交人：李明</span>
+          <span>驳回人：王工</span>
+          <span>驳回时间：2026-03-29 10:15</span>
+        </div>
+        <div class="reject-reason">
+          <strong>驳回原因：</strong>清单项「挖基础土方」工程量与设计图纸不符（图纸为 280m³，系统录入 320m³），请核实后重新提交。
+        </div>
+        <div class="review-actions">
+          <button class="btn btn-outline btn-sm">查看详情</button>
+          <button class="btn btn-primary btn-sm" onclick="location.href='bill-edit.html'">修改后重新提交</button>
+        </div>
+      </div>
+
+      <!-- Approved -->
+      <div class="review-card">
+        <div class="review-header">
+          <div class="review-title">v1 — 目标成本 2026.03.15</div>
+          <span class="status-badge editable">✅ 已通过</span>
+        </div>
+        <div class="review-meta">
+          <span>提交人：李明</span>
+          <span>审核人：王工</span>
+          <span>通过时间：2026-03-16 09:30</span>
+        </div>
+        <div class="review-actions">
+          <button class="btn btn-outline btn-sm">查看详情</button>
+          <button class="btn btn-ghost btn-sm">查看对比报告</button>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+</body>
+</html>

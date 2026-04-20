@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>招标控制价 - 新点 SaaS 造价系统</title>
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    body { overflow: hidden; }
+    .control-layout { display: grid; grid-template-columns: 1fr 300px; flex: 1; overflow: hidden; }
+    .control-main { display: flex; flex-direction: column; overflow: hidden; }
+    .control-sidebar { border-left: 1px solid var(--color-border); overflow-y: auto; padding: 20px; background: var(--color-bg); display: flex; flex-direction: column; gap: 16px; }
+    .control-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 16px; }
+    .control-card-title { font-size: 13px; font-weight: 600; margin-bottom: 12px; }
+    .control-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--color-border); font-size: 12px; }
+    .control-row:last-child { border-bottom: none; }
+    .control-row .label { color: var(--color-text-secondary); }
+    .control-row .value { font-weight: 600; font-family: "JetBrains Mono", monospace; }
+    .compare-bar { height: 24px; background: var(--color-bg); border-radius: 4px; overflow: hidden; display: flex; margin-bottom: 12px; }
+    .compare-segment { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: white; }
+    .ai-toolbar { display: flex; align-items: center; gap: 8px; padding: 8px 20px; background: linear-gradient(135deg, #EEF2FF 0%, #F8FAFC 100%); border-bottom: 1px solid #E0E7FF; }
+    .ai-chip { display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; background: white; border: 1px solid #C7D2FE; border-radius: 20px; font-size: 12px; color: #4338CA; cursor: pointer; transition: all var(--transition); white-space: nowrap; }
+    .ai-chip:hover { background: #EEF2FF; border-color: #6366F1; }
+    .ai-chip svg { width: 14px; height: 14px; flex-shrink: 0; }
+    .diff-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .diff-table th { text-align: left; padding: 6px 8px; color: var(--color-text-muted); border-bottom: 1px solid var(--color-border); }
+    .diff-table td { padding: 6px 8px; border-bottom: 1px solid var(--color-border); }
+    .diff-table .mono { font-family: "JetBrains Mono", monospace; text-align: right; }
+    .diff-up { color: #EF4444; }
+    .diff-down { color: #10B981; }
+    .diff-same { color: var(--color-text-muted); }
+    .warn-item { display: flex; gap: 10px; padding: 10px; background: var(--color-bg); border-radius: var(--radius); margin-bottom: 8px; border-left: 3px solid var(--color-warning); }
+    .warn-item-icon { color: var(--color-warning); flex-shrink: 0; }
+    .warn-item-text { font-size: 12px; }
+    .warn-item-title { font-weight: 500; }
+    .warn-item-desc { color: var(--color-text-muted); font-size: 11px; margin-top: 2px; }
+    .bill-row:hover { background: #FAFBFFC0; }
+    .quota-row { background: #F8FAFC; }
+    .quota-row td { font-size: 12px; color: var(--color-text-secondary); }
+    .sum-row td { background: #EEF2FF !important; font-weight: 600; color: #3730A3; }
+    .nested-table { width: 100%; border-collapse: collapse; }
+    .nested-table th { background: #F1F5F9; border-bottom: 1px solid var(--color-border); text-align: left; padding: 5px 8px; font-size: 11px; font-weight: 600; color: var(--color-text-secondary); }
+    .nested-table td { padding: 5px 8px; border-bottom: 1px solid #F1F5F9; font-size: 11px; }
+    .code-cell { font-family: "JetBrains Mono", monospace; color: var(--color-text-secondary); }
+  </style>
+</head>
+<body>
+<div class="app-layout">
+  <header class="topbar">
+    <div class="topbar-logo" onclick="location.href='../dashboard.html'">新点造价</div>
+    <div class="topbar-divider"></div>
+    <div class="project-selector"><span class="project-name">杭州未来社区一期项目</span></div>
+    <div class="stage-tabs">
+      <div class="stage-tab" onclick="location.href='010-estimate.html'">投资估算</div>
+      <div class="stage-tab" onclick="location.href='020-target-cost.html'">目标成本</div>
+      <div class="stage-tab" onclick="location.href='030-tender-bill.html'">招标清单</div>
+      <div class="stage-tab active">招标控制价</div>
+      <div class="stage-tab" onclick="location.href='050-bidding.html'">投标报价</div>
+      <div class="stage-tab" onclick="location.href='060-contract-bill.html'">合同清单</div>
+      <div class="stage-tab" onclick="location.href='070-construction.html'">施工过程</div>
+      <div class="stage-tab" onclick="location.href='080-final-settlement.html'">竣工结算</div>
+      <div class="stage-tab" onclick="location.href='090-review.html'">项目复盘</div>
+    </div>
+    <div class="topbar-search" style="margin-left:auto"><input type="text" placeholder="搜索…" /><span class="kbd">⌘K</span></div>
+    <div class="topbar-actions"><div class="avatar">李</div></div>
+  </header>
+
+  <div class="app-body" style="flex-direction:column;">
+    <aside class="sidebar" style="width:100%;flex-shrink:0;flex-direction:row;border-right:none;border-bottom:1px solid var(--color-border);">
+      <div class="sidebar-section" style="display:flex;gap:4px;flex-direction:row;align-items:center;padding:8px 16px;">
+        <div class="sidebar-section-title" style="margin:0;white-space:nowrap;">阶段页面：</div>
+        <a class="sidebar-item" href="010-estimate.html">投资估算</a>
+        <a class="sidebar-item" href="020-target-cost.html">目标成本</a>
+        <a class="sidebar-item" href="030-tender-bill.html">招标清单</a>
+        <a class="sidebar-item active" href="040-tender-control.html">招标控制价</a>
+        <a class="sidebar-item" href="050-bidding.html">投标报价</a>
+        <a class="sidebar-item" href="060-contract-bill.html">合同清单</a>
+        <a class="sidebar-item" href="070-construction.html">施工过程</a>
+        <a class="sidebar-item" href="080-final-settlement.html">竣工结算</a>
+        <a class="sidebar-item" href="090-review.html">项目复盘</a>
+      </div>
+    </aside>
+
+    <div class="control-layout">
+      <div class="control-main">
+        <div class="page-header" style="padding:16px 20px 0;">
+          <h1 class="page-title">招标控制价</h1>
+          <div class="page-actions">
+            <span class="badge" style="background:#EDE9FE;color:#6D28D9;">💰 最高限价编制</span>
+            <span class="badge" style="background:#FEF3C7;color:#92400E;">⚡ 待审批</span>
+            <button class="btn btn-ghost btn-sm">📊 指标分析</button>
+            <button class="btn btn-primary btn-sm">🔄 生成控制价</button>
+          </div>
+        </div>
+
+        <!-- AI 嵌入工具条 -->
+        <div class="ai-toolbar">
+          <svg style="width:16px;height:16px;color:#6366F1;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 017 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 01-2 2H10a2 2 0 01-2-2v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 017-7z"/><path d="M9 22h6"/><path d="M12 17v5"/></svg>
+          <span style="font-size:12px;color:#4338CA;font-weight:500;white-space:nowrap;">AI 辅助</span>
+          <div style="width:1px;height:16px;background:#C7D2FE;margin:0 4px;"></div>
+          <div class="ai-chip" onclick="aiAction('analyze')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            造价指标分析
+          </div>
+          <div class="ai-chip" onclick="aiAction('risk')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            风险预警分析
+          </div>
+          <div class="ai-chip" onclick="aiAction('compare')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            对比目标成本
+          </div>
+          <div class="ai-chip" onclick="aiAction('limit')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            限额合理性检查
+          </div>
+          <div class="ai-chip" onclick="aiAction('suggest')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+            调价建议
+          </div>
+        </div>
+
+        <!-- Compare Bar -->
+        <div style="padding:16px 20px 8px;">
+          <div style="font-size:12px;font-weight:600;color:var(--color-text-secondary);margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em;">控制价构成分析</div>
+          <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:16px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+              <div style="font-size:12px;color:var(--color-text-muted);">招标控制价 vs 目标成本</div>
+              <div style="font-size:11px;color:var(--color-text-muted);">目标成本 ¥ 11,200,000</div>
+            </div>
+            <div class="compare-bar">
+              <div class="compare-segment" style="width:45%;background:var(--color-primary)">清单合价 45%</div>
+              <div class="compare-segment" style="width:28%;background:#8B5CF6">措施费 28%</div>
+              <div class="compare-segment" style="width:18%;background:#10B981">其他项目 18%</div>
+              <div class="compare-segment" style="width:9%;background:#F59E0B">规费税金 9%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bill + Quota Detail Table -->
+        <div style="padding:0 20px 16px;flex:1;overflow:auto;">
+          <div style="font-size:12px;font-weight:600;color:var(--color-text-secondary);margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em;">清单项控制价明细（国标清单-定额结构）</div>
+          <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);overflow:hidden;">
+            <table style="min-width:1200px;width:100%;border-collapse:collapse;font-size:12px;">
+              <thead>
+                <tr>
+                  <th style="width:30px"></th>
+                  <th style="width:50px;text-align:center">#</th>
+                  <th style="width:90px">清单编码</th>
+                  <th>清单名称</th>
+                  <th style="width:60px;text-align:center">单位</th>
+                  <th style="width:80px;text-align:right">工程量</th>
+                  <th style="width:100px;text-align:right">控制价单价</th>
+                  <th style="width:110px;text-align:right">控制价合价</th>
+                  <th style="width:100px">限额检查</th>
+                  <th style="width:60px;text-align:center">风险</th>
+                </tr>
+              </thead>
+              <tbody id="controlTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Bottom Summary -->
+        <div style="display:flex;align-items:center;gap:24px;padding:12px 20px;background:var(--color-surface);border-top:1px solid var(--color-border);">
+          <div class="summary-bar-item"><div class="label">控制价总额</div><div class="value primary" style="font-size:20px">¥ 11,682,500</div></div>
+          <div class="summary-bar-item"><div class="label">与目标成本差</div><div class="value" style="color:var(--color-warning)">+4.3%</div></div>
+          <div class="summary-bar-item"><div class="label">规费税金</div><div class="value">¥ 1,051,425</div></div>
+          <div class="summary-bar-item"><div class="label">含税控制价</div><div class="value">¥ 12,733,925</div></div>
+          <div class="summary-bar-item"><div class="label">状态</div><div class="value"><span class="badge" style="background:#FEF3C7;color:#92400E;font-size:11px">⚡ 待审批</span></div></div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="control-sidebar">
+        <div style="font-size:11px;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.08em;">📊 控制价摘要</div>
+
+        <div class="control-card">
+          <div class="control-card-title">控制价组成</div>
+          <div class="control-row"><span class="label">清单合价</span><span class="value">¥ 10,306,735</span></div>
+          <div class="control-row"><span class="label">措施项目费</span><span class="value">¥ 1,050,000</span></div>
+          <div class="control-row"><span class="label">其他项目费</span><span class="value">¥ 0</span></div>
+          <div class="control-row"><span class="label">规费</span><span class="value">¥ 825,765</span></div>
+          <div class="control-row"><span class="label">税金</span><span class="value">¥ 1,051,425</span></div>
+          <div style="border-top:2px solid var(--color-border);margin-top:8px;padding-top:8px;">
+            <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;">
+              <span>控制价合计</span>
+              <span style="font-family:\"JetBrains Mono\",monospace;color:var(--color-primary)">¥ 12,733,925</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="control-card">
+          <div class="control-card-title">⚠️ 风险预警</div>
+          <div class="warn-item">
+            <div class="warn-item-icon">⚠️</div>
+            <div class="warn-item-text">
+              <div class="warn-item-title">屋面防水单价偏高 6.9%</div>
+              <div class="warn-item-desc">控制价 ¥62 > 市场均价 ¥55，建议重新询价</div>
+            </div>
+          </div>
+          <div class="warn-item">
+            <div class="warn-item-icon">⚠️</div>
+            <div class="warn-item-text">
+              <div class="warn-item-title">混凝土梁单价偏低 2.8%</div>
+              <div class="warn-item-desc">可能影响施工质量，建议适当上调</div>
+            </div>
+          </div>
+          <div class="warn-item">
+            <div class="warn-item-icon">⚠️</div>
+            <div class="warn-item-text">
+              <div class="warn-item-title">整体超出目标成本 4.3%</div>
+              <div class="warn-item-desc">需启动限额调整流程</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="control-card">
+          <div class="control-card-title">📐 指标检查</div>
+          <div class="control-row"><span class="label">单方造价</span><span class="value">¥ 6,485/m²</span></div>
+          <div class="control-row"><span class="label">目标单方</span><span class="value">¥ 6,222/m²</span></div>
+          <div class="control-row"><span class="label">偏差</span><span class="value" style="color:var(--color-warning)">+4.2%</span></div>
+        </div>
+
+        <button class="btn btn-primary w-full" style="justify-content:center;">📮 提交审批</button>
+        <button class="btn btn-outline w-full" style="justify-content:center;">📥 导出控制价文件</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const billData = [
+  { id:1, code:'010101001', name:'平整场地', unit:'m²', qty:1500, controlPrice:29.80, controlAmt:44700.00, risk:'low', quotaRows:[
+    { code:'1-1-1', name:'人工平整场地', unit:'m²', qty:1500, price:19.50, amt:29250 },
+    { code:'1-1-2', name:'小型机械使用费', unit:'项', qty:1, price:12000, amt:12000 }
+  ]},
+  { id:2, code:'010101002', name:'挖基础土方', unit:'m³', qty:320, controlPrice:68.20, controlAmt:21824.00, risk:'none', quotaRows:[
+    { code:'1-2-1', name:'人工挖三类土', unit:'m³', qty:384, price:35.20, amt:13517 },
+    { code:'1-2-2', name:'土方运输5km内', unit:'m³', qty:384, price:12.80, amt:4915 },
+    { code:'1-2-3', name:'基坑排水', unit:'m³', qty:64, price:8.50, amt:544 }
+  ]},
+  { id:3, code:'010101003', name:'土方回填', unit:'m³', qty:180, controlPrice:52.40, controlAmt:9432.00, risk:'none', quotaRows:[
+    { code:'1-3-1', name:'素土回填夯实', unit:'m³', qty:198, price:22.80, amt:4514 },
+    { code:'1-3-2', name:'土方场内运输', unit:'m³', qty:18, price:15.60, amt:281 }
+  ]},
+  { id:4, code:'010102001', name:'砌筑砖基础', unit:'m³', qty:85, controlPrice:335.00, controlAmt:28475.00, risk:'medium', quotaRows:[
+    { code:'3-1-1', name:'标准砖基础砌筑', unit:'m³', qty:85, price:298.00, amt:25330 },
+    { code:'3-1-2', name:'M5水泥砂浆', unit:'m³', qty:26.35, price:98.00, amt:2582 }
+  ]},
+  { id:5, code:'010103001', name:'钢筋混凝土带形基础', unit:'m³', qty:156, controlPrice:595.00, controlAmt:92820.00, risk:'medium', quotaRows:[
+    { code:'4-1-1', name:'C30混凝土浇筑', unit:'m³', qty:156, price:425.00, amt:66300 },
+    { code:'4-1-2', name:'HPB300钢筋制安', unit:'t', qty:8.5, price:5900.00, amt:50150 }
+  ]},
+  { id:6, code:'010103003', name:'现浇混凝土梁', unit:'m³', qty:62, controlPrice:700.00, controlAmt:43400.00, risk:'high', quotaRows:[
+    { code:'4-3-1', name:'C30混凝土浇筑', unit:'m³', qty:62, price:420.00, amt:26040 },
+    { code:'4-3-2', name:'钢筋制安', unit:'t', qty:4.2, price:6100.00, amt:25620 }
+  ]},
+  { id:7, code:'010104001', name:'屋面防水', unit:'m²', qty:1200, controlPrice:62.00, controlAmt:74400.00, risk:'high', quotaRows:[
+    { code:'9-1-1', name:'SBS卷材防水层', unit:'m²', qty:1320, price:34.00, amt:44880 },
+    { code:'9-1-2', name:'基层处理剂', unit:'m²', qty:1200, price:3.80, amt:4560 }
+  ]},
+];
+
+let expandedRows = {};
+function fmt(v){return v.toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function fmtQty(v){return v.toLocaleString('zh-CN',{minimumFractionDigits:3,maximumFractionDigits:3});}
+
+function render() {
+  const tbody = document.getElementById('controlTableBody');
+  let html = '', idx = 1;
+  billData.forEach(item => {
+    const isExp = expandedRows[item.id];
+    const riskMap = { high:'⚠️', medium:'⚡', low:'✅', none:'✅' };
+    const riskColor = { high:'#EF4444', medium:'#F59E0B', low:'#10B981', none:'#10B981' };
+    html += `<tr class="bill-row" data-id="${item.id}">
+      <td style="text-align:center">
+        <button onclick="toggleExpand(${item.id})" style="background:none;border:1px solid var(--color-border);border-radius:3px;cursor:pointer;width:20px;height:20px;display:flex;align-items:center;justify-content:center;color:${isExp?'var(--color-primary)':'var(--color-text-muted)'};${isExp?'border-color:var(--color-primary);background:var(--color-primary-light);':''}">${isExp?'▼':'▶'}</button>
+      </td>
+      <td style="text-align:center;color:var(--color-text-muted)">${idx++}</td>
+      <td class="code-cell">${item.code}</td>
+      <td style="font-weight:500">${item.name}</td>
+      <td style="text-align:center">${item.unit}</td>
+      <td style="text-align:right;font-family:\"JetBrains Mono\",monospace">${fmtQty(item.qty)}</td>
+      <td style="text-align:right;font-family:\"JetBrains Mono\",monospace;font-weight:600">¥ ${fmt(item.controlPrice)}</td>
+      <td style="text-align:right;font-family:\"JetBrains Mono\",monospace">¥ ${fmt(item.controlAmt)}</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div style="flex:1;height:4px;background:var(--color-bg);border-radius:2px;overflow:hidden;max-width:60px;">
+            <div style="height:100%;width:${item.risk==='high'?'90':item.risk==='medium'?'65':'30'}%;background:${riskColor[item.risk]};border-radius:2px;"></div>
+          </div>
+          <span style="font-size:11px;color:${riskColor[item.risk]}">${item.risk==='none'?'✅ 合规':item.risk==='low'?'✅ 低':item.risk==='medium'?'⚡ 关注':'⚠️ 超限'}</span>
+        </div>
+      </td>
+      <td style="text-align:center;font-size:16px;" title="${item.risk}">${riskMap[item.risk]}</td>
+    </tr>`;
+
+    // 定额明细展开
+    if (isExp) {
+      const totalQuota = item.quotaRows.reduce((s,r)=>s+r.amt,0);
+      const mgmtFee = totalQuota * 0.085 * 1.02;
+      html += `<tr class="quota-row">
+        <td colspan="10" style="padding:0;">
+          <table class="nested-table">
+            <thead><tr><th>序号</th><th>定额编码</th><th>定额名称</th><th>单位</th><th>工程量</th><th>定额单价</th><th>定额合价</th><th>管理费+利润</th><th>小计</th></tr></thead>
+            <tbody>`;
+      item.quotaRows.forEach((q,i) => {
+        const qFee = q.amt * 0.085 * 1.02;
+        html += `<tr>
+          <td style="color:var(--color-text-muted)">${i+1}</td>
+          <td class="code-cell">${q.code}</td>
+          <td>${q.name}</td>
+          <td style="text-align:center">${q.unit}</td>
+          <td style="text-align:right">${q.unit==='项'||q.unit==='t'?q.qty:fmtQty(q.qty)}</td>
+          <td style="text-align:right">¥ ${fmt(q.price)}</td>
+          <td style="text-align:right">¥ ${fmt(q.amt)}</td>
+          <td style="text-align:right">¥ ${fmt(qFee)}</td>
+          <td style="text-align:right;font-weight:600">¥ ${fmt(q.amt+qFee)}</td>
+        </tr>`;
+      });
+      html += `<tr class="sum-row">
+        <td colspan="5" style="text-align:right;padding-right:12px;">定额组合 + 管理费8.5% + 利润2%：</td>
+        <td></td>
+        <td style="text-align:right">¥ ${fmt(totalQuota)}</td>
+        <td></td>
+        <td style="text-align:right">¥ ${fmt(totalQuota*1.085*1.02)}</td>
+      </tr>
+      <tr style="background:#FAFBFF;">
+        <td colspan="10" style="padding:8px 12px;font-size:11px;color:#4338CA;">
+          <strong>控制价单价：</strong>¥ ${fmt(totalQuota*1.085*1.02)} ÷ ${fmtQty(item.qty)} ${item.unit} = <strong>¥ ${fmt(totalQuota*1.085*1.02/item.qty)}</strong>
+        </td>
+      </tr></tbody></table></td></tr>`;
+    }
+  });
+  tbody.innerHTML = html;
+}
+
+function toggleExpand(id){ expandedRows[id]=!expandedRows[id]; render(); }
+
+function aiAction(action){
+  const msgs={analyze:'🤖 正在分析造价指标，对比同类项目…',risk:'⚠️ 正在执行风险预警分析…',compare:'📊 正在对比目标成本与控制价差异…',limit:'🔍 正在检查限额合理性…',suggest:'💡 正在生成调价建议…'};
+  const t=document.createElement('div');t.className='toast';t.textContent=msgs[action]||'处理中…';document.body.appendChild(t);setTimeout(()=>t.remove(),3500);
+}
+
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>定额套用 - 新点 SaaS 造价系统</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .quota-toolbar { display:flex; align-items:center; gap:12px; padding:var(--space-3) var(--space-5); background:var(--color-surface-raised); border-bottom:1px solid var(--color-border); }
+    .quota-table-wrap { flex:1; overflow:auto; margin:var(--space-4) var(--space-5); background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-lg); }
+    .quota-match { display:flex; align-items:center; gap:6px; font-size:12px; }
+    .quota-match.high { color:var(--color-success); }
+    .quota-match.medium { color:var(--color-warning); }
+    .quota-match.low { color:var(--color-danger); }
+    .quota-bar { height:4px; background:var(--color-bg); border-radius:2px; margin-top:4px; overflow:hidden; }
+    .quota-fill { height:100%; border-radius:2px; }
+    .quota-fill.high { background:var(--color-success); }
+    .quota-fill.medium { background:var(--color-warning); }
+    .quota-fill.low { background:var(--color-danger); }
+    .quota-apply-row td { background:#FAFFFE; }
+    .match-tag { padding:2px 6px; border-radius:3px; font-size:11px; font-weight:500; }
+    .match-tag.auto { background:#DCFCE7; color:#166534; }
+    .match-tag.manual { background:#FEF3C7; color:#92400E; }
+  </style>
+</head>
+<body>
+<div class="app-layout">
+  <header class="topbar">
+    <div class="topbar-logo">新点造价</div><div class="topbar-divider"></div>
+    <div class="project-selector"><span class="project-name">杭州未来社区一期项目</span></div>
+    <div class="topbar-search" style="margin-left:auto"><input type="text" placeholder="搜索…" /><span class="kbd">⌘K</span></div>
+    <div class="topbar-actions"><div class="avatar">李</div></div>
+  </header>
+  <div class="app-body">
+    <aside class="sidebar">
+      <div class="sidebar-section"><div class="sidebar-section-title">概览</div><a class="sidebar-item" href="dashboard.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>项目总览</a></div>
+      <div class="sidebar-section"><div class="sidebar-section-title">项目管理</div>
+        <a class="sidebar-item" href="project-list.html">项目列表</a>
+        <a class="sidebar-item" href="project-settings.html">项目设置</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-title">清单管理</div>
+        <a class="sidebar-item" href="bill-edit.html">清单编制 <span class="count">156</span></a>
+        <a class="sidebar-item" href="bill-review.html">清单审核</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-title">定额管理</div>
+        <a class="sidebar-item active" href="quota-apply.html">定额套用</a>
+        <a class="sidebar-item" href="quota-library.html">定额库</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-title">造价计算</div>
+        <a class="sidebar-item" href="pricing-summary.html">计价汇总</a>
+        <a class="sidebar-item" href="fee-settings.html">取费设置</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-title">数据</div>
+        <a class="sidebar-item" href="price-versions.html">价格版本</a>
+        <a class="sidebar-item" href="fee-templates.html">取费模板</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-title">AI 助手</div>
+        <a class="sidebar-item" href="ai-copilot-bill.html">AI 清单 Copilot</a>
+        <a class="sidebar-item" href="ai-copilot-quota.html">AI 定额 Copilot</a>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <div class="page-header">
+        <h1 class="page-title">定额套用</h1>
+        <div class="page-header-center">
+          <span class="text-secondary text-sm">关联清单：010101001 平整场地</span>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn-ghost btn-sm">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            智能匹配
+          </button>
+          <button class="btn btn-primary btn-sm">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            新增定额行
+          </button>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <div class="toolbar-group">
+          <div style="font-size:12px; color:var(--color-text-secondary);">定额库：</div>
+          <select class="form-select" style="font-size:12px; padding:5px 8px;">
+            <option>浙江省2023定额标准</option>
+            <option>全国统一定额(2024)</option>
+          </select>
+        </div>
+        <div class="toolbar-divider"></div>
+        <div class="toolbar-group">
+          <button class="btn btn-ghost btn-sm">🔍 搜索定额</button>
+          <button class="btn btn-ghost btn-sm">📋 批量套用</button>
+        </div>
+        <div class="toolbar-search">
+          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="搜索定额编码或名称…" />
+        </div>
+        <button class="btn btn-outline btn-sm ml-auto">📊 套用率报告</button>
+      </div>
+
+      <div class="table-container" style="margin:16px 20px; flex:1;">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:40px"><input type="checkbox" /></th>
+              <th style="width:60px">序号</th>
+              <th>定额编码</th>
+              <th>定额名称</th>
+              <th>单位</th>
+              <th>工程量</th>
+              <th>人工费</th>
+              <th>材料费</th>
+              <th>机械费</th>
+              <th>综合单价</th>
+              <th>合价</th>
+              <th style="width:80px">匹配度</th>
+              <th style="width:80px">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="quota-apply-row">
+              <td><input type="checkbox" checked /></td>
+              <td class="center muted">1</td>
+              <td class="code">1-1</td>
+              <td><span class="quota-mark">定</span>人工挖土方（一、二类土）</td>
+              <td class="center">m³</td>
+              <td class="numeric">320.000</td>
+              <td class="numeric">¥ 15.20</td>
+              <td class="numeric">¥ 2.80</td>
+              <td class="numeric">¥ 3.40</td>
+              <td class="numeric">¥ 21.40</td>
+              <td class="numeric">¥ 6,848.00</td>
+              <td>
+                <div class="quota-match high">92% 高度匹配</div>
+                <div class="quota-bar"><div class="quota-fill high" style="width:92%"></div></div>
+                <span class="match-tag auto" style="margin-top:4px">AI推荐</span>
+              </td>
+              <td>
+                <div class="row-actions">
+                  <button class="row-action-btn" title="编辑"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+                  <button class="row-action-btn danger" title="删除"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked /></td>
+              <td class="center muted">2</td>
+              <td class="code">1-2</td>
+              <td><span class="quota-mark">定</span>土方运输，运距≤5km</td>
+              <td class="center">m³</td>
+              <td class="numeric">280.000</td>
+              <td class="numeric">¥ 8.50</td>
+              <td class="numeric">¥ 1.20</td>
+              <td class="numeric">¥ 12.60</td>
+              <td class="numeric">¥ 22.30</td>
+              <td class="numeric">¥ 6,244.00</td>
+              <td>
+                <div class="quota-match high">88% 高度匹配</div>
+                <div class="quota-bar"><div class="quota-fill high" style="width:88%"></div></div>
+                <span class="match-tag auto" style="margin-top:4px">AI推荐</span>
+              </td>
+              <td>
+                <div class="row-actions">
+                  <button class="row-action-btn" title="编辑"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+                  <button class="row-action-btn danger" title="删除"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td class="center muted">3</td>
+              <td class="code">1-3</td>
+              <td><span class="quota-mark">定</span>机械回填土（夯实）</td>
+              <td class="center">m³</td>
+              <td class="numeric">180.000</td>
+              <td class="numeric">¥ 6.80</td>
+              <td class="numeric">¥ 0.50</td>
+              <td class="numeric">¥ 9.20</td>
+              <td class="numeric">¥ 16.50</td>
+              <td class="numeric">¥ 2,970.00</td>
+              <td>
+                <div class="quota-match medium">65% 中等匹配</div>
+                <div class="quota-bar"><div class="quota-fill medium" style="width:65%"></div></div>
+                <span class="match-tag manual" style="margin-top:4px">手动</span>
+              </td>
+              <td>
+                <div class="row-actions">
+                  <button class="row-action-btn" title="编辑"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+                  <button class="row-action-btn danger" title="删除"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="summary-panel">
+        <div class="summary-item"><span class="summary-label">已套用定额</span><span class="summary-value">2 项</span></div>
+        <div class="summary-divider"></div>
+        <div class="summary-item"><span class="summary-label">人工费合计</span><span class="summary-value">¥ 6,616.00</span></div>
+        <div class="summary-divider"></div>
+        <div class="summary-item"><span class="summary-label">材料费合计</span><span class="summary-value">¥ 1,120.00</span></div>
+        <div class="summary-divider"></div>
+        <div class="summary-item"><span class="summary-label">机械费合计</span><span class="summary-value">¥ 4,928.00</span></div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+          <span class="summary-label">定额合价</span>
+          <span class="summary-value primary">¥ 16,062.00</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+          <span class="summary-label">平均匹配度</span>
+          <span class="summary-value" style="color:var(--color-success)">90%</span>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+</body>
+</html>

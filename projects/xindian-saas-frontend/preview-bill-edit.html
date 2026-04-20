@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>清单编制 - 新点 SaaS 造价系统</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    :root {
+      --color-primary: #1E9E82;
+      --color-primary-hover: #188070;
+      --color-primary-light: #E8F7F3;
+      --color-bg: #F0F2F5;
+      --color-surface: #FFFFFF;
+      --color-surface-raised: #FAFBFC;
+      --color-text-primary: #1A1D21;
+      --color-text-secondary: #5C6370;
+      --color-text-muted: #9CA3AF;
+      --color-success: #22C55E;
+      --color-warning: #F59E0B;
+      --color-danger: #EF4444;
+      --color-info: #3B82F6;
+      --color-row-hover: #F0FDF9;
+      --color-row-selected: #E0F4EE;
+      --color-border: #E5E7EB;
+      --color-border-focus: #1E9E82;
+      --color-status-editable-bg: #DCFCE7;
+      --color-status-editable-text: #166534;
+      --color-status-submitted-bg: #FEF3C7;
+      --color-status-submitted-text: #92400E;
+      --color-status-locked-bg: #EDE9FE;
+      --color-status-locked-text: #5B21B6;
+      --color-manual-override-bg: #FFFBEB;
+      --color-manual-override-border: #F59E0B;
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 20px;
+      --space-6: 24px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "PingFang SC", "Microsoft YaHei", "Inter", sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text-primary);
+      font-size: 13px;
+      line-height: 1.5;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ===== LAYOUT ===== */
+    .app-layout {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    /* ===== TOPBAR ===== */
+    .topbar {
+      height: 52px;
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      padding: 0 var(--space-5);
+      gap: var(--space-4);
+      flex-shrink: 0;
+      z-index: 100;
+    }
+
+    .topbar-logo {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--color-primary);
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .topbar-logo::before {
+      content: '';
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      background: var(--color-primary);
+      border-radius: 6px;
+    }
+
+    .topbar-divider {
+      width: 1px;
+      height: 24px;
+      background: var(--color-border);
+    }
+
+    .project-selector {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: 6px 12px;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: border-color 150ms;
+    }
+
+    .project-selector:hover { border-color: var(--color-primary); }
+
+    .project-selector .project-name {
+      font-weight: 500;
+      color: var(--color-text-primary);
+    }
+
+    .stage-tabs {
+      display: flex;
+      gap: 2px;
+      background: var(--color-bg);
+      border-radius: 6px;
+      padding: 3px;
+    }
+
+    .stage-tab {
+      padding: 5px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      transition: all 150ms;
+    }
+
+    .stage-tab:hover { color: var(--color-text-primary); }
+    .stage-tab.active {
+      background: var(--color-surface);
+      color: var(--color-primary);
+      font-weight: 500;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .topbar-search {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: 6px 12px;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      font-size: 12px;
+      color: var(--color-text-muted);
+      width: 200px;
+    }
+
+    .topbar-search .kbd {
+      margin-left: auto;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 3px;
+      padding: 1px 5px;
+      font-size: 11px;
+      color: var(--color-text-muted);
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--color-primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    /* ===== BODY LAYOUT ===== */
+    .body-layout {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      width: 200px;
+      background: var(--color-surface);
+      border-right: 1px solid var(--color-border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      overflow-y: auto;
+    }
+
+    .sidebar-section {
+      padding: var(--space-4) var(--space-3);
+    }
+
+    .sidebar-section + .sidebar-section {
+      border-top: 1px solid var(--color-border);
+    }
+
+    .sidebar-section-title {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: var(--space-2);
+      padding: 0 var(--space-2);
+    }
+
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: 7px var(--space-2);
+      border-radius: 5px;
+      cursor: pointer;
+      color: var(--color-text-secondary);
+      font-size: 13px;
+      transition: all 100ms;
+      margin-bottom: 2px;
+    }
+
+    .sidebar-item:hover {
+      background: var(--color-bg);
+      color: var(--color-text-primary);
+    }
+
+    .sidebar-item.active {
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+      font-weight: 500;
+    }
+
+    .sidebar-item .count {
+      margin-left: auto;
+      font-size: 11px;
+      color: var(--color-text-muted);
+      background: var(--color-bg);
+      padding: 1px 6px;
+      border-radius: 10px;
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ===== PAGE HEADER ===== */
+    .page-header {
+      height: 52px;
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      padding: 0 var(--space-5);
+      gap: var(--space-4);
+      flex-shrink: 0;
+    }
+
+    .page-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+
+    .version-selector {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: 4px 10px;
+      border: 1px solid var(--color-border);
+      border-radius: 5px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .status-badge.editable {
+      background: var(--color-status-editable-bg);
+      color: var(--color-status-editable-text);
+    }
+
+    .status-badge.submitted {
+      background: var(--color-status-submitted-bg);
+      color: var(--color-status-submitted-text);
+    }
+
+    .status-badge.locked {
+      background: var(--color-status-locked-bg);
+      color: var(--color-status-locked-text);
+    }
+
+    .page-actions {
+      margin-left: auto;
+      display: flex;
+      gap: var(--space-2);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 150ms;
+      font-family: inherit;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border-color: var(--color-border);
+      color: var(--color-text-secondary);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: white;
+      border-color: var(--color-primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary-hover);
+      border-color: var(--color-primary-hover);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border-color: var(--color-border);
+      color: var(--color-text-primary);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    .btn-danger {
+      background: #FEF2F2;
+      color: var(--color-danger);
+      border-color: #FECACA;
+    }
+
+    /* ===== TOOLBAR ===== */
+    .toolbar {
+      background: var(--color-surface-raised);
+      border-bottom: 1px solid var(--color-border);
+      padding: var(--space-3) var(--space-5);
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      flex-shrink: 0;
+    }
+
+    .toolbar-group {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .toolbar-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--color-border);
+    }
+
+    .toolbar .btn {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+
+    .toolbar .btn svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .toolbar-search {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: 5px 10px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 5px;
+      font-size: 12px;
+    }
+
+    .toolbar-search input {
+      border: none;
+      outline: none;
+      background: transparent;
+      font-size: 12px;
+      color: var(--color-text-primary);
+      width: 160px;
+      font-family: inherit;
+    }
+
+    .toolbar-search input::placeholder {
+      color: var(--color-text-muted);
+    }
+
+    .col-settings-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 5px 10px;
+      border: 1px solid var(--color-border);
+      border-radius: 5px;
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      background: var(--color-surface);
+    }
+
+    .col-settings-btn:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    /* ===== DATA TABLE ===== */
+    .table-container {
+      flex: 1;
+      overflow: auto;
+      background: var(--color-surface);
+      margin: var(--space-4) var(--space-5);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    thead {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--color-surface-raised);
+    }
+
+    thead tr {
+      border-bottom: 2px solid var(--color-border);
+    }
+
+    th {
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      white-space: nowrap;
+      border-right: 1px solid var(--color-border);
+      user-select: none;
+    }
+
+    th:last-child { border-right: none; }
+
+    th .col-resize {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      cursor: col-resize;
+      background: transparent;
+    }
+
+    th .col-resize:hover { background: var(--color-primary); }
+
+    .col-num { width: 48px; text-align: center; }
+    .col-action { width: 40px; text-align: center; }
+    .col-code { width: 120px; }
+    .col-name { width: 220px; }
+    .col-feature { width: 180px; }
+    .col-unit { width: 60px; text-align: center; }
+    .col-quantity { width: 100px; text-align: right; }
+    .col-sys-price { width: 110px; text-align: right; }
+    .col-sys-amount { width: 120px; text-align: right; }
+    .col-final-price { width: 110px; text-align: right; }
+    .col-final-amount { width: 120px; text-align: right; }
+    .col-expand { width: 60px; text-align: center; }
+
+    td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--color-border);
+      border-right: 1px solid var(--color-border);
+      vertical-align: middle;
+    }
+
+    td:last-child { border-right: none; }
+
+    td.numeric {
+      font-family: "JetBrains Mono", "DIN Alternate", monospace;
+      text-align: right;
+      font-size: 12.5px;
+    }
+
+    td.code {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      color: var(--color-text-secondary);
+    }
+
+    tbody tr {
+      transition: background 100ms;
+    }
+
+    tbody tr:hover {
+      background: var(--color-row-hover);
+    }
+
+    tbody tr.row-manual-override {
+      background: var(--color-manual-override-bg);
+    }
+
+    tbody tr.row-manual-override:hover {
+      background: #FEF3C7;
+    }
+
+    tbody tr.row-locked {
+      background: #F9FAFB;
+      color: var(--color-text-muted);
+    }
+
+    tbody tr.row-child {
+      background: #FAFAFA;
+      font-size: 12px;
+    }
+
+    /* Cell editing */
+    td.editable {
+      cursor: text;
+      padding: 4px 8px;
+    }
+
+    td.editable:hover {
+      outline: 2px solid var(--color-border-focus);
+      outline-offset: -2px;
+      border-radius: 2px;
+    }
+
+    td.editable.active {
+      outline: 2px solid var(--color-primary);
+      outline-offset: -2px;
+      background: white;
+    }
+
+    .manual-override-mark {
+      position: relative;
+    }
+
+    .manual-override-mark::before {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 6px;
+      height: 6px;
+      background: var(--color-warning);
+      border-radius: 1px;
+    }
+
+    /* Row expand */
+    .expand-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      border-radius: 4px;
+      color: var(--color-text-muted);
+      transition: all 100ms;
+    }
+
+    .expand-btn:hover {
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+    }
+
+    .expand-btn.expanded { color: var(--color-primary); }
+
+    .row-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+    }
+
+    .row-action-btn {
+      width: 26px;
+      height: 26px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-muted);
+      transition: all 100ms;
+    }
+
+    .row-action-btn:hover {
+      background: var(--color-bg);
+      color: var(--color-text-primary);
+    }
+
+    .row-action-btn.danger:hover {
+      background: #FEF2F2;
+      color: var(--color-danger);
+    }
+
+    /* Sub-table (expanded定额明细) */
+    .sub-table-wrap {
+      background: #F8FAFC;
+      border-bottom: 2px solid var(--color-border);
+    }
+
+    .sub-table-wrap table {
+      background: transparent;
+    }
+
+    .sub-table-wrap td {
+      background: transparent;
+      padding: 6px 12px 6px 52px;
+      font-size: 12px;
+      color: var(--color-text-secondary);
+    }
+
+    .sub-table-wrap td.numeric {
+      font-size: 11.5px;
+    }
+
+    .quota-mark {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+      border-radius: 3px;
+      font-size: 10px;
+      font-weight: 600;
+      text-align: center;
+      line-height: 18px;
+      margin-right: 6px;
+    }
+
+    /* ===== SUMMARY PANEL ===== */
+    .summary-panel {
+      margin: 0 var(--space-5) var(--space-4);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: var(--space-4) var(--space-5);
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+      flex-shrink: 0;
+    }
+
+    .summary-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .summary-label {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .summary-value {
+      font-size: 16px;
+      font-weight: 600;
+      font-family: "JetBrains Mono", "DIN Alternate", monospace;
+      color: var(--color-text-primary);
+    }
+
+    .summary-value.primary {
+      color: var(--color-primary);
+      font-size: 18px;
+    }
+
+    .summary-value.large {
+      font-size: 20px;
+    }
+
+    .summary-delta {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      font-size: 12px;
+      color: var(--color-warning);
+      font-weight: 500;
+    }
+
+    .summary-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--color-border);
+    }
+
+    /* ===== TOAST ===== */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--color-text-primary);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      z-index: 1000;
+      animation: toastIn 250ms ease-out;
+    }
+
+    .toast.success { background: #166534; }
+    .toast.warning { background: #92400E; }
+    .toast.error { background: #991B1B; }
+
+    @keyframes toastIn {
+      from { transform: translateY(10px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* ===== CONTEXT MENU ===== */
+    .context-menu {
+      position: fixed;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      padding: var(--space-1);
+      z-index: 200;
+      min-width: 180px;
+      display: none;
+    }
+
+    .context-menu.visible { display: block; }
+
+    .context-menu-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--color-text-primary);
+      transition: background 100ms;
+    }
+
+    .context-menu-item:hover { background: var(--color-bg); }
+    .context-menu-item.danger { color: var(--color-danger); }
+    .context-menu-item.danger:hover { background: #FEF2F2; }
+    .context-menu-divider { height: 1px; background: var(--color-border); margin: var(--space-1) 0; }
+
+    /* ===== VERSION SELECTOR DROPDOWN ===== */
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      z-index: 300;
+      min-width: 280px;
+      display: none;
+      padding: var(--space-2);
+    }
+
+    .dropdown-menu.visible { display: block; }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: 10px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 100ms;
+    }
+
+    .dropdown-item:hover { background: var(--color-bg); }
+    .dropdown-item.selected { background: var(--color-primary-light); }
+
+    .dropdown-item .version-name {
+      font-weight: 500;
+      font-size: 13px;
+    }
+
+    .dropdown-item .version-meta {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      margin-top: 2px;
+    }
+
+    /* ===== SVG ICONS (inline) ===== */
+    .icon {
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+    }
+
+    .icon-sm {
+      width: 13px;
+      height: 13px;
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb {
+      background: #D1D5DB;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover { background: #9CA3AF; }
+  </style>
+</head>
+<body>
+
+<div class="app-layout">
+
+  <!-- ===== TOPBAR ===== -->
+  <header class="topbar">
+    <div class="topbar-logo">新点造价</div>
+    <div class="topbar-divider"></div>
+
+    <div class="project-selector">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span class="project-name">杭州未来社区一期项目</span>
+      <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+
+    <div class="stage-tabs">
+      <div class="stage-tab">投资估算</div>
+      <div class="stage-tab">目标成本</div>
+      <div class="stage-tab active">招标清单</div>
+      <div class="stage-tab">招标控制价</div>
+      <div class="stage-tab">投标报价</div>
+      <div class="stage-tab">合同清单</div>
+      <div class="stage-tab">施工过程</div>
+      <div class="stage-tab">竣工结算</div>
+    </div>
+
+    <div class="topbar-search">
+      <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="搜索清单编码或名称…" />
+      <span class="kbd">⌘K</span>
+    </div>
+
+    <div class="topbar-actions">
+      <div class="avatar" title="李明">李</div>
+    </div>
+  </header>
+
+  <!-- ===== BODY ===== -->
+  <div class="body-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">项目管理</div>
+        <div class="sidebar-item">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+          项目列表
+        </div>
+        <div class="sidebar-item">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+          项目设置
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">清单管理</div>
+        <div class="sidebar-item active">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          清单编制
+          <span class="count">156</span>
+        </div>
+        <div class="sidebar-item">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          清单审核
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">定额管理</div>
+        <div class="sidebar-item">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          定额套用
+        </div>
+        <div class="sidebar-item">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+          定额库
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">造价计算</div>
+        <div class="sidebar-item">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          计价汇总
+        </div>
+        <div class="sidebar-item">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          取费设置
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">数据</div>
+        <div class="sidebar-item">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          价格版本
+        </div>
+        <div class="sidebar-item">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          取费模板
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">AI 助手</div>
+        <div class="sidebar-item">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          AI 清单 Copilot
+        </div>
+        <div class="sidebar-item">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          AI 定额 Copilot
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+
+      <!-- PAGE HEADER -->
+      <div class="page-header">
+        <h1 class="page-title">清单编制</h1>
+
+        <div class="version-selector dropdown" id="versionDropdown">
+          <span class="version-name">v2 — 招标清单 2026.04.10</span>
+          <span class="status-badge editable">✅ 可编辑</span>
+          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          <div class="dropdown-menu" id="versionMenu">
+            <div class="dropdown-item selected">
+              <div>
+                <div class="version-name">v2 — 招标清单 2026.04.10</div>
+                <div class="version-meta">editable · 156 项</div>
+              </div>
+              <span class="status-badge editable" style="margin-left:auto">✅</span>
+            </div>
+            <div class="dropdown-item">
+              <div>
+                <div class="version-name">v1 — 招标清单 2026.04.05</div>
+                <div class="version-meta">locked · 143 项</div>
+              </div>
+              <span class="status-badge locked" style="margin-left:auto">🔒</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="page-actions">
+          <button class="btn btn-ghost">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+            刷新汇总
+          </button>
+          <button class="btn btn-outline">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            导出
+          </button>
+          <button class="btn btn-primary">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            重新计价
+          </button>
+          <button class="btn btn-outline">
+            📤 送审
+          </button>
+          <button class="btn btn-ghost" style="padding: 7px 8px;">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- TOOLBAR -->
+      <div class="toolbar">
+        <div class="toolbar-group">
+          <button class="btn btn-primary">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            新增清单项
+          </button>
+          <button class="btn btn-ghost">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+            批量新增
+          </button>
+        </div>
+
+        <div class="toolbar-divider"></div>
+
+        <div class="toolbar-group">
+          <button class="btn btn-ghost">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            导入 Excel
+          </button>
+          <button class="btn btn-ghost">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            导出 Excel
+          </button>
+        </div>
+
+        <div class="toolbar-divider"></div>
+
+        <div class="toolbar-group">
+          <button class="btn btn-ghost">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            筛选
+          </button>
+          <button class="btn btn-ghost">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+            排序
+          </button>
+        </div>
+
+        <div class="toolbar-search">
+          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="按编码或名称筛选…" />
+        </div>
+
+        <button class="col-settings-btn">
+          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+          列设置
+        </button>
+      </div>
+
+      <!-- TABLE -->
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th class="col-num">#</th>
+              <th class="col-action">操作</th>
+              <th class="col-code">清单编码</th>
+              <th class="col-name">清单名称</th>
+              <th class="col-feature">项目特征</th>
+              <th class="col-unit">单位</th>
+              <th class="col-quantity">工程量</th>
+              <th class="col-sys-price">系统单价</th>
+              <th class="col-sys-amount">系统合价</th>
+              <th class="col-final-price">综合单价</th>
+              <th class="col-final-amount">综合合价</th>
+              <th class="col-expand">定额</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <!-- Rows rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- SUMMARY PANEL -->
+      <div class="summary-panel">
+        <div class="summary-item">
+          <span class="summary-label">清单项</span>
+          <span class="summary-value">156 项</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+          <span class="summary-label">系统合价</span>
+          <span class="summary-value">¥ 8,734,521.00</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+          <span class="summary-label">综合合价</span>
+          <span class="summary-value primary large">¥ 10,306,734.78</span>
+          <span class="summary-delta">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+            +18.0%
+          </span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+          <span class="summary-label">含税综合单价</span>
+          <span class="summary-value">¥ 10,623,937.22</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+          <span class="summary-label">对比上一版本</span>
+          <span class="summary-value" style="color: var(--color-success);">▼ -2.3%</span>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- CONTEXT MENU -->
+<div class="context-menu" id="contextMenu">
+  <div class="context-menu-item">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+    编辑清单项
+  </div>
+  <div class="context-menu-item">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+    查看定额明细
+  </div>
+  <div class="context-menu-divider"></div>
+  <div class="context-menu-item">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+    复制清单项
+  </div>
+  <div class="context-menu-item">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    插入子项
+  </div>
+  <div class="context-menu-divider"></div>
+  <div class="context-menu-item danger">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+    删除清单项
+  </div>
+</div>
+
+<script>
+  // ===== SAMPLE DATA =====
+  const billItems = [
+    {
+      id: 1, code: '010101001', name: '平整场地', feature: '普通土，厚度≤30cm',
+      unit: 'm²', quantity: 1500, sysUnitPrice: 28.50, sysAmount: 42750.00,
+      finalUnitPrice: 28.50, finalAmount: 42750.00, hasChildren: true, children: [
+        { code: '1-1', name: '人工挖土', unit: 'm³', quantity: 320, sysUnitPrice: 45.20, sysAmount: 14464.00 },
+        { code: '1-2', name: '土方运输', unit: 'm³', quantity: 280, sysUnitPrice: 28.80, sysAmount: 8064.00 },
+      ]
+    },
+    {
+      id: 2, code: '010101002', name: '挖基础土方', feature: '三类土，深度≤3m',
+      unit: 'm³', quantity: 320, sysUnitPrice: 68.20, sysAmount: 21824.00,
+      finalUnitPrice: 68.20, finalAmount: 21824.00, hasChildren: false
+    },
+    {
+      id: 3, code: '010101003', name: '土方回填', feature: '夯填，含工作面',
+      unit: 'm³', quantity: 180, sysUnitPrice: 45.80, sysAmount: 8244.00,
+      finalUnitPrice: 52.40, finalAmount: 9432.00, manual: true
+    },
+    {
+      id: 4, code: '010102001', name: '砌筑砖基础', feature: '标准砖，M5水泥砂浆',
+      unit: 'm³', quantity: 85, sysUnitPrice: 320.50, sysAmount: 27242.50,
+      finalUnitPrice: 320.50, finalAmount: 27242.50, hasChildren: false
+    },
+    {
+      id: 5, code: '010102002', name: '砖墙', feature: '240mm墙，M5混合砂浆',
+      unit: 'm³', quantity: 220, sysUnitPrice: 340.00, sysAmount: 74800.00,
+      finalUnitPrice: 340.00, finalAmount: 74800.00, hasChildren: false
+    },
+    {
+      id: 6, code: '010103001', name: '钢筋混凝土带形基础', feature: 'C30混凝土，HPB300钢筋',
+      unit: 'm³', quantity: 156, sysUnitPrice: 580.00, sysAmount: 90480.00,
+      finalUnitPrice: 580.00, finalAmount: 90480.00, hasChildren: false
+    },
+    {
+      id: 7, code: '010103002', name: '现浇混凝土矩形柱', feature: 'C35混凝土，断面≤0.1m²',
+      unit: 'm³', quantity: 48, sysUnitPrice: 680.00, sysAmount: 32640.00,
+      finalUnitPrice: 680.00, finalAmount: 32640.00, hasChildren: false
+    },
+    {
+      id: 8, code: '010103003', name: '现浇混凝土梁', feature: 'C30混凝土，矩形梁',
+      unit: 'm³', quantity: 62, sysUnitPrice: 620.00, sysAmount: 38440.00,
+      finalUnitPrice: 720.00, finalAmount: 44640.00, manual: true
+    },
+    {
+      id: 9, code: '010104001', name: '屋面防水', feature: '3mm+3mm SBS改性沥青卷材',
+      unit: 'm²', quantity: 1200, sysUnitPrice: 58.00, sysAmount: 69600.00,
+      finalUnitPrice: 58.00, finalAmount: 69600.00, hasChildren: false
+    },
+    {
+      id: 10, code: '010105001', name: '楼地面找平层', feature: '20mm厚1:3水泥砂浆',
+      unit: 'm²', quantity: 2800, sysUnitPrice: 28.00, sysAmount: 78400.00,
+      finalUnitPrice: 28.00, finalAmount: 78400.00, hasChildren: false
+    },
+  ];
+
+  let expandedRows = new Set();
+  let selectedRow = null;
+
+  // ===== FORMATTERS =====
+  function fmtMoney(v) {
+    return v.toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function fmtQty(v) {
+    return v.toLocaleString('zh-CN', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+  }
+
+  // ===== RENDER =====
+  function renderTable() {
+    const tbody = document.getElementById('tableBody');
+    let html = '';
+    let globalIdx = 1;
+
+    billItems.forEach(item => {
+      const isExpanded = expandedRows.has(item.id);
+      const isManual = item.manual;
+      const rowClass = isManual ? 'row-manual-override' : '';
+      const manualMark = isManual ? '<span class="manual-override-mark"></span>' : '';
+      const priceClass = isManual ? 'class="numeric manual-override-mark"' : 'class="numeric"';
+
+      html += `
+        <tr class="${rowClass}" data-id="${item.id}">
+          <td class="col-num" style="text-align:center;color:var(--color-text-muted)">${globalIdx++}</td>
+          <td class="col-action">
+            <div class="row-actions">
+              <button class="row-action-btn" title="编辑" onclick="editRow(${item.id})">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+              <button class="row-action-btn danger" title="删除" onclick="deleteRow(${item.id})">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+              </button>
+            </div>
+          </td>
+          <td class="code">${item.code}</td>
+          <td>${item.name}</td>
+          <td style="color:var(--color-text-secondary);font-size:12px">${item.feature}</td>
+          <td style="text-align:center">${item.unit}</td>
+          <td class="numeric">${fmtQty(item.quantity)}</td>
+          <td class="numeric">¥ ${fmtMoney(item.sysUnitPrice)}</td>
+          <td class="numeric">¥ ${fmtMoney(item.sysAmount)}</td>
+          <td ${priceClass}>¥ ${fmtMoney(item.finalUnitPrice)}</td>
+          <td class="numeric">¥ ${fmtMoney(item.finalAmount)}</td>
+          <td style="text-align:center">
+            <button class="expand-btn ${isExpanded ? 'expanded' : ''}" onclick="toggleExpand(${item.id})" title="查看定额明细">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+          </td>
+        </tr>`;
+
+      if (isExpanded && item.children) {
+        item.children.forEach((child, ci) => {
+          html += `
+          <tr class="sub-table-wrap row-child" data-parent="${item.id}">
+            <td colspan="2"></td>
+            <td class="code">${item.code}-${ci + 1}</td>
+            <td><span class="quota-mark">定</span>${child.name}</td>
+            <td style="color:var(--color-text-muted)">定额子项</td>
+            <td style="text-align:center">${child.unit}</td>
+            <td class="numeric">${fmtQty(child.quantity)}</td>
+            <td class="numeric">¥ ${fmtMoney(child.sysUnitPrice)}</td>
+            <td class="numeric">¥ ${fmtMoney(child.sysAmount)}</td>
+            <td colspan="3"></td>
+          </tr>`;
+        });
+      }
+    });
+
+    tbody.innerHTML = html;
+
+    // Context menu
+    document.querySelectorAll('tbody tr[data-id]').forEach(tr => {
+      tr.addEventListener('contextmenu', e => {
+        e.preventDefault();
+        selectedRow = tr.dataset.id;
+        const menu = document.getElementById('contextMenu');
+        menu.style.left = e.clientX + 'px';
+        menu.style.top = e.clientY + 'px';
+        menu.classList.add('visible');
+      });
+    });
+  }
+
+  document.addEventListener('click', () => {
+    document.getElementById('contextMenu').classList.remove('visible');
+  });
+
+  function toggleExpand(id) {
+    if (expandedRows.has(id)) expandedRows.delete(id);
+    else expandedRows.add(id);
+    renderTable();
+  }
+
+  function editRow(id) {
+    showToast('编辑清单项 #' + id, 'success');
+  }
+
+  function deleteRow(id) {
+    showToast('已删除清单项 #' + id, 'error');
+  }
+
+  // Version dropdown
+  document.getElementById('versionDropdown').addEventListener('click', e => {
+    e.stopPropagation();
+    document.getElementById('versionMenu').classList.toggle('visible');
+  });
+
+  document.addEventListener('click', () => {
+    document.getElementById('versionMenu').classList.remove('visible');
+  });
+
+  // Toast helper
+  function showToast(msg, type = '') {
+    const existing = document.querySelector('.toast');
+    if (existing) existing.remove();
+    const toast = document.createElement('div');
+    toast.className = 'toast ' + type;
+    toast.innerHTML = msg;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+  }
+
+  // Init
+  renderTable();
+</script>
+</body>
+</html>

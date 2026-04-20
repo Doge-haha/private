@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 定额 Copilot - 新点 SaaS 造价系统</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { overflow: hidden; }
+    .copilot-workspace { display:grid; grid-template-columns:1fr 380px; flex:1; overflow:hidden; }
+    .copilot-chat { display:flex; flex-direction:column; height:100%; overflow:hidden; }
+    .chat-messages { flex:1; overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:16px; }
+    .chat-msg { display:flex; gap:12px; max-width:80%; }
+    .chat-msg.user { align-self:flex-end; flex-direction:row-reverse; }
+    .chat-avatar { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:14px; }
+    .chat-msg.ai .chat-avatar { background:var(--color-primary); color:white; }
+    .chat-msg.user .chat-avatar { background:var(--color-bg); color:var(--color-text-secondary); }
+    .chat-bubble { background:var(--color-surface); border:1px solid var(--color-border); border-radius:12px; padding:12px 16px; font-size:13px; line-height:1.6; }
+    .chat-msg.user .chat-bubble { background:var(--color-primary); color:white; border-color:var(--color-primary); }
+    .chat-time { font-size:11px; color:var(--color-text-muted); margin-top:4px; padding:0 8px; }
+    .chat-msg.user .chat-time { text-align:right; }
+    .suggestion-chips { display:flex; gap:8px; flex-wrap:wrap; padding:0 20px 12px; }
+    .suggestion-chip { padding:6px 14px; border:1px solid var(--color-border); border-radius:20px; font-size:12px; cursor:pointer; color:var(--color-text-secondary); background:var(--color-surface); transition:all var(--transition); }
+    .suggestion-chip:hover { border-color:var(--color-primary); color:var(--color-primary); background:var(--color-primary-light); }
+    .chat-input-area { padding:16px 20px; border-top:1px solid var(--color-border); background:var(--color-surface-raised); display:flex; gap:12px; align-items:flex-end; }
+    .chat-input { flex:1; border:1px solid var(--color-border); border-radius:10px; padding:10px 14px; font-size:13px; resize:none; font-family:inherit; outline:none; min-height:42px; max-height:120px; line-height:1.5; background:var(--color-surface); transition:border-color var(--transition); }
+    .chat-input:focus { border-color:var(--color-primary); }
+    .quota-recommend-card { background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-lg); padding:16px; margin-bottom:12px; }
+    .quota-recommend-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+    .quota-recommend-item { display:flex; gap:12px; padding:10px; background:var(--color-bg); border-radius:var(--radius); margin-bottom:8px; }
+    .quota-recommend-item:last-child { margin-bottom:0; }
+    .quota-match-bar { height:4px; background:var(--color-border); border-radius:2px; margin-top:6px; overflow:hidden; }
+    .quota-match-fill { height:100%; border-radius:2px; }
+    .analysis-block { background:var(--color-bg); border-radius:var(--radius); padding:14px; font-size:13px; line-height:1.7; }
+  </style>
+</head>
+<body>
+<div class="app-layout">
+  <header class="topbar"><div class="topbar-logo">新点造价</div><div class="topbar-divider"></div><div class="project-selector"><span class="project-name">杭州未来社区一期项目</span></div><div class="topbar-search" style="margin-left:auto"><input type="text" placeholder="搜索…" /><span class="kbd">⌘K</span></div><div class="topbar-actions"><div class="avatar">李</div></div></header>
+  <div class="app-body" style="flex-direction:column;">
+    <aside class="sidebar" style="width:100%; flex-shrink:0; flex-direction:row; border-right:none; border-bottom:1px solid var(--color-border); overflow-x:auto;">
+      <div class="sidebar-section" style="display:flex; gap:4px; flex-direction:row; align-items:center; padding:8px 16px;">
+        <div class="sidebar-section-title" style="margin:0; white-space:nowrap;">AI 功能：</div>
+        <a class="sidebar-item" href="ai-copilot-bill.html">AI 清单 Copilot</a>
+        <a class="sidebar-item active" href="ai-copilot-quota.html">AI 定额 Copilot</a>
+      </div>
+    </aside>
+
+    <div class="copilot-workspace" style="flex:1; overflow:hidden;">
+      <!-- Chat -->
+      <div class="copilot-chat">
+        <div class="chat-messages">
+          <div class="chat-msg ai">
+            <div class="chat-avatar">🤖</div>
+            <div>
+              <div class="chat-bubble">
+                您好！我是 <strong>AI 定额 Copilot</strong>。我可以帮您：
+                <ul style="margin:8px 0 0 0; padding-left:16px;">
+                  <li>根据清单项特征智能匹配推荐定额</li>
+                  <li>分析定额含量是否合理</li>
+                  <li>识别异常定额价格</li>
+                </ul>
+                请粘贴或描述您的清单项，我来为您匹配最合适的定额。
+              </div>
+              <div class="chat-time">AI Copilot · 刚刚</div>
+            </div>
+          </div>
+        </div>
+        <div class="suggestion-chips">
+          <div class="suggestion-chip">🔍 分析当前清单的定额套用情况</div>
+          <div class="suggestion-chip">⚠️ 识别异常单价定额</div>
+          <div class="suggestion-chip">📊 定额含量统计报告</div>
+          <div class="suggestion-chip">🔄 批量替换为更优定额</div>
+        </div>
+        <div class="chat-input-area">
+          <textarea class="chat-input" placeholder="输入定额相关问题或粘贴清单描述…" rows="1" id="chatInput"></textarea>
+          <button class="btn btn-primary" onclick="sendMessage()">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            发送
+          </button>
+        </div>
+      </div>
+
+      <!-- Results panel -->
+      <div style="border-left:1px solid var(--color-border); overflow-y:auto; padding:20px; background:var(--color-bg);">
+        <div style="font-size:14px; font-weight:600; margin-bottom:16px;">📊 定额分析结果</div>
+
+        <div class="quota-recommend-card">
+          <div class="quota-recommend-header">
+            <div style="font-size:13px; font-weight:600;">清单：010101002 挖基础土方</div>
+            <span class="badge badge-success">✅ 合规</span>
+          </div>
+          <div class="quota-recommend-item">
+            <div style="flex:1;">
+              <div style="font-size:13px; font-weight:500;">定额 1-1 人工挖土方</div>
+              <div style="font-size:11px; color:var(--color-text-muted); font-family:'JetBrains Mono',monospace;">¥ 21.40/m³ · 含量 1.0</div>
+              <div class="quota-match-bar"><div class="quota-match-fill" style="width:95%; background:var(--color-success);"></div></div>
+            </div>
+            <span class="result-confidence high">95%</span>
+          </div>
+          <div class="quota-recommend-item">
+            <div style="flex:1;">
+              <div style="font-size:13px; font-weight:500;">定额 1-2 土方运输</div>
+              <div style="font-size:11px; color:var(--color-text-muted); font-family:'JetBrains Mono',monospace;">¥ 22.30/m³ · 含量 0.875</div>
+              <div class="quota-match-bar"><div class="quota-match-fill" style="width:88%; background:var(--color-success);"></div></div>
+            </div>
+            <span class="result-confidence high">88%</span>
+          </div>
+        </div>
+
+        <div class="quota-recommend-card">
+          <div class="quota-recommend-header">
+            <div style="font-size:13px; font-weight:600;">清单：010103001 钢筋混凝土基础梁</div>
+            <span class="badge badge-warning">⚠️ 含量偏低</span>
+          </div>
+          <div class="analysis-block">
+            <div style="color:var(--color-warning); font-weight:500; margin-bottom:6px;">⚠️ 检测到含量异常</div>
+            <div style="color:var(--color-text-secondary);">
+              当前定额 <strong>4-15 混凝土梁</strong> 含量为 <strong>1.015</strong>，与同类项目平均值（1.048）偏低约 <strong>3.1%</strong>。
+              建议复核模板尺寸是否正确。
+            </div>
+          </div>
+        </div>
+
+        <div class="quota-recommend-card">
+          <div class="quota-recommend-header">
+            <div style="font-size:13px; font-weight:600;">📈 定额覆盖率统计</div>
+          </div>
+          <div class="analysis-block" style="padding:10px;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+              <span style="color:var(--color-text-secondary); font-size:13px;">已套用定额</span>
+              <span style="font-weight:600; font-family:'JetBrains Mono',monospace;">312 项</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+              <span style="color:var(--color-text-secondary); font-size:13px;">高度匹配 (≥80%)</span>
+              <span style="font-weight:600; color:var(--color-success);">267 (85.6%)</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+              <span style="color:var(--color-text-secondary); font-size:13px;">中等匹配 (50-80%)</span>
+              <span style="font-weight:600; color:var(--color-warning);">38 (12.2%)</span>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+              <span style="color:var(--color-text-secondary); font-size:13px;">低匹配 (&lt;50%)</span>
+              <span style="font-weight:600; color:var(--color-danger);">7 (2.2%)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function sendMessage() {
+    const input = document.getElementById('chatInput');
+    if (!input.value.trim()) return;
+    const msgs = document.querySelector('.chat-messages');
+    msgs.innerHTML += `<div class="chat-msg user"><div class="chat-avatar">李</div><div><div class="chat-bubble">${input.value}</div><div class="chat-time">刚刚</div></div></div><div class="chat-msg ai"><div class="chat-avatar">🤖</div><div><div class="chat-bubble">正在分析定额匹配情况…（演示模式）</div><div class="chat-time">AI Copilot · 刚刚</div></div></div>`;
+    input.value = '';
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+  document.getElementById('chatInput').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }});
+</script>
+</body>
+</html>

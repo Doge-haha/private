@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>定额库 - 新点 SaaS 造价系统</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .quota-tree { display:flex; gap:0; flex:1; overflow:hidden; }
+    .quota-catalog { width:240px; border-right:1px solid var(--color-border); overflow-y:auto; padding:16px; flex-shrink:0; }
+    .catalog-item { padding:8px 12px; border-radius:var(--radius-sm); cursor:pointer; font-size:13px; color:var(--color-text-secondary); transition:all 100ms; margin-bottom:2px; }
+    .catalog-item:hover { background:var(--color-bg); color:var(--color-text-primary); }
+    .catalog-item.active { background:var(--color-primary-light); color:var(--color-primary); font-weight:500; }
+    .catalog-item.sub { padding-left:28px; font-size:12px; }
+    .quota-content { flex:1; overflow-y:auto; }
+    .quota-detail-card { background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-lg); padding:20px; }
+    .quota-detail-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; padding-bottom:16px; border-bottom:1px solid var(--color-border); }
+    .quota-code-tag { font-family:"JetBrains Mono",monospace; background:var(--color-bg); padding:2px 8px; border-radius:4px; font-size:12px; color:var(--color-text-secondary); }
+    .price-row { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--color-border); font-size:13px; }
+    .price-row:last-child { border-bottom:none; }
+    .price-row .label { color:var(--color-text-secondary); }
+    .price-row .value { font-family:"JetBrains Mono",monospace; font-weight:500; }
+  </style>
+</head>
+<body>
+<div class="app-layout">
+  <header class="topbar"><div class="topbar-logo">新点造价</div><div class="topbar-divider"></div><div class="project-selector"><span class="project-name">杭州未来社区一期项目</span></div><div class="topbar-search" style="margin-left:auto"><input type="text" placeholder="搜索…" /><span class="kbd">⌘K</span></div><div class="topbar-actions"><div class="avatar">李</div></div></header>
+  <div class="app-body">
+    <aside class="sidebar">
+      <div class="sidebar-section"><div class="sidebar-section-title">概览</div><a class="sidebar-item" href="dashboard.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>项目总览</a></div>
+      <div class="sidebar-section"><div class="sidebar-section-title">项目管理</div>
+        <a class="sidebar-item" href="project-list.html">项目列表</a>
+        <a class="sidebar-item" href="project-settings.html">项目设置</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-title">清单管理</div>
+        <a class="sidebar-item" href="bill-edit.html">清单编制 <span class="count">156</span></a>
+        <a class="sidebar-item" href="bill-review.html">清单审核</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-title">定额管理</div>
+        <a class="sidebar-item active" href="quota-apply.html">定额套用</a>
+        <a class="sidebar-item" href="quota-library.html">定额库</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-title">造价计算</div>
+        <a class="sidebar-item" href="pricing-summary.html">计价汇总</a>
+        <a class="sidebar-item" href="fee-settings.html">取费设置</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-title">数据</div>
+        <a class="sidebar-item" href="price-versions.html">价格版本</a>
+        <a class="sidebar-item" href="fee-templates.html">取费模板</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-title">AI 助手</div>
+        <a class="sidebar-item" href="ai-copilot-bill.html">AI 清单 Copilot</a>
+        <a class="sidebar-item" href="ai-copilot-quota.html">AI 定额 Copilot</a>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <div class="page-header">
+        <h1 class="page-title">定额库</h1>
+        <div class="page-actions">
+          <button class="btn btn-outline btn-sm">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            导出
+          </button>
+          <button class="btn btn-ghost btn-sm">版本：浙江省2023定额</button>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <div class="toolbar-group">
+          <select class="form-select" style="font-size:12px; padding:5px 8px;">
+            <option>浙江省2023定额标准</option>
+            <option>全国统一定额(2024)</option>
+            <option>上海市2023清单计价</option>
+          </select>
+        </div>
+        <div class="toolbar-divider"></div>
+        <div class="toolbar-search" style="margin-left:auto">
+          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="搜索定额编码或名称…" />
+        </div>
+      </div>
+
+      <div class="quota-tree" style="flex:1; overflow:hidden;">
+        <!-- Catalog -->
+        <div class="quota-catalog">
+          <div class="text-xs text-muted" style="margin-bottom:8px; padding:0 12px; text-transform:uppercase; letter-spacing:0.05em;">定额目录</div>
+          <div class="catalog-item active">📁 A 建筑工程</div>
+          <div class="catalog-item sub active">A.1 土石方工程</div>
+          <div class="catalog-item sub">A.2 地基处理</div>
+          <div class="catalog-item sub">A.3 砌筑工程</div>
+          <div class="catalog-item">📁 B 装饰工程</div>
+          <div class="catalog-item">📁 C 安装工程</div>
+          <div class="catalog-item">📁 D 市政工程</div>
+          <div class="catalog-item">📁 E 园林绿化</div>
+          <div class="catalog-item">📁 F 轨道交通</div>
+        </div>
+
+        <!-- Content -->
+        <div class="quota-content" style="padding:16px; overflow-y:auto;">
+          <div class="quota-detail-card" style="margin-bottom:16px;">
+            <div class="quota-detail-header">
+              <div>
+                <div style="font-size:11px; color:var(--color-text-muted); margin-bottom:4px;">定额编号</div>
+                <div class="quota-code-tag">1-1</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:18px; font-weight:700; font-family:'JetBrains Mono',monospace; color:var(--color-primary);">¥ 21.40</div>
+                <div style="font-size:11px; color:var(--color-text-muted);">综合单价 / m³</div>
+              </div>
+            </div>
+            <div style="font-size:15px; font-weight:600; margin-bottom:16px;">人工挖土方（一、二类土）</div>
+            <div class="price-row"><span class="label">人工费</span><span class="value">¥ 15.20</span></div>
+            <div class="price-row"><span class="label">材料费</span><span class="value">¥ 2.80</span></div>
+            <div class="price-row"><span class="label">机械费</span><span class="value">¥ 3.40</span></div>
+            <div class="price-row"><span class="label">管理费</span><span class="value">¥ 0.00</span></div>
+            <div class="price-row"><span class="label">利润</span><span class="value">¥ 0.00</span></div>
+            <div class="price-row"><span class="label">规费</span><span class="value">¥ 0.00</span></div>
+            <div class="price-row"><span class="label">税金</span><span class="value">¥ 1.75</span></div>
+            <div class="price-row" style="font-weight:600; color:var(--color-primary)"><span class="label">综合单价</span><span class="value">¥ 21.40</span></div>
+            <div style="margin-top:16px; padding-top:16px; border-top:1px solid var(--color-border);">
+              <div style="font-size:12px; color:var(--color-text-secondary); margin-bottom:8px;">工作内容：</div>
+              <div style="font-size:13px; color:var(--color-text-secondary); line-height:1.6;">挖土方，装土，卸土于坑边1m以外；运距在5m以内的挖、填土方，找平。</div>
+            </div>
+          </div>
+
+          <div class="quota-detail-card" style="margin-bottom:16px;">
+            <div class="quota-detail-header">
+              <div>
+                <div style="font-size:11px; color:var(--color-text-muted); margin-bottom:4px;">定额编号</div>
+                <div class="quota-code-tag">1-2</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:18px; font-weight:700; font-family:'JetBrains Mono',monospace; color:var(--color-primary);">¥ 22.30</div>
+                <div style="font-size:11px; color:var(--color-text-muted);">综合单价 / m³</div>
+              </div>
+            </div>
+            <div style="font-size:15px; font-weight:600; margin-bottom:16px;">土方运输，运距≤5km</div>
+            <div class="price-row"><span class="label">人工费</span><span class="value">¥ 8.50</span></div>
+            <div class="price-row"><span class="label">材料费</span><span class="value">¥ 1.20</span></div>
+            <div class="price-row"><span class="label">机械费</span><span class="value">¥ 12.60</span></div>
+            <div class="price-row"><span class="label">管理费</span><span class="value">¥ 0.00</span></div>
+            <div class="price-row"><span class="label">利润</span><span class="value">¥ 0.00</span></div>
+            <div class="price-row"><span class="label">税金</span><span class="value">¥ 1.83</span></div>
+            <div class="price-row" style="font-weight:600; color:var(--color-primary)"><span class="label">综合单价</span><span class="value">¥ 22.30</span></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+</body>
+</html>

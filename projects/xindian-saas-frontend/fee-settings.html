@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>取费设置 - 新点 SaaS 造价系统</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .fee-rule-card { background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-lg); padding:20px; margin-bottom:12px; }
+    .fee-rule-header { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+    .fee-rule-table { width:100%; }
+    .fee-rule-table th { font-size:11px; text-transform:uppercase; color:var(--color-text-muted); padding:8px 12px; text-align:left; border-bottom:1px solid var(--color-border); font-weight:600; }
+    .fee-rule-table td { padding:10px 12px; border-bottom:1px solid var(--color-border); font-size:13px; }
+    .fee-rule-table tr:last-child td { border-bottom:none; }
+    .fee-rule-table .num { font-family:"JetBrains Mono",monospace; text-align:right; font-weight:500; }
+    .add-rule-btn { display:flex; align-items:center; justify-content:center; gap:6px; width:100%; padding:10px; border:2px dashed var(--color-border); border-radius:var(--radius); color:var(--color-text-muted); cursor:pointer; font-size:13px; transition:all var(--transition); margin-top:12px; }
+    .add-rule-btn:hover { border-color:var(--color-primary); color:var(--color-primary); }
+    .stage-tag { display:inline-flex; align-items:center; padding:3px 8px; background:var(--color-bg); border-radius:3px; font-size:11px; margin-right:4px; }
+  </style>
+</head>
+<body>
+<div class="app-layout">
+  <header class="topbar"><div class="topbar-logo">新点造价</div><div class="topbar-divider"></div><div class="project-selector"><span class="project-name">杭州未来社区一期项目</span></div><div class="topbar-search" style="margin-left:auto"><input type="text" placeholder="搜索…" /><span class="kbd">⌘K</span></div><div class="topbar-actions"><div class="avatar">李</div></div></header>
+  <div class="app-body">
+    <aside class="sidebar">
+      <div class="sidebar-section"><div class="sidebar-section-title">概览</div><a class="sidebar-item" href="dashboard.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>项目总览</a></div>
+      <div class="sidebar-section"><div class="sidebar-section-title">项目管理</div>
+        <a class="sidebar-item" href="project-list.html">项目列表</a>
+        <a class="sidebar-item" href="project-settings.html">项目设置</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-title">清单管理</div>
+        <a class="sidebar-item" href="bill-edit.html">清单编制 <span class="count">156</span></a>
+        <a class="sidebar-item" href="bill-review.html">清单审核</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-title">定额管理</div>
+        <a class="sidebar-item" href="quota-apply.html">定额套用</a>
+        <a class="sidebar-item" href="quota-library.html">定额库</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-title">造价计算</div>
+        <a class="sidebar-item" href="pricing-summary.html">计价汇总</a>
+        <a class="sidebar-item active" href="fee-settings.html">取费设置</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-title">数据</div>
+        <a class="sidebar-item" href="price-versions.html">价格版本</a>
+        <a class="sidebar-item" href="fee-templates.html">取费模板</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-title">AI 助手</div>
+        <a class="sidebar-item" href="ai-copilot-bill.html">AI 清单 Copilot</a>
+        <a class="sidebar-item" href="ai-copilot-quota.html">AI 定额 Copilot</a>
+      </div>
+    </aside>
+
+    <main class="main-content" style="overflow-y:auto; padding:20px;">
+      <div class="page-header" style="background:transparent; border:none; padding:0 0 16px 0;">
+        <h1 class="page-title">取费设置</h1>
+        <div class="page-actions">
+          <button class="btn btn-outline btn-sm">复制取费模板</button>
+          <button class="btn btn-primary btn-sm">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            新增取费规则
+          </button>
+        </div>
+      </div>
+
+      <!-- Fee Rule: 招标清单阶段 -->
+      <div class="fee-rule-card">
+        <div class="fee-rule-header">
+          <div>
+            <div style="font-size:14px; font-weight:600; margin-bottom:6px;">招标清单阶段取费规则</div>
+            <div>
+              <span class="stage-tag">招标清单</span>
+              <span class="stage-tag">投标报价</span>
+              <span class="badge badge-primary" style="margin-left:8px">使用中</span>
+            </div>
+          </div>
+          <div class="ml-auto" style="display:flex; gap:8px; align-items:center;">
+            <span class="text-sm text-muted">综合费率：</span>
+            <span style="font-size:20px; font-weight:700; color:var(--color-primary); font-family:'JetBrains Mono',monospace;">18.0%</span>
+          </div>
+        </div>
+        <table class="fee-rule-table">
+          <thead>
+            <tr>
+              <th>序号</th><th>费用名称</th><th>计算基础</th><th>费率(%)</th><th>金额(元)</th><th>说明</th><th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td><td>企业管理费</td><td>人工费+机械费</td><td class="num">12.0%</td><td class="num">¥ 892,456.00</td><td style="color:var(--color-text-muted)">按浙建站定[2023]18号</td>
+              <td><button class="btn btn-ghost btn-sm">编辑</button></td>
+            </tr>
+            <tr>
+              <td>2</td><td>利润</td><td>人工费</td><td class="num">8.0%</td><td class="num">¥ 298,152.00</td><td style="color:var(--color-text-muted)">按定额规定</td>
+              <td><button class="btn btn-ghost btn-sm">编辑</button></td>
+            </tr>
+            <tr>
+              <td>3</td><td>规费（工程排污费）</td><td>分部分项人工费</td><td class="num">0.5%</td><td class="num">¥ 18,634.50</td><td style="color:var(--color-text-muted)">含增值税</td>
+              <td><button class="btn btn-ghost btn-sm">编辑</button></td>
+            </tr>
+            <tr>
+              <td>4</td><td>增值税销项税额</td><td>人工+材料+机械+管理+利润+规费</td><td class="num">9.0%</td><td class="num">¥ 845,789.56</td><td style="color:var(--color-text-muted)">9%税率</td>
+              <td><button class="btn btn-ghost btn-sm">编辑</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="add-rule-btn">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          添加取费项
+        </div>
+      </div>
+
+      <!-- Fee Rule: 施工过程阶段 -->
+      <div class="fee-rule-card">
+        <div class="fee-rule-header">
+          <div>
+            <div style="font-size:14px; font-weight:600; margin-bottom:6px;">施工过程阶段取费规则</div>
+            <div>
+              <span class="stage-tag">施工过程</span>
+              <span class="stage-tag">竣工结算</span>
+            </div>
+          </div>
+          <div class="ml-auto" style="display:flex; gap:8px; align-items:center;">
+            <span class="text-sm text-muted">综合费率：</span>
+            <span style="font-size:20px; font-weight:700; color:var(--color-primary); font-family:'JetBrains Mono',monospace;">20.5%</span>
+          </div>
+        </div>
+        <table class="fee-rule-table">
+          <thead>
+            <tr>
+              <th>序号</th><th>费用名称</th><th>计算基础</th><th>费率(%)</th><th>金额(元)</th><th>说明</th><th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td><td>企业管理费</td><td>人工费+机械费</td><td class="num">14.0%</td><td class="num">¥ 1,041,200.00</td><td style="color:var(--color-text-muted)">调整后费率</td>
+              <td><button class="btn btn-ghost btn-sm">编辑</button></td>
+            </tr>
+            <tr>
+              <td>2</td><td>利润</td><td>人工费</td><td class="num">9.0%</td><td class="num">¥ 335,421.00</td><td style="color:var(--color-text-muted)">调整后费率</td>
+              <td><button class="btn btn-ghost btn-sm">编辑</button></td>
+            </tr>
+            <tr>
+              <td>3</td><td>规费</td><td>分部分项人工费</td><td class="num">0.8%</td><td class="num">¥ 29,815.20</td><td style="color:var(--color-text-muted)">含增值税</td>
+              <td><button class="btn btn-ghost btn-sm">编辑</button></td>
+            </tr>
+            <tr>
+              <td>4</td><td>增值税销项税额</td><td>人工+材料+机械+管理+利润+规费</td><td class="num">9.0%</td><td class="num">¥ 983,210.35</td><td style="color:var(--color-text-muted)">9%税率</td>
+              <td><button class="btn btn-ghost btn-sm">编辑</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="add-rule-btn">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          添加取费项
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+</body>
+</html>

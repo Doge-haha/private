@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>清单编制 - 新点 SaaS 造价系统</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { overflow: hidden; }
+    .page-body { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+    .bill-table-wrap { flex: 1; overflow: auto; margin: 0 20px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); }
+    .bill-table-wrap table { min-width: 1200px; }
+    td.editable-cell { cursor: text; padding: 4px 8px; }
+    td.editable-cell:hover { outline: 2px solid var(--color-border-focus); outline-offset: -2px; border-radius: 2px; }
+    td.editable-cell:focus { outline: 2px solid var(--color-primary); outline-offset: -2px; background: white; }
+    .inline-edit-input { border: none; outline: none; background: transparent; font-size: inherit; font-family: inherit; width: 100%; padding: 0; }
+    .manual-row { background: var(--color-manual-override-bg) !important; }
+    .manual-cell { position: relative; }
+    .manual-cell::before { content: ''; position: absolute; top: 3px; left: 3px; width: 6px; height: 6px; background: var(--color-warning); border-radius: 1px; }
+    .sub-row td { background: #F8FAFC; font-size: 12px; padding: 6px 12px 6px 52px; }
+    .sub-row td:first-child, .sub-row td:nth-child(2) { padding-left: 12px; }
+    .quota-badge { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; background: var(--color-primary-light); color: var(--color-primary); border-radius: 3px; font-size: 10px; font-weight: 600; margin-right: 6px; }
+    .summary-bar { display: flex; align-items: center; gap: 24px; padding: 12px 20px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); margin: 12px 20px; }
+    .summary-bar-item { display: flex; flex-direction: column; gap: 2px; }
+    .summary-bar-item .label { font-size: 11px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .summary-bar-item .value { font-size: 16px; font-weight: 600; font-family: "JetBrains Mono", monospace; }
+    .summary-bar-item .value.primary { color: var(--color-primary); font-size: 18px; }
+    .delta { display: inline-flex; align-items: center; gap: 2px; font-size: 12px; color: var(--color-warning); font-weight: 500; }
+    .col-num { width: 48px; text-align: center; }
+    .col-check { width: 36px; text-align: center; }
+    .col-ops { width: 80px; text-align: center; }
+    .col-code { width: 110px; }
+    .col-name { min-width: 200px; }
+    .col-feature { width: 160px; }
+    .col-unit { width: 60px; text-align: center; }
+    .col-qty { width: 100px; text-align: right; }
+    .col-sys-price { width: 110px; text-align: right; }
+    .col-sys-amt { width: 120px; text-align: right; }
+    .col-final-price { width: 110px; text-align: right; }
+    .col-final-amt { width: 120px; text-align: right; }
+    .col-expand { width: 50px; text-align: center; }
+  </style>
+</head>
+<body>
+<div class="app-layout">
+  <header class="topbar">
+    <div class="topbar-logo" onclick="location.href='dashboard.html'">新点造价</div>
+    <div class="topbar-divider"></div>
+    <div class="project-selector">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      <span class="project-name">杭州未来社区一期项目</span>
+      <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="stage-tabs">
+      <div class="stage-tab">投资估算</div><div class="stage-tab">目标成本</div>
+      <div class="stage-tab active">招标清单</div><div class="stage-tab">招标控制价</div>
+      <div class="stage-tab">投标报价</div><div class="stage-tab">合同清单</div>
+      <div class="stage-tab">施工过程</div><div class="stage-tab">竣工结算</div>
+    </div>
+    <div class="topbar-search">
+      <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="搜索…" /><span class="kbd">⌘K</span>
+    </div>
+    <div class="topbar-actions"><div class="avatar">李</div></div>
+  </header>
+
+  <div class="app-body">
+    <aside class="sidebar">
+      <div class="sidebar-section"><div class="sidebar-section-title">概览</div>
+        <a class="sidebar-item" href="dashboard.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>项目总览</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-title">项目管理</div>
+        <a class="sidebar-item" href="project-list.html">项目列表</a>
+        <a class="sidebar-item" href="project-settings.html">项目设置</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-title">清单管理</div>
+        <a class="sidebar-item active" href="bill-edit.html">清单编制 <span class="count">156</span></a>
+        <a class="sidebar-item" href="bill-review.html">清单审核</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-title">定额管理</div>
+        <a class="sidebar-item" href="quota-apply.html">定额套用</a>
+        <a class="sidebar-item" href="quota-library.html">定额库</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-title">造价计算</div>
+        <a class="sidebar-item" href="pricing-summary.html">计价汇总</a>
+        <a class="sidebar-item" href="fee-settings.html">取费设置</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-title">数据</div>
+        <a class="sidebar-item" href="price-versions.html">价格版本</a>
+        <a class="sidebar-item" href="fee-templates.html">取费模板</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-title">AI 助手</div>
+        <a class="sidebar-item" href="ai-copilot-bill.html">AI 清单 Copilot</a>
+        <a class="sidebar-item" href="ai-copilot-quota.html">AI 定额 Copilot</a>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <!-- Page Header -->
+      <div class="page-header">
+        <h1 class="page-title">清单编制</h1>
+        <div class="version-selector dropdown" id="versionDropdown">
+          <span class="font-medium text-sm">v2 — 招标清单 2026.04.10</span>
+          <span class="status-badge editable">✅ 可编辑</span>
+          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          <div class="dropdown-menu" id="versionMenu">
+            <div class="dropdown-item selected">
+              <div><div class="item-name">v2 — 招标清单 2026.04.10</div><div class="item-meta">editable · 156 项</div></div>
+              <span class="status-badge editable" style="margin-left:auto">✅</span>
+            </div>
+            <div class="dropdown-item">
+              <div><div class="item-name">v1 — 招标清单 2026.04.05</div><div class="item-meta">locked · 143 项</div></div>
+              <span class="status-badge locked" style="margin-left:auto">🔒</span>
+            </div>
+          </div>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn-ghost btn-sm">
+            <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+            刷新汇总
+          </button>
+          <button class="btn btn-outline btn-sm">
+            <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            导出
+          </button>
+          <button class="btn btn-primary btn-sm">
+            <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            重新计价
+          </button>
+          <button class="btn btn-outline btn-sm">📤 送审</button>
+          <button class="btn btn-ghost btn-sm" style="padding:6px 8px;">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <div class="toolbar-group">
+          <button class="btn btn-primary btn-sm" onclick="showToast('新增清单项')">
+            <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            新增清单项
+          </button>
+          <button class="btn btn-ghost btn-sm">📋 批量新增</button>
+        </div>
+        <div class="toolbar-divider"></div>
+        <div class="toolbar-group">
+          <button class="btn btn-ghost btn-sm">📥 导入 Excel</button>
+          <button class="btn btn-ghost btn-sm">📤 导出 Excel</button>
+        </div>
+        <div class="toolbar-divider"></div>
+        <div class="toolbar-group">
+          <button class="btn btn-ghost btn-sm">🔍 筛选</button>
+          <button class="btn btn-ghost btn-sm">↕ 排序</button>
+        </div>
+        <div class="toolbar-search">
+          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="按编码或名称筛选…" id="filterInput" oninput="filterTable()" />
+        </div>
+        <button class="col-settings-btn btn btn-ghost btn-sm">
+          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/></svg>
+          列设置
+        </button>
+      </div>
+
+      <!-- Table -->
+      <div class="page-body">
+        <div class="bill-table-wrap" id="tableWrap">
+          <table>
+            <thead>
+              <tr>
+                <th class="col-check"><input type="checkbox" id="selectAll" onchange="toggleSelectAll()" /></th>
+                <th class="col-num">#</th>
+                <th class="col-ops">操作</th>
+                <th class="col-code">清单编码</th>
+                <th class="col-name">清单名称</th>
+                <th class="col-feature">项目特征</th>
+                <th class="col-unit">单位</th>
+                <th class="col-qty">工程量</th>
+                <th class="col-sys-price">系统单价</th>
+                <th class="col-sys-amt">系统合价</th>
+                <th class="col-final-price">综合单价</th>
+                <th class="col-final-amt">综合合价</th>
+                <th class="col-expand">定额</th>
+              </tr>
+            </thead>
+            <tbody id="billTableBody"></tbody>
+          </table>
+        </div>
+
+        <!-- Summary Bar -->
+        <div class="summary-bar">
+          <div class="summary-bar-item">
+            <span class="label">清单项</span>
+            <span class="value" id="summaryCount">156 项</span>
+          </div>
+          <div class="summary-bar-item"><div class="label">系统合价</div><div class="value font-mono">¥ 8,734,521.00</div></div>
+          <div class="summary-bar-item">
+            <div class="label">综合合价</div>
+            <div class="value primary font-mono">¥ 10,306,734.78</div>
+          </div>
+          <div class="summary-bar-item"><div class="label">费率溢价</div><div class="value" style="color:var(--color-warning)">+18.0%</div></div>
+          <div class="summary-bar-item"><div class="label">含税综合</div><div class="value font-mono">¥ 10,623,937.22</div></div>
+          <div class="summary-bar-item"><div class="label">对比 v1</div><div class="delta"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg> -2.3%</div></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Context Menu -->
+<div class="context-menu" id="ctxMenu">
+  <div class="context-menu-item" onclick="ctxAction('edit')">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+    编辑清单项
+  </div>
+  <div class="context-menu-item" onclick="ctxAction('viewQuota')">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+    查看定额明细
+  </div>
+  <div class="context-menu-divider"></div>
+  <div class="context-menu-item" onclick="ctxAction('copy')">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+    复制清单项
+  </div>
+  <div class="context-menu-item" onclick="ctxAction('insert')">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    插入子项
+  </div>
+  <div class="context-menu-divider"></div>
+  <div class="context-menu-item danger" onclick="ctxAction('delete')">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+    删除清单项
+  </div>
+</div>
+
+<script>
+const billData = [
+  { id:1, code:'010101001', name:'平整场地', feature:'普通土，厚度≤30cm', unit:'m²', qty:1500, sysPrice:28.50, sysAmt:42750.00, finalPrice:28.50, finalAmt:42750.00, manual:false, expanded:false, children:[
+    { seq:'1-1', code:'010101001-1', name:'人工挖土方', unit:'m³', qty:320, sysPrice:45.20, sysAmt:14464.00 },
+    { seq:'1-2', code:'010101001-2', name:'土方运输', unit:'m³', qty:280, sysPrice:28.80, sysAmt:8064.00 },
+  ]},
+  { id:2, code:'010101002', name:'挖基础土方', feature:'三类土，深度≤3m', unit:'m³', qty:320, sysPrice:68.20, sysAmt:21824.00, finalPrice:68.20, finalAmt:21824.00, manual:false, expanded:false },
+  { id:3, code:'010101003', name:'土方回填', feature:'夯填，含工作面', unit:'m³', qty:180, sysPrice:45.80, sysAmt:8244.00, finalPrice:52.40, finalAmt:9432.00, manual:true, expanded:false },
+  { id:4, code:'010102001', name:'砌筑砖基础', feature:'标准砖，M5水泥砂浆', unit:'m³', qty:85, sysPrice:320.50, sysAmt:27242.50, finalPrice:320.50, finalAmt:27242.50, manual:false, expanded:false },
+  { id:5, code:'010102002', name:'砖墙', feature:'240mm墙，M5混合砂浆', unit:'m³', qty:220, sysPrice:340.00, sysAmt:74800.00, finalPrice:340.00, finalAmt:74800.00, manual:false, expanded:false },
+  { id:6, code:'010103001', name:'钢筋混凝土带形基础', feature:'C30混凝土，HPB300钢筋', unit:'m³', qty:156, sysPrice:580.00, sysAmt:90480.00, finalPrice:580.00, finalAmt:90480.00, manual:false, expanded:false },
+  { id:7, code:'010103002', name:'现浇混凝土矩形柱', feature:'C35混凝土，断面≤0.1m²', unit:'m³', qty:48, sysPrice:680.00, sysAmt:32640.00, finalPrice:680.00, finalAmt:32640.00, manual:false, expanded:false },
+  { id:8, code:'010103003', name:'现浇混凝土梁', feature:'C30混凝土，矩形梁', unit:'m³', qty:62, sysPrice:620.00, sysAmt:38440.00, finalPrice:720.00, finalAmt:44640.00, manual:true, expanded:false },
+  { id:9, code:'010104001', name:'屋面防水', feature:'3mm+3mm SBS改性沥青卷材', unit:'m²', qty:1200, sysPrice:58.00, sysAmt:69600.00, finalPrice:58.00, finalAmt:69600.00, manual:false, expanded:false },
+  { id:10, code:'010105001', name:'楼地面找平层', feature:'20mm厚1:3水泥砂浆', unit:'m²', qty:2800, sysPrice:28.00, sysAmt:78400.00, finalPrice:28.00, finalAmt:78400.00, manual:false, expanded:false },
+];
+
+let ctxTarget = null;
+
+function fmt(v) { return v.toLocaleString('zh-CN', {minimumFractionDigits:2, maximumFractionDigits:2}); }
+function fmtQty(v) { return v.toLocaleString('zh-CN', {minimumFractionDigits:3, maximumFractionDigits:3}); }
+
+function renderTable(filter) {
+  const tbody = document.getElementById('billTableBody');
+  let html = '', idx = 1;
+  billData.forEach(item => {
+    if (filter && !item.name.includes(filter) && !item.code.includes(filter)) return;
+    const rowClass = item.manual ? 'manual-row' : '';
+    const priceClass = item.manual ? 'manual-cell' : '';
+    const expanded = item.expanded;
+
+    html += `<tr class="${rowClass}" data-id="${item.id}">
+      <td class="col-check"><input type="checkbox" /></td>
+      <td class="col-num muted" style="text-align:center">${idx++}</td>
+      <td class="col-ops">
+        <div class="row-actions">
+          <button class="row-action-btn" title="编辑" onclick="showToast('编辑 ${item.name}')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+          <button class="row-action-btn danger" title="删除" onclick="showToast('已删除 ${item.name}','error')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>
+        </div>
+      </td>
+      <td class="col-code code editable-cell" contenteditable="true">${item.code}</td>
+      <td class="col-name editable-cell" contenteditable="true">${item.name}</td>
+      <td class="col-feature editable-cell" style="font-size:12px;color:var(--color-text-secondary)" contenteditable="true">${item.feature}</td>
+      <td class="col-unit editable-cell" style="text-align:center" contenteditable="true">${item.unit}</td>
+      <td class="col-qty numeric editable-cell" contenteditable="true">${fmtQty(item.qty)}</td>
+      <td class="col-sys-price numeric">¥ ${fmt(item.sysPrice)}</td>
+      <td class="col-sys-amt numeric">¥ ${fmt(item.sysAmt)}</td>
+      <td class="col-final-price numeric ${priceClass}">¥ ${fmt(item.finalPrice)}</td>
+      <td class="col-final-amt numeric">¥ ${fmt(item.finalAmt)}</td>
+      <td class="col-expand" style="text-align:center">
+        ${item.children ? `<button class="expand-btn ${expanded?'expanded':''}" onclick="toggleExpand(${item.id})"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>` : ''}
+      </td>
+    </tr>`;
+
+    if (expanded && item.children) {
+      item.children.forEach(c => {
+        html += `<tr class="sub-row" data-parent="${item.id}">
+          <td colspan="3"></td>
+          <td class="col-code code" style="font-size:11px">${c.code}</td>
+          <td style="padding-left:12px"><span class="quota-badge">定</span>${c.name}</td>
+          <td class="col-feature" style="font-size:11px;color:var(--color-text-muted)">定额子项</td>
+          <td class="col-unit" style="text-align:center;font-size:12px">${c.unit}</td>
+          <td class="col-qty numeric" style="font-size:12px">${fmtQty(c.qty)}</td>
+          <td class="col-sys-price numeric" style="font-size:12px">¥ ${fmt(c.sysPrice)}</td>
+          <td class="col-sys-amt numeric" style="font-size:12px">¥ ${fmt(c.sysAmt)}</td>
+          <td colspan="3"></td>
+        </tr>`;
+      });
+    }
+  });
+  tbody.innerHTML = html;
+
+  // Context menu
+  tbody.querySelectorAll('tr[data-id]').forEach(tr => {
+    tr.addEventListener('contextmenu', e => {
+      e.preventDefault();
+      ctxTarget = tr.dataset.id;
+      const menu = document.getElementById('ctxMenu');
+      menu.style.left = e.clientX + 'px';
+      menu.style.top = e.clientY + 'px';
+      menu.classList.add('open');
+    });
+  });
+}
+
+function toggleExpand(id) {
+  const item = billData.find(d => d.id == id);
+  if (item) { item.expanded = !item.expanded; renderTable(document.getElementById('filterInput').value); }
+}
+
+function filterTable() {
+  renderTable(document.getElementById('filterInput').value);
+}
+
+function toggleSelectAll() {
+  const checked = document.getElementById('selectAll').checked;
+  document.querySelectorAll('#billTableBody input[type=checkbox]').forEach(cb => cb.checked = checked);
+}
+
+function ctxAction(action) {
+  document.getElementById('ctxMenu').classList.remove('open');
+  if (!ctxTarget) return;
+  const item = billData.find(d => d.id == ctxTarget);
+  const messages = { edit:`编辑「${item?.name}」`, viewQuota:`查看「${item?.name}」定额明细`, copy:`复制「${item?.name}」`, insert:`插入「${item?.name}」子项`, delete:`已删除「${item?.name}」` };
+  showToast(messages[action] || action, action === 'delete' ? 'error' : 'success');
+}
+
+document.addEventListener('click', () => document.getElementById('ctxMenu').classList.remove('open'));
+document.getElementById('versionDropdown').addEventListener('click', e => { e.stopPropagation(); document.getElementById('versionMenu').classList.toggle('open'); });
+document.addEventListener('click', () => document.getElementById('versionMenu').classList.remove('open'));
+
+function showToast(msg, type='') {
+  const t = document.createElement('div');
+  t.className = 'toast' + (type ? ' '+type : '');
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+// Init
+renderTable('');
+</script>
+</body>
+</html>

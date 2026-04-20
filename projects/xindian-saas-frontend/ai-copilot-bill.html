@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 清单 Copilot - 新点 SaaS 造价系统</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { overflow: hidden; }
+    .copilot-layout { display:flex; flex-direction:column; height:calc(100vh - 52px); flex:1; }
+    .copilot-workspace { display:grid; grid-template-columns:1fr 360px; flex:1; overflow:hidden; }
+    .copilot-chat { display:flex; flex-direction:column; height:100%; overflow:hidden; }
+    .chat-messages { flex:1; overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:16px; }
+    .chat-msg { display:flex; gap:12px; max-width:80%; }
+    .chat-msg.user { align-self:flex-end; flex-direction:row-reverse; }
+    .chat-avatar { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:14px; }
+    .chat-msg.ai .chat-avatar { background:var(--color-primary); color:white; }
+    .chat-msg.user .chat-avatar { background:var(--color-bg); color:var(--color-text-secondary); }
+    .chat-bubble { background:var(--color-surface); border:1px solid var(--color-border); border-radius:12px; padding:12px 16px; font-size:13px; line-height:1.6; }
+    .chat-msg.user .chat-bubble { background:var(--color-primary); color:white; border-color:var(--color-primary); }
+    .chat-time { font-size:11px; color:var(--color-text-muted); margin-top:4px; padding:0 8px; }
+    .chat-msg.user .chat-time { text-align:right; }
+    .suggestion-chips { display:flex; gap:8px; flex-wrap:wrap; padding:0 20px 12px; }
+    .suggestion-chip { padding:6px 14px; border:1px solid var(--color-border); border-radius:20px; font-size:12px; cursor:pointer; color:var(--color-text-secondary); background:var(--color-surface); transition:all var(--transition); }
+    .suggestion-chip:hover { border-color:var(--color-primary); color:var(--color-primary); background:var(--color-primary-light); }
+    .chat-input-area { padding:16px 20px; border-top:1px solid var(--color-border); background:var(--color-surface-raised); display:flex; gap:12px; align-items:flex-end; }
+    .chat-input { flex:1; border:1px solid var(--color-border); border-radius:10px; padding:10px 14px; font-size:13px; resize:none; font-family:inherit; outline:none; min-height:42px; max-height:120px; line-height:1.5; background:var(--color-surface); transition:border-color var(--transition); }
+    .chat-input:focus { border-color:var(--color-primary); }
+    .result-card { background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-lg); padding:20px; }
+    .result-items { display:flex; flex-direction:column; gap:8px; }
+    .result-item { display:grid; grid-template-columns:1fr auto auto auto; gap:12px; align-items:center; padding:10px 12px; background:var(--color-bg); border-radius:var(--radius); font-size:13px; }
+    .result-item .ri-code { font-family:"JetBrains Mono",monospace; color:var(--color-text-secondary); font-size:12px; }
+    .result-item .ri-name { font-weight:500; }
+    .result-item .ri-unit { color:var(--color-text-muted); }
+    .result-confidence { font-size:11px; padding:2px 6px; border-radius:3px; }
+    .result-confidence.high { background:#DCFCE7; color:#166534; }
+    .result-confidence.medium { background:#FEF3C7; color:#92400E; }
+    .result-confidence.low { background:#FEE2E2; color:#991B1B; }
+  </style>
+</head>
+<body>
+<div class="app-layout">
+  <header class="topbar"><div class="topbar-logo">新点造价</div><div class="topbar-divider"></div><div class="project-selector"><span class="project-name">杭州未来社区一期项目</span></div><div class="topbar-search" style="margin-left:auto"><input type="text" placeholder="搜索…" /><span class="kbd">⌘K</span></div><div class="topbar-actions"><div class="avatar">李</div></div></header>
+  <div class="app-body" style="flex-direction:column;">
+    <aside class="sidebar" style="width:100%; flex-shrink:0; flex-direction:row; border-right:none; border-bottom:1px solid var(--color-border); overflow-x:auto;">
+      <div class="sidebar-section" style="display:flex; gap:4px; flex-direction:row; align-items:center; padding:8px 16px;">
+        <div class="sidebar-section-title" style="margin:0; white-space:nowrap;">AI 功能：</div>
+        <a class="sidebar-item active" href="ai-copilot-bill.html">AI 清单 Copilot</a>
+        <a class="sidebar-item" href="ai-copilot-quota.html">AI 定额 Copilot</a>
+        <a class="sidebar-item" href="ai-copilot-review.html">AI 审核 Copilot</a>
+      </div>
+    </aside>
+
+    <div class="copilot-workspace" style="flex:1; overflow:hidden;">
+      <!-- Chat -->
+      <div class="copilot-chat">
+        <div class="chat-messages">
+          <div class="chat-msg ai">
+            <div class="chat-avatar">🤖</div>
+            <div>
+              <div class="chat-bubble">
+                您好！我是 <strong>AI 清单 Copilot</strong>。我可以帮您：
+                <ul style="margin:8px 0 0 0; padding-left:16px;">
+                  <li>根据项目特征智能推荐清单编码</li>
+                  <li>匹配清单项目特征描述</li>
+                  <li>检查清单合规性</li>
+                </ul>
+                请描述您要编制的清单内容，或选择一个快捷操作：
+              </div>
+              <div class="chat-time">AI Copilot · 刚刚</div>
+            </div>
+          </div>
+        </div>
+        <div class="suggestion-chips">
+          <div class="suggestion-chip" onclick="addSuggestion(this)">🏗️ 推荐平整场地清单</div>
+          <div class="suggestion-chip" onclick="addSuggestion(this)">📐 推荐钢筋混凝土梁清单</div>
+          <div class="suggestion-chip" onclick="addSuggestion(this)">🔍 检查清单完整性</div>
+          <div class="suggestion-chip" onclick="addSuggestion(this)">📋 批量生成基础工程清单</div>
+        </div>
+        <div class="chat-input-area">
+          <textarea class="chat-input" placeholder="输入您的问题或描述清单需求…" rows="1" id="chatInput"></textarea>
+          <button class="btn btn-primary" onclick="sendMessage()">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            发送
+          </button>
+        </div>
+      </div>
+
+      <!-- Results panel -->
+      <div style="border-left:1px solid var(--color-border); overflow-y:auto; padding:20px; background:var(--color-bg);">
+        <div style="font-size:14px; font-weight:600; margin-bottom:16px;">💡 推荐结果</div>
+
+        <div class="result-card" style="margin-bottom:12px;">
+          <div style="font-size:12px; color:var(--color-text-muted); margin-bottom:8px;">基于您输入的「基础土方开挖」推荐以下清单：</div>
+          <div class="result-items">
+            <div class="result-item" style="grid-template-columns:1fr auto auto; margin-bottom:8px;">
+              <div>
+                <div class="ri-code">010101002</div>
+                <div class="ri-name">挖基础土方</div>
+              </div>
+              <div class="ri-unit">m³</div>
+              <div class="result-confidence high">92%</div>
+            </div>
+            <div class="result-item" style="grid-template-columns:1fr auto auto; margin-bottom:8px;">
+              <div>
+                <div class="ri-code">010101003</div>
+                <div class="ri-name">土方回填</div>
+              </div>
+              <div class="ri-unit">m³</div>
+              <div class="result-confidence high">88%</div>
+            </div>
+            <div class="result-item" style="grid-template-columns:1fr auto auto; margin-bottom:8px;">
+              <div>
+                <div class="ri-code">010103001</div>
+                <div class="ri-name">基础垫层</div>
+              </div>
+              <div class="ri-unit">m³</div>
+              <div class="result-confidence medium">75%</div>
+            </div>
+            <div class="result-item" style="grid-template-columns:1fr auto auto;">
+              <div>
+                <div class="ri-code">010401001</div>
+                <div class="ri-name">砖基础</div>
+              </div>
+              <div class="ri-unit">m³</div>
+              <div class="result-confidence medium">68%</div>
+            </div>
+          </div>
+          <div style="margin-top:12px; display:flex; gap:8px;">
+            <button class="btn btn-outline btn-sm" style="flex:1;">添加到清单</button>
+            <button class="btn btn-ghost btn-sm">查看详情</button>
+          </div>
+        </div>
+
+        <div class="result-card">
+          <div style="font-size:12px; font-weight:600; margin-bottom:8px;">📌 项目特征建议</div>
+          <div style="font-size:13px; color:var(--color-text-secondary); line-height:1.6;">
+            <div style="margin-bottom:8px;">根据「三类土、深度≤3m」推荐以下特征描述：</div>
+            <div style="background:var(--color-bg); padding:10px 12px; border-radius:6px; font-family:'JetBrains Mono',monospace; font-size:12px;">
+              三类土，土壤类别：三类土<br>
+              开挖深度：≤3000mm<br>
+              运距：坑边5m内
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function addSuggestion(el) {
+    document.getElementById('chatInput').value = el.textContent.trim();
+    document.getElementById('chatInput').focus();
+  }
+  function sendMessage() {
+    const input = document.getElementById('chatInput');
+    if (!input.value.trim()) return;
+    const msgs = document.querySelector('.chat-messages');
+    msgs.innerHTML += `
+      <div class="chat-msg user">
+        <div class="chat-avatar">李</div>
+        <div>
+          <div class="chat-bubble">${input.value}</div>
+          <div class="chat-time">刚刚</div>
+        </div>
+      </div>
+      <div class="chat-msg ai">
+        <div class="chat-avatar">🤖</div>
+        <div>
+          <div class="chat-bubble">正在分析您的需求，请稍候…（演示模式）</div>
+          <div class="chat-time">AI Copilot · 刚刚</div>
+        </div>
+      </div>`;
+    input.value = '';
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+  document.getElementById('chatInput').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }});
+</script>
+</body>
+</html>

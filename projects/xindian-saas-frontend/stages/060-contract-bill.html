@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>合同清单 - 新点 SaaS 造价系统</title>
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { overflow: hidden; }
+  .contract-body { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+  /* 数据血缘条 */
+  .lineage { display: flex; align-items: center; gap: 0; padding: 8px 20px; background: #F8FAFC; border-bottom: 1px solid #E2E8F0; flex-shrink: 0; }
+  .lin-step { display: flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; transition: all .15s; }
+  .lin-step:hover { background: #EEF2FF; }
+  .lin-step.active { background: #EEF2FF; color: #4338CA; }
+  .lin-current { background: #FEF9C3; border: 1px solid #F59E0B; color: #92400E; }
+  .lin-arrow { color: #CBD5E1; font-size: 14px; }
+  /* 合同履约状态区 */
+  .contract-status-row { display: flex; gap: 12px; padding: 14px 20px; background: var(--color-surface); border-bottom: 1px solid var(--color-border); flex-shrink: 0; overflow-x: auto; }
+  /* 单合同状态卡 */
+  .status-card { flex: 1; min-width: 280px; border: 1.5px solid var(--color-border); border-radius: 12px; padding: 14px 16px; background: white; cursor: pointer; transition: all .15s; position: relative; overflow: hidden; }
+  .status-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; border-radius: 12px 0 0 12px; }
+  .status-card.active { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(30,158,130,.12); }
+  .status-card[data-status="constructing"]::before { background: #3B82F6; }
+  .status-card[data-status="completed"]::before { background: #10B981; }
+  .status-card[data-status="disputed"]::before { background: #F59E0B; }
+  .status-card:hover { border-color: var(--color-primary-light); }
+  .sc-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; }
+  .sc-title { font-size: 13px; font-weight: 700; color: var(--color-text-primary); line-height: 1.3; }
+  .sc-meta { font-size: 11px; color: var(--color-text-muted); margin-top: 2px; }
+  .sc-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 700; white-space: nowrap; }
+  .badge-constructing { background: #DBEAFE; color: #1E40AF; }
+  .badge-completed { background: #D1FAE5; color: #065F46; }
+  .badge-disputed { background: #FEF3C7; color: #92400E; }
+  /* 进度条 */
+  .sc-progress { margin-bottom: 10px; }
+  .sc-progress-header { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px; }
+  .sc-progress-label { color: var(--color-text-secondary); }
+  .sc-progress-pct { font-weight: 700; color: var(--color-text-primary); }
+  .sc-bar { height: 6px; background: #E2E8F0; border-radius: 3px; overflow: hidden; }
+  .sc-bar-fill { height: 100%; border-radius: 3px; transition: width .6s ease; }
+  .sc-bar-fill.blue { background: linear-gradient(90deg, #3B82F6, #60A5FA); }
+  .sc-bar-fill.green { background: linear-gradient(90deg, #10B981, #34D399); }
+  .sc-bar-fill.orange { background: linear-gradient(90deg, #F59E0B, #FBBF24); }
+  /* 合同指标 */
+  .sc-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .sc-metric { display: flex; flex-direction: column; gap: 1px; }
+  .sc-metric-label { font-size: 10px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: .04em; }
+  .sc-metric-val { font-size: 13px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+  .sc-metric-val.primary { color: var(--color-primary); }
+  .sc-metric-val.warning { color: #F59E0B; }
+  /* 变更指示 */
+  .sc-changes { display: flex; align-items: center; gap: 4px; font-size: 10px; color: #92400E; background: #FEF3C7; padding: 2px 6px; border-radius: 6px; }
+  /* 工作区 */
+  .workspace { display: flex; flex: 1; overflow: hidden; }
+  /* 主表 */
+  .main-panel { flex: 1; display: flex; flex-direction: column; overflow: hidden; border-right: 1px solid var(--color-border); }
+  .toolbar { display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-bottom: 1px solid var(--color-border); background: var(--color-surface-raised); flex-shrink: 0; }
+  .divider { width: 1px; height: 14px; background: var(--color-border); margin: 0 2px; }
+  .table-wrap { flex: 1; overflow: auto; }
+  table { width: 100%; min-width: 800px; border-collapse: collapse; }
+  th { position: sticky; top: 0; z-index: 2; background: #F8FAFC; font-size: 11px; font-weight: 600; color: var(--color-text-secondary); white-space: nowrap; text-align: left; padding: 5px 8px; }
+  td { padding: 4px 8px; border-bottom: 1px solid #F1F5F9; font-size: 12px; vertical-align: middle; }
+  .row-hl:hover td { background: #FAFBFF; }
+  .row-hl.sel td { background: var(--color-primary-light) !important; }
+  .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--color-text-secondary); }
+  .num { font-family: 'JetBrains Mono', monospace; text-align: right; font-weight: 500; }
+  .badge { display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 12px; font-size: 10px; font-weight: 600; }
+  .b-normal { background: #D1FAE5; color: #065F46; }
+  .b-changed { background: #FEF3C7; color: #92400E; }
+  .b-new { background: #DBEAFE; color: #1E40AF; }
+  /* 明细面板 */
+  .detail-panel { width: 380px; flex-shrink: 0; overflow-y: auto; background: var(--color-bg); display: flex; flex-direction: column; }
+  .detail-hdr { padding: 14px 16px; border-bottom: 1px solid var(--color-border); background: var(--color-surface); flex-shrink: 0; }
+  .detail-title { font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; margin-bottom: 2px; }
+  .detail-sub { font-size: 11px; color: var(--color-text-muted); }
+  /* 合同聚合指标 */
+  .contract-summary { padding: 14px 16px; border-bottom: 1px solid var(--color-border); background: var(--color-surface); flex-shrink: 0; }
+  .cs-title { font-size: 11px; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 10px; }
+  .cs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .cs-card { background: var(--color-surface-raised); border: 1px solid var(--color-border); border-radius: 8px; padding: 10px 12px; }
+  .cs-label { font-size: 10px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 3px; }
+  .cs-val { font-size: 16px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+  .cs-val.primary { color: var(--color-primary); }
+  .cs-val.red { color: #EF4444; }
+  .cs-val.green { color: #10B981; }
+  .cs-val.orange { color: #F59E0B; }
+  /* 变更单列表 */
+  .change-list { padding: 12px 16px; border-bottom: 1px solid var(--color-border); background: var(--color-surface); flex-shrink: 0; }
+  .cl-title { font-size: 11px; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; display: flex; align-items: center; gap: 4px; }
+  .cl-item { display: flex; align-items: flex-start; gap: 8px; padding: 8px 10px; background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 6px; margin-bottom: 5px; font-size: 11px; }
+  .cl-item:last-child { margin-bottom: 0; }
+  .cl-icon { font-size: 14px; flex-shrink: 0; }
+  .cl-info { flex: 1; }
+  .cl-header { display: flex; align-items: center; gap: 5px; margin-bottom: 2px; }
+  .cl-id { font-weight: 700; background: #FEF3C7; color: #92400E; padding: 1px 5px; border-radius: 4px; font-size: 10px; }
+  .cl-type { font-size: 10px; color: var(--color-text-muted); }
+  .cl-reason { color: #78350F; font-size: 11px; line-height: 1.4; }
+  .cl-amt { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #92400E; white-space: nowrap; }
+  /* 汇总栏 */
+  .sum-bar { display: flex; align-items: center; gap: 16px; padding: 7px 14px; background: var(--color-surface); border-top: 1px solid var(--color-border); flex-shrink: 0; flex-wrap: wrap; }
+  .sum-item { display: flex; flex-direction: column; gap: 1px; }
+  .sum-item .lbl { font-size: 10px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: .04em; }
+  .sum-item .val { font-size: 13px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+  .sum-item .val.primary { color: var(--color-primary); font-size: 15px; }
+  /* Toast */
+  .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,.75); color: white; padding: 8px 18px; border-radius: 20px; font-size: 13px; z-index: 9999; pointer-events: none; animation: fadeUp .3s; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateX(-50%) translateY(8px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+  /* AI工具条 */
+  .ai-toolbar { display: flex; align-items: center; gap: 8px; padding: 7px 20px; background: linear-gradient(135deg, #EEF2FF 0%, #F8FAFC 100%); border-bottom: 1px solid #E0E7FF; flex-shrink: 0; }
+  .ai-chip { display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; background: white; border: 1px solid #C7D2FE; border-radius: 20px; font-size: 12px; color: #4338CA; cursor: pointer; white-space: nowrap; }
+  .ai-chip:hover { background: #EEF2FF; }
+</style>
+</head>
+<body>
+<div class="app-layout">
+  <header class="topbar">
+    <div class="topbar-logo" onclick="location.href='../dashboard.html'">新点造价</div>
+    <div class="topbar-divider"></div>
+    <div class="project-selector"><span class="project-name">杭州未来社区一期项目</span></div>
+    <div class="stage-tabs">
+      <div class="stage-tab" onclick="location.href='030-tender-bill.html'">招标清单</div>
+      <div class="stage-tab" onclick="location.href='040-tender-control.html'">招标控制价</div>
+      <div class="stage-tab" onclick="location.href='050-bidding.html'">投标报价</div>
+      <div class="stage-tab active">合同清单</div>
+      <div class="stage-tab" onclick="location.href='070-construction.html'">施工过程</div>
+      <div class="stage-tab" onclick="location.href='080-final-settlement.html'">竣工结算</div>
+    </div>
+    <div class="topbar-search" style="margin-left:auto"><input type="text" placeholder="搜索…" /><span class="kbd">⌘K</span></div>
+    <div class="topbar-actions"><div class="avatar">李</div></div>
+  </header>
+
+  <div class="app-body" style="flex-direction:column;">
+    <!-- 数据血缘条 -->
+    <div class="lineage">
+      <div class="lin-step" onclick="location.href='030-tender-bill.html'">
+        <span>📋</span><span style="font-size:12px;font-weight:500">招标清单</span>
+      </div>
+      <div class="lin-arrow">→</div>
+      <div class="lin-step" onclick="location.href='040-tender-control.html'">
+        <span>🛡️</span><span style="font-size:12px;font-weight:500">招标控制价</span>
+      </div>
+      <div class="lin-arrow">→</div>
+      <div class="lin-step" onclick="location.href='050-bidding.html'">
+        <span>📮</span><span style="font-size:12px;font-weight:500">投标报价</span>
+      </div>
+      <div class="lin-arrow">→</div>
+      <div class="lin-step lin-current">
+        <span>🔒</span><span style="font-size:12px;font-weight:500">合同清单</span>
+      </div>
+    </div>
+
+    <!-- AI工具条 -->
+    <div class="ai-toolbar">
+      <svg style="width:15px;height:15px;color:#6366F1;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 017 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 01-2 2H10a2 2 0 01-2-2v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 017-7z"/><path d="M9 22h6"/></svg>
+      <span style="font-size:12px;color:#4338CA;font-weight:500;">AI 辅助</span>
+      <div style="width:1px;height:14px;background:#C7D2FE;margin:0 4px;"></div>
+      <button class="ai-chip" onclick="aiAction('compare')">📊 合同vs控制价对比</button>
+      <button class="ai-chip" onclick="aiAction('risk')">⚠️ 履约风险检测</button>
+      <button class="ai-chip" onclick="aiAction('change')">📝 变更漏项检测</button>
+    </div>
+
+    <!-- 合同履约状态区（按合同/标段追踪） -->
+    <div class="contract-status-row" id="contractStatusRow"></div>
+
+    <!-- 工作区 -->
+    <div class="workspace">
+      <!-- 主表 -->
+      <div class="main-panel">
+        <div class="toolbar">
+          <button class="btn btn-ghost btn-sm">🔍 筛选</button>
+          <div class="divider"></div>
+          <button class="btn btn-ghost btn-sm" onclick="toggleChanged()">🔄 仅显示已变更项</button>
+          <div class="divider"></div>
+          <button class="btn btn-ghost btn-sm">📥 导出</button>
+          <div style="margin-left:auto;display:flex;align-items:center;gap:5px;">
+            <svg style="width:13px;height:13px;color:var(--color-text-muted)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" placeholder="清单编码/名称…" style="border:1px solid var(--color-border);border-radius:6px;padding:4px 9px;font-size:12px;width:145px;" id="filterIn" oninput="renderBill()" />
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:26px;text-align:center">#</th>
+                <th style="width:78px">清单编码</th>
+                <th>清单名称</th>
+                <th style="width:42px;text-align:center">单位</th>
+                <th style="width:70px;text-align:right">签约单价</th>
+                <th style="width:78px;text-align:right">合同工程量</th>
+                <th style="width:95px;text-align:right">合同合价</th>
+                <th style="width:60px;text-align:center">变更</th>
+                <th style="width:70px;text-align:right">变更后单价</th>
+              </tr>
+            </thead>
+            <tbody id="billBody"></tbody>
+          </table>
+        </div>
+        <!-- 汇总栏 -->
+        <div class="sum-bar" id="sumBar"></div>
+      </div>
+
+      <!-- 明细面板 -->
+      <div class="detail-panel" id="detailPanel">
+        <div class="detail-hdr">
+          <div class="detail-title">
+            <span id="dCode" class="code" style="font-size:13px">—</span>
+          </div>
+          <div class="detail-sub" id="dName">选择清单项查看详情</div>
+        </div>
+        <!-- 合同聚合指标 -->
+        <div class="contract-summary">
+          <div class="cs-title">📊 合同执行指标</div>
+          <div class="cs-grid" id="csGrid"></div>
+        </div>
+        <!-- 变更单列表 -->
+        <div class="change-list">
+          <div class="cl-title">📋 变更单据（按合同汇总）</div>
+          <div id="changeList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+// ================================================================
+// 合同履约追踪数据
+// 按合同/标段维度追踪，非清单行级别
+// ================================================================
+
+var contracts = [
+  {
+    id: 'HT-2026-0418',
+    section: '标段一：住宅一标段',
+    contractor: '浙江建工集团有限公司',
+    pm: '张建华',
+    signDate: '2026-04-18',
+    duration: '360日历天',
+    status: 'constructing', // constructing | completed | disputed
+    progress: 35, // % 已完成
+    // 产值与支付
+    contractAmt: 4690919,       // 签约合同价（不含税）
+    completedAmt: 1641321,       // 累计完成产值
+    paidAmt: 1313057,           // 累计支付（80%）
+    // 变更
+    ctrlTotal: 42580000,
+    changeOrders: [
+      { id:'BG-001', date:'2026-05-10', type:'现场签证', reason:'1#楼地下室局部增加集水坑', total:185000, items:3 },
+      { id:'BG-002', date:'2026-06-15', type:'设计变更', reason:'2#楼外墙保温材料变更', total:62000, items:1 },
+      { id:'BG-003', date:'2026-07-20', type:'材料调差', reason:'钢筋市场价格波动超5%启动调差', total:33500, items:1 },
+    ],
+    // 清单明细（与招标清单 billCode 对应）
+    bills: [
+      { id:10101, billCode:'010101001', name:'平整场地', unit:'m²', spec:'土建', location:'1#楼', contractPrice:11.80, qty:1850, changes:[] },
+      { id:10102, billCode:'010101002', name:'挖一般土方', unit:'m³', spec:'土建', location:'1#楼', contractPrice:26.50, qty:2200, changes:[] },
+      { id:10103, billCode:'010101003', name:'挖基坑土方', unit:'m³', spec:'土建', location:'1#楼', contractPrice:45.00, qty:1680,
+        changes:[{id:'BG-001', date:'2026-05-10', type:'现场签证', oldPrice:45.00, newPrice:52.00}] },
+      { id:10104, billCode:'010101004', name:'土方回填夯填', unit:'m³', spec:'土建', location:'1#楼', contractPrice:46.00, qty:980, changes:[] },
+      { id:10105, billCode:'010102001', name:'混凝土垫层', unit:'m³', spec:'土建', location:'1#楼', contractPrice:398.00, qty:42, changes:[] },
+      { id:10201, billCode:'010201001', name:'加气混凝土砌块墙(200mm)', unit:'m³', spec:'土建', location:'1#楼', contractPrice:270.00, qty:580, changes:[] },
+      { id:10202, billCode:'010201002', name:'加气混凝土砌块墙(100mm)', unit:'m³', spec:'土建', location:'1#楼', contractPrice:250.00, qty:120, changes:[] },
+      { id:10301, billCode:'010301001', name:'独立基础(C30)', unit:'m³', spec:'土建', location:'1#楼', contractPrice:550.00, qty:58, changes:[] },
+      { id:10302, billCode:'010301002', name:'带形基础(C30)', unit:'m³', spec:'土建', location:'1#楼', contractPrice:530.00, qty:85, changes:[] },
+      { id:10303, billCode:'010301003', name:'矩形柱(C35)', unit:'m³', spec:'土建', location:'1#楼', contractPrice:645.00, qty:68, changes:[] },
+      { id:10307, billCode:'010301007', name:'有梁板(C30)', unit:'m³', spec:'土建', location:'1#楼', contractPrice:492.00, qty:158, changes:[] },
+      { id:10314, billCode:'010301014', name:'现浇构件钢筋HRB400', unit:'t', spec:'土建', location:'1#楼', contractPrice:5310.00, qty:28.2,
+        changes:[{id:'BG-003', date:'2026-07-20', type:'材料调差', oldPrice:5310.00, newPrice:5480.00}] },
+      { id:10501, billCode:'010501001', name:'屋面卷材防水(SBS)', unit:'m²', spec:'土建', location:'1#楼', contractPrice:55.00, qty:820, changes:[] },
+      { id:10205, billCode:'010201005', name:'圈梁', unit:'m³', spec:'土建', location:'1#楼', contractPrice:530.00, qty:12,
+        changes:[{id:'BG-002', date:'2026-06-15', type:'设计变更', oldPrice:530.00, newPrice:565.00}] },
+      { id:20101, billCode:'010601001', name:'楼地面找平层', unit:'m²', spec:'装修', location:'1#楼', contractPrice:20.80, qty:2800, changes:[] },
+      { id:20102, billCode:'010601002', name:'陶瓷砖楼地面(客厅)', unit:'m²', spec:'装修', location:'1#楼', contractPrice:89.00, qty:1800, changes:[] },
+      { id:20201, billCode:'010701001', name:'内墙抹灰', unit:'m²', spec:'装修', location:'1#楼', contractPrice:20.80, qty:4200, changes:[] },
+      { id:20203, billCode:'010701003', name:'外墙保温(EPS板)', unit:'m²', spec:'装修', location:'1#楼', contractPrice:83.00, qty:1050, changes:[] },
+      { id:20303, billCode:'010801003', name:'轻钢龙骨石膏板吊顶', unit:'m²', spec:'装修', location:'1#楼', contractPrice:83.00, qty:680, changes:[] },
+      { id:20401, billCode:'010901001', name:'木质套装门(入户)', unit:'樘', spec:'装修', location:'1#楼', contractPrice:920.00, qty:26, changes:[] },
+      { id:30101, billCode:'030101001', name:'配电箱安装(户内)', unit:'台', spec:'安装', location:'1#楼', contractPrice:265.00, qty:26, changes:[] },
+      { id:30106, billCode:'030101006', name:'管内穿线(BV-2.5)', unit:'m', spec:'安装', location:'1#楼', contractPrice:2.60, qty:4800, changes:[] },
+      { id:30201, billCode:'030201001', name:'PP-R给水管(De25)', unit:'m', spec:'安装', location:'1#楼', contractPrice:20.80, qty:280, changes:[] },
+      { id:30301, billCode:'030301001', name:'风机盘管(FP-85)', unit:'台', spec:'安装', location:'1#楼', contractPrice:2260.00, qty:12, changes:[] },
+    ],
+  },
+  {
+    id: 'HT-2026-0419',
+    section: '标段二：住宅二标段',
+    contractor: '中天建设集团有限公司',
+    pm: '王志强',
+    signDate: '2026-04-20',
+    duration: '420日历天',
+    status: 'constructing',
+    progress: 18,
+    contractAmt: 4573705,
+    completedAmt: 823267,
+    paidAmt: 658614,
+    ctrlTotal: 38200000,
+    changeOrders: [
+      { id:'BG-004', date:'2026-06-01', type:'现场签证', reason:'3#楼首层大堂变更', total:52000, items:2 },
+    ],
+    bills: [
+      { id:13101, billCode:'010101031', name:'平整场地', unit:'m²', spec:'土建', location:'3#楼', contractPrice:11.50, qty:2100, changes:[] },
+      { id:13102, billCode:'010101032', name:'挖一般土方', unit:'m³', spec:'土建', location:'3#楼', contractPrice:26.80, qty:2800, changes:[] },
+      { id:13301, billCode:'010301061', name:'独立基础(C30)', unit:'m³', spec:'土建', location:'3#楼', contractPrice:548.00, qty:72, changes:[] },
+      { id:13303, billCode:'010302061', name:'矩形柱(C35)', unit:'m³', spec:'土建', location:'3#楼', contractPrice:645.00, qty:85, changes:[] },
+      { id:13306, billCode:'010304061', name:'有梁板(C30)', unit:'m³', spec:'土建', location:'3#楼', contractPrice:492.00, qty:195, changes:[] },
+      { id:13401, billCode:'010501031', name:'屋面卷材防水(SBS)', unit:'m²', spec:'土建', location:'3#楼', contractPrice:55.00, qty:980, changes:[] },
+      { id:22101, billCode:'010601021', name:'楼地面找平层', unit:'m²', spec:'装修', location:'3#楼', contractPrice:20.80, qty:3200, changes:[] },
+      { id:22102, billCode:'010601022', name:'陶瓷砖楼地面(客厅)', unit:'m²', spec:'装修', location:'3#楼', contractPrice:89.00, qty:2100, changes:[] },
+      { id:22201, billCode:'010701021', name:'内墙抹灰', unit:'m²', spec:'装修', location:'3#楼', contractPrice:20.80, qty:4800, changes:[] },
+      { id:22303, billCode:'010801023', name:'轻钢龙骨石膏板吊顶', unit:'m²', spec:'装修', location:'3#楼', contractPrice:83.00, qty:780, changes:[] },
+      { id:22401, billCode:'010901021', name:'木质套装门(入户)', unit:'樘', spec:'装修', location:'3#楼', contractPrice:920.00, qty:28, changes:[] },
+      { id:32101, billCode:'030101041', name:'配电箱(户内)', unit:'台', spec:'安装', location:'3#楼', contractPrice:265.00, qty:28, changes:[] },
+      { id:32106, billCode:'030101046', name:'管内穿线(BV-2.5)', unit:'m', spec:'安装', location:'3#楼', contractPrice:2.60, qty:5500, changes:[] },
+      { id:32201, billCode:'030201031', name:'PP-R给水管(De25)', unit:'m', spec:'安装', location:'3#楼', contractPrice:20.80, qty:320, changes:[] },
+      { id:32301, billCode:'030301031', name:'风机盘管(FP-85)', unit:'台', spec:'安装', location:'3#楼', contractPrice:2260.00, qty:14, changes:[] },
+    ],
+  },
+];
+
+// ================================================================
+// 全局状态
+// ================================================================
+var activeId = 'HT-2026-0418';
+var selectedBillId = null;
+var showChangedOnly = false;
+
+// ================================================================
+// 工具
+// ================================================================
+var fmt = function(n) {
+  if (!n && n !== 0) return '—';
+  return '¥ ' + n.toLocaleString('zh-CN', {minimumFractionDigits:2, maximumFractionDigits:2});
+};
+var qty = function(n) {
+  return n.toLocaleString('zh-CN', {minimumFractionDigits:3});
+};
+function showToast(msg) {
+  var t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(function() { t.remove(); }, 3500);
+}
+function aiAction(action) {
+  var m = {compare:'📊 正在对比合同清单与控制价差异…', risk:'⚠️ 正在执行履约风险检测…', change:'📝 正在执行变更漏项检测…'};
+  showToast(m[action] || '处理中…');
+}
+function toggleChanged() { showChangedOnly = !showChangedOnly; renderBill(); }
+
+// ================================================================
+// 渲染合同状态卡（履约追踪核心）
+// ================================================================
+function renderContractStatus() {
+  var el = document.getElementById('contractStatusRow');
+  var html = '';
+  contracts.forEach(function(c) {
+    var isActive = c.id === activeId;
+    var statusLabel = {constructing:'🚧 施工中', completed:'✅ 竣工', disputed:'⚠️ 争议'}[c.status];
+    var statusCls = {constructing:'badge-constructing', completed:'badge-completed', disputed:'badge-disputed'}[c.status];
+    var barColor = {constructing:'blue', completed:'green', disputed:'orange'}[c.status];
+    var progressColor = {constructing:'blue', completed:'green', disputed:'orange'}[c.status];
+    var changeAmt = 0;
+    c.changeOrders.forEach(function(o) { changeAmt += o.total; });
+    var contractRatio = ((c.contractAmt / c.ctrlTotal - 1) * 100).toFixed(1);
+    html += '<div class="status-card' + (isActive ? ' active' : '') + '" data-status="' + c.status + '" onclick="selectContract(\'' + c.id + '\')">' +
+      '<div class="sc-header">' +
+        '<div>' +
+          '<div class="sc-title">' + c.section + '</div>' +
+          '<div class="sc-meta">' + c.id + ' · ' + c.contractor + ' · ' + c.signDate + '</div>' +
+        '</div>' +
+        '<span class="sc-badge ' + statusCls + '">' + statusLabel + '</span>' +
+      '</div>' +
+      '<div class="sc-progress">' +
+        '<div class="sc-progress-header">' +
+          '<span class="sc-progress-label">履约进度</span>' +
+          '<span class="sc-progress-pct">' + c.progress + '%</span>' +
+        '</div>' +
+        '<div class="sc-bar"><div class="sc-bar-fill ' + progressColor + '" style="width:' + c.progress + '%"></div></div>' +
+      '</div>' +
+      '<div class="sc-metrics">' +
+        '<div class="sc-metric">' +
+          '<div class="sc-metric-label">累计完成产值</div>' +
+          '<div class="sc-metric-val primary">' + fmt(c.completedAmt) + '</div>' +
+        '</div>' +
+        '<div class="sc-metric">' +
+          '<div class="sc-metric-label">累计支付</div>' +
+          '<div class="sc-metric-val">' + fmt(c.paidAmt) + '</div>' +
+        '</div>' +
+        '<div class="sc-metric">' +
+          '<div class="sc-metric-label">变更累计</div>' +
+          '<div class="sc-metric-val warning">' + fmt(changeAmt) + '</div>' +
+        '</div>' +
+      '</div>' +
+      (c.changeOrders.length > 0 ? '<div class="sc-changes">📋 ' + c.changeOrders.length + '份变更单 · 累计 ' + fmt(changeAmt) + '</div>' : '') +
+    '</div>';
+  });
+  el.innerHTML = html;
+}
+
+function selectContract(id) {
+  activeId = id;
+  selectedBillId = null;
+  renderContractStatus();
+  renderDetail();
+  renderBill();
+}
+
+// ================================================================
+// 渲染明细面板
+// ================================================================
+function getActive() { return contracts.find(function(c) { return c.id === activeId; }); }
+
+function renderDetail() {
+  var c = getActive();
+  if (!c) return;
+
+  document.getElementById('dCode').textContent = c.id;
+  document.getElementById('dName').textContent = c.section + ' · ' + c.contractor;
+
+  var changeAmt = 0;
+  c.changeOrders.forEach(function(o) { changeAmt += o.total; });
+  var pendingAmt = c.completedAmt - c.paidAmt;
+  var progressDiff = c.contractAmt - c.completedAmt;
+
+  document.getElementById('csGrid').innerHTML =
+    '<div class="cs-card"><div class="cs-label">签约合同价</div><div class="cs-val primary">' + fmt(c.contractAmt) + '</div></div>' +
+    '<div class="cs-card"><div class="cs-label">较控制价</div><div class="cs-val ' + (contractRatio(c, c.ctrlTotal) < 0 ? 'green' : 'red') + '">' + contractRatio(c, c.ctrlTotal) + '%</div></div>' +
+    '<div class="cs-card"><div class="cs-label">累计完成产值</div><div class="cs-val primary">' + fmt(c.completedAmt) + '</div></div>' +
+    '<div class="cs-card"><div class="cs-label">剩余产值</div><div class="cs-val">' + fmt(Math.max(0, progressDiff)) + '</div></div>' +
+    '<div class="cs-card"><div class="cs-label">累计支付</div><div class="cs-val">' + fmt(c.paidAmt) + '</div></div>' +
+    '<div class="cs-card"><div class="cs-label">待支付</div><div class="cs-val orange">' + fmt(Math.max(0, pendingAmt)) + '</div></div>' +
+    '<div class="cs-card"><div class="cs-label">变更累计</div><div class="cs-val orange">' + fmt(changeAmt) + '</div></div>' +
+    '<div class="cs-card"><div class="cs-label">当前合同额</div><div class="cs-val">' + fmt(c.contractAmt + changeAmt) + '</div></div>';
+
+  // 变更单列表
+  var clEl = document.getElementById('changeList');
+  if (c.changeOrders.length === 0) {
+    clEl.innerHTML = '<div style="font-size:12px;color:var(--color-text-muted);text-align:center;padding:12px">暂无变更单据</div>';
+  } else {
+    var h = '';
+    c.changeOrders.forEach(function(o) {
+      var icon = {现场签证:'📝', 设计变更:'📐', 材料调差:'📈'}[o.type] || '📋';
+      h += '<div class="cl-item">' +
+        '<div class="cl-icon">' + icon + '</div>' +
+        '<div class="cl-info">' +
+          '<div class="cl-header">' +
+            '<span class="cl-id">' + o.id + '</span>' +
+            '<span class="cl-type">' + o.type + ' · ' + o.date + '</span>' +
+          '</div>' +
+          '<div class="cl-reason">' + o.reason + '</div>' +
+        '</div>' +
+        '<div class="cl-amt">' + fmt(o.total) + '</div>' +
+      '</div>';
+    });
+    clEl.innerHTML = h;
+  }
+}
+
+function contractRatio(c, ctrlTotal) {
+  return ((c.contractAmt / ctrlTotal - 1) * 100).toFixed(1);
+}
+
+// ================================================================
+// 渲染清单表
+// ================================================================
+function renderBill() {
+  var c = getActive();
+  if (!c) return;
+  var filter = document.getElementById('filterIn').value.trim().toLowerCase();
+  var bills = c.bills;
+  if (filter) {
+    bills = bills.filter(function(b) {
+      return b.name.toLowerCase().indexOf(filter) !== -1 || b.billCode.toLowerCase().indexOf(filter) !== -1;
+    });
+  }
+  if (showChangedOnly) {
+    bills = bills.filter(function(b) { return b.changes.length > 0; });
+  }
+  var tbody = document.getElementById('billBody');
+  if (!bills.length) {
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:40px;color:var(--color-text-muted)">无匹配结果</td></tr>';
+    updateSum([]);
+    return;
+  }
+  var h = '';
+  bills.forEach(function(b, i) {
+    var lastChange = b.changes.length > 0 ? b.changes[b.changes.length - 1] : null;
+    var amt = b.contractPrice * b.qty;
+    var cls = 'row-hl' + (selectedBillId === b.id ? ' sel' : '');
+    h += '<tr class="' + cls + '" onclick="selectBill(' + b.id + ')">' +
+      '<td style="text-align:center;color:var(--color-text-muted);font-size:10px">' + (i+1) + '</td>' +
+      '<td class="code">' + b.billCode + '</td>' +
+      '<td><div style="font-weight:500;margin-bottom:1px">' + b.name + '</div><div style="font-size:10px;color:var(--color-text-muted)">' + b.location + ' · ' + b.spec + '</div></td>' +
+      '<td style="text-align:center;font-size:11px">' + b.unit + '</td>' +
+      '<td class="num" style="color:var(--color-primary)">' + fmt(b.contractPrice) + '</td>' +
+      '<td class="num">' + qty(b.qty) + '</td>' +
+      '<td class="num" style="font-weight:700">' + fmt(amt) + '</td>' +
+      '<td style="text-align:center"><span class="badge ' + (b.changes.length > 0 ? 'b-changed' : 'b-normal') + '">' + (b.changes.length > 0 ? '🔄 ' + b.changes.length + '次' : '✅ 无') + '</span></td>' +
+      '<td class="num" style="color:' + (lastChange ? '#7C3AED' : 'var(--color-text-muted)') + '">' + (lastChange ? fmt(lastChange.newPrice) : '—') + '</td>' +
+    '</tr>';
+  });
+  tbody.innerHTML = h;
+  updateSum(bills);
+}
+
+function updateSum(bills) {
+  var c = getActive();
+  if (!bills.length) {
+    document.getElementById('sumBar').innerHTML = '<div class="sum-item"><div class="lbl">当前合同</div><div class="val">—</div></div>';
+    return;
+  }
+  var listTotal = 0, changeAmt = 0;
+  bills.forEach(function(b) {
+    listTotal += b.contractPrice * b.qty;
+    if (b.changes.length > 0) {
+      var last = b.changes[b.changes.length - 1];
+      if (last.newPrice !== last.oldPrice) {
+        changeAmt += (last.newPrice - last.oldPrice) * b.qty;
+      }
+    }
+  });
+  var measureFee = listTotal * 0.085;
+  var taxRate = 0.09;
+  var taxable = listTotal + measureFee + changeAmt;
+  var tax = taxable * taxRate / (1 + taxRate);
+  var contractTotal = listTotal + measureFee + changeAmt + tax;
+  document.getElementById('sumBar').innerHTML =
+    '<div class="sum-item"><div class="lbl">清单小计</div><div class="val">' + fmt(listTotal) + '</div></div>' +
+    '<div class="sum-item"><div class="lbl">措施费</div><div class="val">' + fmt(measureFee) + '</div></div>' +
+    '<div class="sum-item"><div class="lbl">变更调增</div><div class="val" style="color:#F59E0B">' + fmt(changeAmt) + '</div></div>' +
+    '<div class="sum-item"><div class="lbl">税金(9%)</div><div class="val">' + fmt(tax) + '</div></div>' +
+    '<div class="sum-item"><div class="lbl">合同价合计</div><div class="val primary">' + fmt(contractTotal) + '</div></div>' +
+    '<div class="sum-item"><div class="lbl">当前合同额</div><div class="val primary">' + fmt(contractTotal) + '</div></div>';
+}
+
+function selectBill(id) {
+  selectedBillId = id;
+  renderBill();
+  // 更新明细面板显示选中项的四价
+  var c = getActive();
+  var b = c.bills.find(function(x) { return x.id === id; });
+  if (!b) return;
+  document.getElementById('dCode').textContent = b.billCode;
+  document.getElementById('dName').textContent = b.name + ' · ' + b.location + ' · ' + b.spec;
+  // 变更单指标简略显示
+  var last = b.changes.length > 0 ? b.changes[b.changes.length - 1] : null;
+  document.getElementById('csGrid').innerHTML =
+    '<div class="cs-card"><div class="cs-label">签约单价</div><div class="cs-val primary">' + fmt(b.contractPrice) + '</div></div>' +
+    '<div class="cs-card"><div class="cs-label">合同工程量</div><div class="cs-val">' + qty(b.qty) + '</div></div>' +
+    '<div class="cs-card"><div class="cs-label">合同合价</div><div class="cs-val">' + fmt(b.contractPrice * b.qty) + '</div></div>' +
+    '<div class="cs-card"><div class="cs-label">变更状态</div><div class="cs-val ' + (last ? 'orange' : '') + '">' + (last ? '已变更' : '无变更') + '</div></div>' +
+    (last ? '<div class="cs-card"><div class="cs-label">变更后单价</div><div class="cs-val orange">' + fmt(last.newPrice) + '</div></div>' : '') +
+    (last ? '<div class="cs-card"><div class="cs-label">变更单号</div><div class="cs-val">' + last.id + '</div></div>' : '') +
+    '<div class="cs-card"><div class="cs-label">清单编码</div><div class="cs-val" style="font-size:12px">' + b.billCode + '</div></div>';
+  if (last) {
+    var ratio = (((last.newPrice / last.oldPrice - 1) * 100).toFixed(1));
+    document.getElementById('changeList').innerHTML = '<div class="cl-item"><div class="cl-icon">📋</div><div class="cl-info"><div class="cl-header"><span class="cl-id">' + last.id + '</span><span class="cl-type">' + last.type + ' · ' + last.date + '</span></div><div class="cl-reason">单价从 ' + fmt(last.oldPrice) + ' 调整为 ' + fmt(last.newPrice) + '（变化率 ' + ratio + '%）</div></div></div>';
+  } else {
+    document.getElementById('changeList').innerHTML = '<div style="font-size:12px;color:var(--color-text-muted);text-align:center;padding:12px">该清单项无变更记录，执行原合同单价</div>';
+  }
+}
+
+// ================================================================
+// 启动
+// ================================================================
+renderContractStatus();
+renderDetail();
+renderBill();
+</script>
+</body>
+</html>

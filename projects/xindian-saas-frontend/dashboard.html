@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>项目总览 - 新点 SaaS 造价系统</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { overflow: hidden; }
+    .dashboard-hero {
+      background: linear-gradient(135deg, #1E9E82 0%, #188070 100%);
+      border-radius: 12px; padding: 32px; color: white; margin-bottom: 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .dashboard-hero h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+    .dashboard-hero p { opacity: 0.85; font-size: 13px; }
+    .dashboard-hero .hero-stats { display: flex; gap: 40px; }
+    .dashboard-hero .hero-stat { text-align: right; }
+    .dashboard-hero .hero-stat-value { font-size: 28px; font-weight: 700; font-family: "JetBrains Mono", monospace; }
+    .dashboard-hero .hero-stat-label { font-size: 12px; opacity: 0.8; }
+    .dashboard-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; flex: 1; overflow: hidden; }
+    .dashboard-left, .dashboard-right { display: flex; flex-direction: column; gap: 20px; overflow: auto; }
+    .version-card { display: flex; align-items: center; gap: 16px; padding: 16px; border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: var(--color-surface); transition: all var(--transition); cursor: pointer; }
+    .version-card:hover { border-color: var(--color-primary); box-shadow: var(--shadow-sm); }
+    .version-card .vc-info { flex: 1; }
+    .version-card .vc-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+    .version-card .vc-meta { font-size: 12px; color: var(--color-text-muted); }
+    .version-card .vc-right { text-align: right; }
+    .quick-action { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: var(--color-surface); cursor: pointer; transition: all var(--transition); }
+    .quick-action:hover { border-color: var(--color-primary); background: var(--color-primary-light); }
+    .quick-action .qa-icon { width: 36px; height: 36px; border-radius: 8px; background: var(--color-primary-light); color: var(--color-primary); display: flex; align-items: center; justify-content: center; }
+    .quick-action .qa-title { font-weight: 600; font-size: 13px; }
+    .quick-action .qa-desc { font-size: 12px; color: var(--color-text-muted); }
+    .activity-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--color-border); }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-primary); margin-top: 6px; flex-shrink: 0; }
+    .activity-item.success .activity-dot { background: var(--color-success); }
+    .activity-item.warning .activity-dot { background: var(--color-warning); }
+    .activity-item.danger .activity-dot { background: var(--color-danger); }
+    .activity-time { font-size: 11px; color: var(--color-text-muted); margin-top: 2px; }
+    .progress-item { margin-bottom: 16px; }
+    .progress-item:last-child { margin-bottom: 0; }
+    .progress-header { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; }
+    .progress-bar { height: 6px; background: var(--color-bg); border-radius: 3px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--color-primary); border-radius: 3px; }
+    .section-title { font-size: 13px; font-weight: 600; color: var(--color-text-secondary); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  </style>
+</head>
+<body>
+<div class="app-layout">
+  <header class="topbar">
+    <div class="topbar-logo" onclick="location.href='dashboard.html'">新点造价</div>
+    <div class="topbar-divider"></div>
+    <div class="project-selector">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span class="project-name">杭州未来社区一期项目</span>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="stage-tabs">
+      <div class="stage-tab">投资估算</div><div class="stage-tab">目标成本</div>
+      <div class="stage-tab active">招标清单</div><div class="stage-tab">招标控制价</div>
+      <div class="stage-tab">投标报价</div><div class="stage-tab">合同清单</div>
+      <div class="stage-tab">施工过程</div><div class="stage-tab">竣工结算</div>
+    </div>
+    <div class="topbar-search">
+      <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="搜索…" /><span class="kbd">⌘K</span>
+    </div>
+    <div class="topbar-actions"><div class="avatar">李</div></div>
+  </header>
+
+  <div class="app-body">
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">概览</div>
+        <a class="sidebar-item active" href="dashboard.html" data-page="dashboard">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          项目总览
+        </a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">项目管理</div>
+        <a class="sidebar-item" href="project-list.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>项目列表</a>
+        <a class="sidebar-item" href="project-settings.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>项目设置</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">清单管理</div>
+        <a class="sidebar-item" href="bill-edit.html">清单编制 <span class="count">156</span></a>
+        <a class="sidebar-item" href="bill-review.html">清单审核</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">定额管理</div>
+        <a class="sidebar-item" href="quota-apply.html">定额套用</a>
+        <a class="sidebar-item" href="quota-library.html">定额库</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">造价计算</div>
+        <a class="sidebar-item" href="pricing-summary.html">计价汇总</a>
+        <a class="sidebar-item" href="fee-settings.html">取费设置</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">数据</div>
+        <a class="sidebar-item" href="price-versions.html">价格版本</a>
+        <a class="sidebar-item" href="fee-templates.html">取费模板</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">AI 助手</div>
+        <a class="sidebar-item" href="ai-copilot-bill.html">AI 清单 Copilot</a>
+        <a class="sidebar-item" href="ai-copilot-quota.html">AI 定额 Copilot</a>
+      </div>
+    </aside>
+
+    <main class="main-content" style="overflow-y:auto; padding: 20px;">
+      <!-- Hero -->
+      <div class="dashboard-hero">
+        <div>
+          <h1>杭州未来社区一期项目</h1>
+          <p>招标清单阶段 · 2026年4月10日启动</p>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-value">¥10.31M</div>
+            <div class="hero-stat-label">综合合价</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">156</div>
+            <div class="hero-stat-label">清单项</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">3</div>
+            <div class="hero-stat-label">版本</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">1</div>
+            <div class="hero-stat-label">待审核</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- Left column -->
+        <div class="dashboard-left">
+          <!-- Stage Progress -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">阶段进度</div>
+              <span class="badge badge-primary">招标清单</span>
+            </div>
+            <div class="progress-item">
+              <div class="progress-header">
+                <span>招标清单编制</span><span class="font-mono text-sm">78%</span>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" style="width:78%"></div></div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-header">
+                <span>清单审核</span><span class="font-mono text-sm text-muted">待开始</span>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" style="width:0%;background:#D1D5DB"></div></div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-header">
+                <span>招标控制价编制</span><span class="font-mono text-sm text-muted">待开始</span>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" style="width:0%;background:#D1D5DB"></div></div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-header">
+                <span>投标报价</span><span class="font-mono text-sm text-muted">待开始</span>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" style="width:0%;background:#D1D5DB"></div></div>
+            </div>
+          </div>
+
+          <!-- Recent Versions -->
+          <div class="card" style="flex:1;">
+            <div class="card-header">
+              <div class="card-title">最近版本</div>
+              <a href="bill-edit.html" class="btn btn-ghost btn-sm">查看全部 →</a>
+            </div>
+            <div class="version-card">
+              <div class="vc-info">
+                <div class="vc-name">v2 — 招标清单 2026.04.10</div>
+                <div class="vc-meta">editable · 156 项 · 李明 创建</div>
+              </div>
+              <div class="vc-right">
+                <span class="status-badge editable">✅ 可编辑</span>
+                <div class="vc-meta" style="margin-top:4px">2小时前</div>
+              </div>
+            </div>
+            <div class="version-card" style="margin-top:12px">
+              <div class="vc-info">
+                <div class="vc-name">v1 — 招标清单 2026.04.05</div>
+                <div class="vc-meta">locked · 143 项 · 李明 创建</div>
+              </div>
+              <div class="vc-right">
+                <span class="status-badge locked">🔒 已锁定</span>
+                <div class="vc-meta" style="margin-top:4px">5天前</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right column -->
+        <div class="dashboard-right">
+          <!-- Quick Actions -->
+          <div class="card">
+            <div class="section-title">快捷操作</div>
+            <div class="quick-action" onclick="location.href='bill-edit.html'">
+              <div class="qa-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </div>
+              <div><div class="qa-title">新建清单项</div><div class="qa-desc">添加新的清单到当前版本</div></div>
+            </div>
+            <div class="quick-action" style="margin-top:8px" onclick="location.href='ai-copilot-bill.html'">
+              <div class="qa-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              </div>
+              <div><div class="qa-title">AI 清单推荐</div><div class="qa-desc">智能推荐清单编码和特征</div></div>
+            </div>
+            <div class="quick-action" style="margin-top:8px" onclick="location.href='pricing-summary.html'">
+              <div class="qa-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+              </div>
+              <div><div class="qa-title">查看汇总报告</div><div class="qa-desc">造价汇总与指标分析</div></div>
+            </div>
+            <div class="quick-action" style="margin-top:8px" onclick="location.href='bill-review.html'">
+              <div class="qa-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <div><div class="qa-title">提交清单审核</div><div class="qa-desc">送审当前版本给审核人</div></div>
+            </div>
+          </div>
+
+          <!-- Activity -->
+          <div class="card">
+            <div class="section-title">最近动态</div>
+            <div class="activity-item success">
+              <div class="activity-dot"></div>
+              <div style="flex:1">
+                <div class="font-medium">清单项「挖基础土方」综合单价手动调整</div>
+                <div class="activity-time">李明 · 2小时前</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div style="flex:1">
+                <div class="font-medium">新建版本 v2 — 招标清单 2026.04.10</div>
+                <div class="activity-time">李明 · 2小时前</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div style="flex:1">
+                <div class="font-medium">批量导入清单项 23 条</div>
+                <div class="activity-time">李明 · 3小时前</div>
+              </div>
+            </div>
+            <div class="activity-item warning">
+              <div class="activity-dot"></div>
+              <div style="flex:1">
+                <div class="font-medium">版本 v1 提交审核</div>
+                <div class="activity-time">李明 · 5天前</div>
+              </div>
+            </div>
+            <div class="activity-item success">
+              <div class="activity-dot"></div>
+              <div style="flex:1">
+                <div class="font-medium">v1 版本审核通过，已锁定</div>
+                <div class="activity-time">王工 · 5天前</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<script>document.querySelectorAll('.sidebar-item').forEach(el => { if(el.getAttribute('href') === location.pathname.split('/').pop()) el.classList.add('active'); }); </script>
+</body>
+</html>
